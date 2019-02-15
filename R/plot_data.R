@@ -8,6 +8,10 @@
 #' @import ggplot2
 #'
 #' @export
+#' @examples
+#' simGarp(4, 2) %>%
+#' spread_data() %>%
+#' plot_data()
 
 plot_data <- function(df){
   df %>%

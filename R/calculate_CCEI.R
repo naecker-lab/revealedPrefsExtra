@@ -10,6 +10,8 @@
 #' @import revealedPrefs
 #'
 #' @export
+#' @examples 
+#' calculate_CCEI(simGarp(10, 2, afriat.par = 0.5), step = 0.001)
 
 calculate_CCEI <- function(df, step = 0.01){
   index <- 1

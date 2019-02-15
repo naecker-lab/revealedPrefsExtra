@@ -17,3 +17,6 @@ a integer
 \description{
 \code{calculate_CCEI} does something cool.
 }
+\examples{
+calculate_CCEI(simGarp(10, 2, afriat.par = 0.5), step = 0.001)
+}

@@ -12,3 +12,8 @@ plot_data(df)
 \description{
 \code{plot_data} does something cool.
 }
+\examples{
+simGarp(4, 2) \%>\%
+spread_data() \%>\%
+plot_data()
+}
