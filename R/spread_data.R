@@ -1,13 +1,25 @@
 #' @title Spread Data
 #'
-#' @description \code{spread_data} does something cool.
-#'
-#' @param df a dataframe
+#' @description \code{spread_data} is written to work with functions from 
+#' the \pkg{revealedPrefs} package.
 #' 
-#' @return a tibble
+#' \code{\link[revealedPrefs]{checkWarp}} and similar "check" functions
+#' take as input two \code{n} by \code{i} matrices, one for goods and one for prices. 
+#' \code{spread_data} takes a dataframe and returns a list with two matrices, which
+#' can then be passed into \code{\link[revealedPrefs]{checkWarp}} 
+#' and similar functions.
+#' 
+#'
+#' @param df a dataframe containing columns with quantities and prices of goods
+#' @param ... the columns within \code{df} that contain prices
+#' 
+#' @return a list containg two matrices:
+#' \describe{
+#'   \item{x}{a matrix containing quantities}
+#'   \item{p}{a matrix containing prices}
+#' }
 #'
 #' @import dplyr
-#' @import stringr
 #'
 #' @export
 #' @examples 
@@ -17,19 +29,18 @@
 #' simGarp(4, 2) %>%
 #' spread_data()
 
-spread_data <- function(df){
-  quantities <- 
-    df$x %>%
-    as_tibble() %>%
-    rename_all(funs(str_replace_all(., "V", "x"))) 
+spread_data <- function(df, ...){
+  if (!is.data.frame(df)) {stop("df must be a dataframe")}
+  variables <- quos(...)
   
-  prices <- 
-    df$p %>%
-    as_tibble() %>%
-    rename_all(funs(str_replace_all(., "V", "p")))
+  last_good <- length(variables) / 2
+  first_price <- last_good + 1
+  
+  goods <- as.matrix(df[1:last_good])
+  prices <- as.matrix(df[first_price: length(variables)])
   
   return(
-    as_tibble(cbind(quantities, prices)) %>%
-      mutate(observation = 1:dim(prices)[1])
+    list("x" = goods,
+         "p" = prices)
   )
 }

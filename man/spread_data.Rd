@@ -4,16 +4,29 @@
 \alias{spread_data}
 \title{Spread Data}
 \usage{
-spread_data(df)
+spread_data(df, ...)
 }
 \arguments{
-\item{df}{a dataframe}
+\item{df}{a dataframe containing columns with quantities and prices of goods}
+
+\item{...}{the columns within \code{df} that contain prices}
 }
 \value{
-a tibble
+a list containg two matrices:
+\describe{
+  \item{x}{a matrix containing quantities}
+  \item{p}{a matrix containing prices}
+}
 }
 \description{
-\code{spread_data} does something cool.
+\code{spread_data} is written to work with functions from 
+the \pkg{revealedPrefs} package.
+
+\code{\link[revealedPrefs]{checkWarp}} and similar "check" functions
+take as input two \code{n} by \code{i} matrices, one for goods and one for prices. 
+\code{spread_data} takes a dataframe and returns a list with two matrices, which
+can then be passed into \code{\link[revealedPrefs]{checkWarp}} 
+and similar functions.
 }
 \examples{
 # simGarp is a function from revealedPrefs that creates a 
