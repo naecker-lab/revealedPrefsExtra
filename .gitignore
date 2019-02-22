@@ -6,3 +6,5 @@
 *.log
 *.pdf
 *.gz
+.Rproj.user
+.Rbuildignore
