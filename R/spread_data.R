@@ -11,7 +11,9 @@
 #' 
 #'
 #' @param df a dataframe containing columns with quantities and prices of goods
-#' @param ... the columns within \code{df} that contain prices
+#' @param ... the columns within \code{df} that contain quantities and prices. 
+#' The first half of the columns provided are assumed to be quantities and the
+#' second half of the columns provided are be assumed to be prices.
 #' 
 #' @return a list containg two matrices:
 #' \describe{
@@ -23,11 +25,11 @@
 #'
 #' @export
 #' @examples 
-#' # simGarp is a function from revealedPrefs that creates a 
-#' # a random data set that is returned as a list containing two
-#' # matrices
-#' simGarp(4, 2) %>%
-#' spread_data()
+#' # use simGarp and gather_data to create a sample df containing 4 observations and 6 columns (3 quantities and 3 prices)
+#' df <- simGarp(4, 3) %>% gather_data()
+#' 
+#' # use spread_data to return a list of two matrices
+#' spread_data(df, x1, x2, x3, p1, p2, p3)
 
 spread_data <- function(df, ...){
   if (!is.data.frame(df)) {stop("df must be a dataframe")}
