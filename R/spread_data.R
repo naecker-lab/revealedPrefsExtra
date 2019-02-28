@@ -35,11 +35,13 @@ spread_data <- function(df, ...){
   if (!is.data.frame(df)) {stop("df must be a dataframe")}
   variables <- quos(...)
   
+  df_subset <- select(df, !!!variables)
+  
   last_good <- length(variables) / 2
   first_price <- last_good + 1
   
-  goods <- as.matrix(df[1:last_good])
-  prices <- as.matrix(df[first_price: length(variables)])
+  goods <- as.matrix(df_subset[1:last_good])
+  prices <- as.matrix(df_subset[first_price: length(variables)])
   
   return(
     list("x" = goods,
