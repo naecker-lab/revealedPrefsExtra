@@ -33,12 +33,15 @@
 
 spread_data <- function(df, ...){
   if (!is.data.frame(df)) {stop("df must be a dataframe")}
+  
   variables <- quos(...)
-  
-  df_subset <- select(df, !!!variables)
-  
   last_good <- length(variables) / 2
   first_price <- last_good + 1
+
+  if (length(variables) == 0) {stop("enter columns for quanities and prices")}
+  if (length(variables)%%2 != 0) {warning("enter an even number of columns")}
+  
+  df_subset <- select(df, !!!variables)
   
   goods <- as.matrix(df_subset[1:last_good])
   prices <- as.matrix(df_subset[first_price: length(variables)])
