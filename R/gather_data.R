@@ -45,14 +45,8 @@ gather_data <- function(matrix_list){
     as_tibble() %>%
     rename_all(funs(str_replace_all(., "V", "p"))) 
   
-  # why return this as a tibble over a dataframe?
   return(
-    as_tibble(cbind(quantities, prices)) %>%
-      mutate(observation = 1:dim(prices)[1])
+    as_tibble(cbind(quantities, prices)) 
+    # %>% mutate(observation = 1:dim(prices)[1])
   )
-  
-  # return(
-  #   cbind(quantities, prices) %>%
-  #     mutate(observation = 1:dim(prices)[1])
-  # )
 }
