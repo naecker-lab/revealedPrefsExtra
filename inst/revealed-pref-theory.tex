@@ -1,7 +1,12 @@
 \documentclass{article} % this tells LaTeX to make an article (as opposed to a book, for example)
 
+\setlength{\parindent}{0pt}
+
 \usepackage{amsmath, % this adds functions for formatting equations nicely
-			amssymb} % this gives us lots of greek symbols
+			amssymb,
+			multirow,
+			multicol,
+			amsthm} % this gives us lots of greek symbols
 
 \newtheorem{definition}{Definition} % this lets us create definition blocks as below
 \newtheorem{remark}{Remark}
@@ -38,7 +43,7 @@ A set of choice data satisfies the \textbf{Weak Axiom of Revealed Preferences (W
 \end{definition}
 
 \begin{remark}
-If a consumer exhibits maximizing behavior, then their set of choice data will satisfy WARP. However, the converse isn't necessarily true when X and Y represent bundles from commodity spaces higher than two dimensions (i.e. there are more than two available goods and thus, $X$, $Y$, and $P$ are n-dimensional vectors such that $n\geq 2$). 
+If a consumer exhibits maximizing behavior, then their set of choice data will satisfy WARP. However, the converse isn't necessarily true when X and Y represent bundles from commodity spaces higher than two dimensions (i.e. there are more than two available goods and thus, $X$, $Y$, and $P$ are n-dimensional vectors such that $n> 2$\footnote{Rose, H. (1958). Consistency of preference: The two-commodity case. Review of Economic Studies, 25(2), 124–125.}). 
 \end{remark}
 
 \begin{definition}
@@ -61,6 +66,120 @@ A set of choice data satisfies the \textbf{Generalized Axiom of Revealed Prefere
 The key difference between SARP and GARP requirements are that GARP allows consumers to have multiple bundles that maximizes utility under the same price levels (i.e. consumers are allowed to exhibit preferences that treat goods as perfect substitutes of each other).
 \end{remark}
 
+\begin{definition}
+The \textbf{Critical Cost Efficiency Index (CCEI)} is the amount by which each budget
+constraint must be relaxed in order to remove all violations of GARP. Lower values of CCEI indicates less rational choice data. Note that a CCEI score of 1 indicates a set of choice data satisfies GARP while CCEI approaches 0 as the revealed preferences become less rational. The actual calculations / formula for CCEI will be detailed in the following section.
+\end{definition}
+
+\section{Calculating the CCEI}
+Suppose for an individual, we have $X_{1}, X_{2}, \ldots, X_{k}$ vectors representing $k$ bundles of $n$ goods chosen at $k$ different times so that $X_{i}\in\mathbb{R}^{n}_{+}$ for all $i\in\{1,2,\ldots,k\}$. Note that the technical notation can get a bit muddy, as $X_{i}=(x_{i_{1}}, x_{i_{2}}, \ldots, x_{i_{n}})$ where $x_{i_{j}}$ represents the quantity of good $j$ bought at time $i$. We also have $P_{1}, P_{2}, \dots, P_{k}$ vectors representing $k$ sets of available prices of $n$ goods at $k$ different times of that $P_{i}\in\mathbb{R}^{n}_{++}$ for all $i\in\{1,2,\ldots,k\}$. Similarly, $P_{i}=(p_{i_{1}}, p_{i_{2}}, \ldots, p_{i_{n}})$ where $p_{i_{j}}$ represents the price of good $j$ at time $i$.
+\bigskip
+
+We then say $\forall i,j\in\{1,2,\ldots,k\}$ such that $i\not=j$, let:
+    $$D_{ij}=\frac{P_{i}X_{j}}{P_{i}X_{i}}-1$$
+Note that the above is only negative if and only if $X_{i}$ is strictly directly revealed preferred to $X_{j}$. That's equivalent of saying that although the full bundle of $X_{j}$ was available at the price vector of time $i$, the individual observed chose $X_{i}$ over $X_{j}$.
+\newpage
+
+Then let:
+
+$$d_{ij}=max\{D_{ij}, D_{ji}\}$$
+
+We note that $\forall i,j\in\{1,2,\ldots,k\}$ such that $i\not=j$, $d_{ij}<0$ if and only if we have a strictly directly revealed preference conflict. To see this, consider the following:
+
+\begin{itemize}
+    \item $D_{ij}<0$ if and only if $X_{i}$ is strictly directly revealed preferred to $X_{j}$ (as per the previous paragraph). 
+    \item Similarly, $D_{ji}<0$ if and only if $X_{j}$ is strictly directly revealed preferred to $X_{i}$.
+    \item $d_{ij}=max\{D_{ij}, D_{ji}\}<0$ if and only if $D_{ij}<0$ and $D_{ji}<0$, which means that $X_{i}$ is strictly directly revealed preferred to $X_{j}$ \textbf{and} $X_{j}$ is strictly directly revealed preferred to $X_{i}$. 
+    \item Thus we have a strictly directly revealed preference conflict.
+\end{itemize}
+Essentially, $d_{ij}$ perfectly captures whether there is a strictly directly revealed preference conflict between bundles $X_{i}$ and $X_{j}$. Moreover, $d_{ij}$ also captures the degree of the less "egregious" violation. That is, if $X_{i}$ is way more strictly directly revealed preferred to $X_{j}$ than $X_{j}$ is strictly directly revealed preferred to $X_{i}$, (i.e. if $D_{ij}<<0$ and $D_{ji}<0$), the second preference that caused the violation is less severe and can be more easily "fixed". Since $d_{ij}=max\{D_{ij}, D_{ji}\}<0$, the lesser violation $D_{ji}$ is captured instead.
+\bigskip
+
+We then let:
+
+$$e_{ij}=1-max\{0,-d_{ij}\}$$
+
+$e_{ij}$ is called the cross cost efficiency index between bundles $X_{i}$ and $X_{j}$. Note that if $d_{ij}\geq0$, then $-d_{ij}\leq0$ and we would get $e_{ij}=(1-0)=1$. Thus, if there are no strictly directly revealed preference conflicts between $X_{i}$ and $X_{j}$, we would get $e_{ij}=1$. If we have such a violation, then $-d_{ij}>0$ and hence we would get $e_{ij}=1+d_{ij}$ (note that $0<e_{ij}<1$ since $d_{ij}<0$). We claim that, by letting $\hat{ P_iX_i}=e_{ij}\cdot P_iX_i$ and $\hat{P_jX_j}=e_{ij}\cdot P_jX_j$ and using those values to recalculate a $\hat{d_{ij}}$, we would have $\hat{d_{ij}}\geq0$ and hence there are no strictly directly revealed preference violations. This can be seen in the example section and will be proved more rigorously towards the end of this manual. For now, it suffices to note that the lower the value of $e_{ij}$, the harder it is to "fix" the violation between $X_{i}$ and $X_{j}$.
+\bigskip
+
+We then let:
+
+$$e^{*}=\underset{\forall i,j, i\not=j}{min}\{e_{ij}\}$$
+
+$e^{*}$, as given above, would resolve all strictly directly revealed preference violations. The lowest value of $e_{ij}$ for all $i,j\in\{1,2,\ldots,k\}$ would solve the most "egregious" cross bundle violation and would obviously solve all other remaining cross bundle violations.
+
 \section{Examples}
+
+Consider the following data for a single consumer in 3 different time periods:
+
+\begin{center}
+\begin{tabular}{ cccccc } 
+Choice Number & $p_{1}$ & $p_{2}$ & $x_{1}$ & $x_{2}$ \\
+1&1&2&1&2 \\
+2&2&1&2&1 \\
+3&1&1&2&2
+\end{tabular}
+\end{center}
+
+Then, $\forall n\in\{1,2,3\}$, we calculate $P_{n}X_{n}$ and $\forall i,j\in\{1,2,3\}$ such that $i\not=j$, we calculate $P_{j}X_{i}$. We then get the following matrix:
+
+\begin{center}
+\begin{tabular}{ cccccc } 
+Choice Number & Budget 1 & Budget 2 & Budget 3 \\
+1&5&4&3 \\
+2&4&5&3 \\
+3&6&6&4
+\end{tabular}
+\end{center}
+
+Looking at the last 3 columns of the matrix, we see that $\forall n\in\{1,2,3\}$, the $(n,n)$ element on the matrix represents the cost of the bundle actually chosen on time period $n$ (i.e. $P_{n}X_{n}$). Additionally, $\forall i,j\in\{1,2,3\}$ such that $i\not=j$, the $(i,j)$ element on the matrix, we calculate the cost of bundle $i$ at available price vector $j$ (i.e. $P_{j}X_{i}$).
+
+\section{Appendix}
+
+Here we prove our claim in \textbf{Section 2}.
+\bigskip
+
+We first let:
+\bigskip
+
+\begin{minipage}{.5\linewidth}
+$$D_{ij}=\frac{P_iX_j}{P_iX_i}-1$$
+\end{minipage}%
+\begin{minipage}{.5\linewidth}
+$$D_{ji}=\frac{P_jX_i}{P_jX_j}-1$$
+\end{minipage}
+\bigskip
+
+Suppose that $D_{ij}\leq D_{ji}<0$, which means that we have a violation but the strictly directly revealed preference of $X_j$ over $X_i$ is less severe than that of the inverse. Then we take:
+$$d_{ij}=max\{D_{ij},D_{ji}\}$$
+
+Note that, by construction, we will simply have:
+$$d_{ij}=D_{ji}<0$$
+
+We then can calculate:
+$$e_{ij}=1+d_{ij}=1+D_{ji}$$
+
+We then want to prove the following claim:
+\bigskip
+
+\textbf{Claim:} $\hat{D_{ji}}=\frac{P_jX_i}{(e_{ij})P_jX_j}-1\geq0$ and hence $\hat{d_{ij}}=max\{\hat{D_{ij}},\hat{D_{ji}}\}\geq0$
+\bigskip
+
+\begin{proof}
+Recall that:
+
+$$e_{ij}=1+D_{ji}=1+(\frac{P_jX_i}{P_jX_j}-1)=\frac{P_jX_i}{P_jX_j}$$
+
+We then have:
+
+$$\hat{D_{ji}}=\frac{P_jX_i}{(e_{ij})P_jX_j}-1=\frac{P_jX_i}{(\frac{P_jX_i}{P_jX_j})P_jX_j}-1$$
+
+Simplifying:
+
+$$\hat{D_{ji}}=\frac{P_jX_i}{(e_{ij})P_jX_j}-1=\frac{P_jX_i}{P_jX_i}-1=0\geq0$$
+
+Hence, $\hat{D_{ji}}\geq0$ and we have $\hat{d_{ij}}=max\{\hat{D_{ij}},\hat{D_{ji}}\}\geq0$.
+
+\end{proof}
 
 \end{document}
