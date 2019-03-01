@@ -36,17 +36,20 @@ gather_data <- function(matrix_list){
   
   quantities <- 
     matrix_list$x %>%
-    as_tibble() %>%
-    rename_all(funs(str_replace_all(., "V", "x"))) 
-    # what is this rename doing?
-  
-  prices <- 
+    as_tibble() 
+
+  prices <-
     matrix_list$p %>%
-    as_tibble() %>%
-    rename_all(funs(str_replace_all(., "V", "p"))) 
-  
+    as_tibble()
+
+  # if no column names, rename quantity and price columns
+  if(is.null(colnames(matrix_list$x)) & is.null(colnames(matrix_list$p))) {
+    quantities <- rename_all(quantities, funs(str_replace_all(., "V", "x"))) 
+    prices <- rename_all(prices, funs(str_replace_all(., "V", "p"))) 
+  }
+
   return(
-    as_tibble(cbind(quantities, prices)) 
+    as_tibble(cbind(quantities, prices))
     # %>% mutate(observation = 1:dim(prices)[1])
   )
 }
