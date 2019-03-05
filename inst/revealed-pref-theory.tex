@@ -85,7 +85,7 @@ The \textbf{Critical Cost Efficiency Index (CCEI)} is the amount by which each b
 constraint must be relaxed in order to remove all violations of GARP. Lower values of CCEI indicates less rational choice data. Note that a CCEI score of 1 indicates a set of choice data satisfies GARP while CCEI approaches 0 as the revealed preferences become less rational. The actual calculations / formula for CCEI will be detailed in the following section.
 \end{definition}
 
-\section{Calculating the CCEI}
+\section{Calculating the CCEI (upperbound)}
 Suppose for an individual, we have $X_{1}, X_{2}, \ldots, X_{k}$ vectors representing $k$ bundles of $n$ goods chosen at $k$ different times so that $X_{i}\in\mathbb{R}^{n}_{+}$ for all $i\in\{1,2,\ldots,k\}$. Note that the technical notation can get a bit muddy, as $X_{i}=(x_{i_{1}}, x_{i_{2}}, \ldots, x_{i_{n}})$ where $x_{i_{j}}$ represents the quantity of good $j$ bought at time $i$. We also have $P_{1}, P_{2}, \dots, P_{k}$ vectors representing $k$ sets of available prices of $n$ goods at $k$ different times of that $P_{i}\in\mathbb{R}^{n}_{++}$ for all $i\in\{1,2,\ldots,k\}$. Similarly, $P_{i}=(p_{i_{1}}, p_{i_{2}}, \ldots, p_{i_{n}})$ where $p_{i_{j}}$ represents the price of good $j$ at time $i$.
 \bigskip
 
@@ -121,6 +121,9 @@ We then let:
 $$e^{*}=\underset{\forall i,j, i\not=j}{min}\{e_{ij}\}$$
 
 $e^{*}$, as given above, would resolve all strictly directly revealed preference violations. The lowest value of $e_{ij}$ for all $i,j\in\{1,2,\ldots,k\}$ would solve the most "egregious" cross bundle violation and would obviously solve all other remaining cross bundle violations.
+\bigskip
+
+\textbf{However, this $\mathbf{e^*}$ is merely an upperbound for the CCEI} as it only resolves cross bundle violations in the dataset. Essentially, $e^*$ would only resolve violations that involve direct revealed preferences. Another value, say $e^*_{2}$, might be needed to resolve indirect revealed preferences and if $e^*_{2}\leq e^*$, then $e^*_{2}$ would be our actual CCEI as it resolve both indirect and direct revealed preference violations (and thus passing GARP).
 
 \section{Examples}
 
@@ -196,4 +199,51 @@ Hence, $\hat{D_{ji}}\geq0$ and we have $\hat{d_{ij}}=max\{\hat{D_{ij}},\hat{D_{j
 
 \end{proof}
 
+\newpage
+
+\section{Axioms of Revealed Preferences: A Graph Theoretical Approach}
+
+\textbf{THIS FOLLOWING SECTION IS A DRAFT} mainly used to see if there's a faster way to test *ARP and calculate exact values of CCEI without binary search.
+\bigskip
+
+Let's begin by looking at the problem with a new perspective. Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ be sets of quantity and price vectors, respectively. We then have data set $(\mathcal{X},\mathcal{P})$. Then consider the following directed graphs:
+\bigskip
+
+\begin{minipage}{.5\linewidth}
+$$G_d=\{V,E_d\}$$
+\end{minipage}%
+\begin{minipage}{.5\linewidth}
+$$G_s=\{V,E_s\}$$
+\end{minipage}
+\bigskip
+
+where:
+
+$$V=\{(X_i,P_i)\ |\ \forall i\in\{1,\ldots,k\}\}\subseteq \mathcal{X}\times\mathcal{P}$$
+
+such that $V_{i}=(X_i,P_i)$ fully captures all information about the bundle (both quantity and price) at time $i$. $V$ is then the vertex set for both the graphs. Then consider the following edge sets:
+
+$$E_d=\{(V_i,V_j)\ |\ X_i R_D X_j,\ i.e.\ P_iX_i\geq P_iX_j\}$$
+
+$$E_s=\{(V_i,V_j)\ |\ X_i R_{SD} X_j,\ i.e.\ P_iX_i> P_iX_j\}$$
+
+(Note it might be better to just make the vertex set the set of $\mathcal{X}$ instead, but to be safe I just did an ordered pair between quantity and price).
+\bigskip
+
+Then, it's apparent that $G_d$ is the directed graph for all directly revealed preference relationships and $G_s$ is the direct graph for all \textit{strictly} directly revealed preference relationships. If there's a path / edge from $V_i$ to $V_j$, we have $X_i$ is (strictly) directly revealed preferred to $X_j$ depending on the graph. Further, we shall note that $E_s\subseteq E_d$, as obviously all strictly directly revealed preferred relationships are directly revealed preferred.
+\bigskip
+
+We can then characterize our axioms with the following simple definitions:
+\bigskip
+
+\textbf{WARP:} If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_d$.
+\bigskip
+
+\textbf{SARP:} If $(\mathcal{X},\mathcal{P})$ passes SARP, then: $\forall V_i \in V$, there exists no directed path from $V_i$ back to itself (I believe this is called a directed cycle, not quite sure on the exact terminology in graph theory).
+\bigskip
+
+\textbf{WGARP:} If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_s$.
+\bigskip
+
+\textbf{GARP:} If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed path from $V_i$ to $V_j$, then $(V_j,V_i)\not\in E_s$
 \end{document}
