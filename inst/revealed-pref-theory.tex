@@ -23,19 +23,19 @@
 Let $X=(x_{1}, x_{2}, \ldots, x_{n})$ and $Y=(y_{1}, y_{2}, \ldots, y_{n})$ be vectors representing bundles of goods chosen by the same individual at two different times. Each $x_{i}\in X$ and $y_{i}\in Y$ denote the quantity of good $i$ chosen in bundle X and Y, respectively. Further, let $P=(p_{1}, p_{2}, \ldots, p_{n})$ be the vector of available prices at the time when bundle $X$ was chosen such that $p_{i}\in P$ denotes the price of good $i$. Then, consider the following definitions:
 
 \begin{definition}
-We say that $X$ is \textbf{directly revealed preferred} to $Y$ if $P\cdot Y \leq P\cdot X$ (i.e. $p_{1}y_{1}+p_{2}y_{2}+\ldots+p_{n}y_{n}\leq p_{1}x_{1}+p_{2}x_{2}+\ldots+p_{n}x_{n}$).
+We say that $X$ is \textbf{directly revealed preferred (DRP)} to $Y$ if $P\cdot Y \leq P\cdot X$ (i.e. $p_{1}y_{1}+p_{2}y_{2}+\ldots+p_{n}y_{n}\leq p_{1}x_{1}+p_{2}x_{2}+\ldots+p_{n}x_{n}$). Intuitively, $X$ is directly revealed preferred to $Y$ if $Y$ was affordable at the prices when $X$ was chosen.
 \end{definition}
 
 \begin{definition}
-We say that $X$ is \textbf{strictly directly revealed preferred} to $Y$ if $P\cdot Y < P\cdot X$ (i.e. $p_{1}y_{1}+p_{2}y_{2}+\ldots+p_{n}y_{n}<p_{1}x_{1}+p_{2}x_{2}+\ldots+p_{n}x_{n}$).
+We say that $X$ is \textbf{strictly directly revealed preferred (SDRP)} to $Y$ if $P\cdot Y < P\cdot X$ (i.e. $p_{1}y_{1}+p_{2}y_{2}+\ldots+p_{n}y_{n}<p_{1}x_{1}+p_{2}x_{2}+\ldots+p_{n}x_{n}$). Intuitively, $X$ is strictly directly revealed preferred to $Y$ if $Y$ was cheaper than $X$ at the prices when $X$ was chosen.
 \end{definition}
 
 \begin{definition}
-Consider three bundles, $X$, $Y$, and $Z$. Then $X$ is \textbf{indirectly revealed preferred} to $Z$ if $X$ is directly revealed preferred to $Y$ and $Y$ is directly revealed preferred to $Z$.
+Consider three bundles, $X$, $Y$, and $Z$. Then $X$ is \textbf{indirectly revealed preferred (IRP)} to $Z$ if $X$ is directly revealed preferred to $Y$ and $Y$ is directly revealed preferred to $Z$.
 \end{definition}
 
 \begin{definition}
-We say $X$ is \textbf{revealed preferred} to $Y$ if $X$ is either directly revealed preferred or indirectly revealed preferred to $Y$.
+We say $X$ is \textbf{revealed preferred (RP)} to $Y$ if $X$ is either directly revealed preferred or indirectly revealed preferred to $Y$.
 \end{definition}
 
 \begin{definition}
@@ -66,6 +66,20 @@ A set of choice data satisfies the \textbf{Generalized Axiom of Revealed Prefere
 The key difference between SARP and GARP requirements are that GARP allows consumers to have multiple bundles that maximizes utility under the same price levels (i.e. consumers are allowed to exhibit preferences that treat goods as perfect substitutes of each other).
 \end{remark}
 
+The following table summarizes each of the axioms and their requirements. For all bundles $X$ and $Y$:
+
+\renewcommand{\arraystretch}{1.5}
+\begin{center}
+\begin{tabular}{ c|c|c } 
+Axiom & If $\ldots$ & Then $\ldots$ \\\hline
+WARP&$X$ is \textbf{DRP} to $Y$&$Y$ cannot be \textbf{DRP} to $X$ \\
+SARP&$X$ is \textbf{RP} to $Y$&$Y$ cannot be \textbf{RP} to $X$ \\
+WGARP&$X$ is \textbf{DRP} to $Y$&$Y$ cannot be \textbf{SDRP} to $X$ \\
+GARP&$X$ is \textbf{RP} to $Y$&$Y$ cannot be \textbf{SDRP} to $X$
+\end{tabular}
+\end{center}
+\renewcommand{\arraystretch}{1}
+
 \begin{definition}
 The \textbf{Critical Cost Efficiency Index (CCEI)} is the amount by which each budget
 constraint must be relaxed in order to remove all violations of GARP. Lower values of CCEI indicates less rational choice data. Note that a CCEI score of 1 indicates a set of choice data satisfies GARP while CCEI approaches 0 as the revealed preferences become less rational. The actual calculations / formula for CCEI will be detailed in the following section.
@@ -78,7 +92,7 @@ Suppose for an individual, we have $X_{1}, X_{2}, \ldots, X_{k}$ vectors represe
 We then say $\forall i,j\in\{1,2,\ldots,k\}$ such that $i\not=j$, let:
     $$D_{ij}=\frac{P_{i}X_{j}}{P_{i}X_{i}}-1$$
 Note that the above is only negative if and only if $X_{i}$ is strictly directly revealed preferred to $X_{j}$. That's equivalent of saying that although the full bundle of $X_{j}$ was available at the price vector of time $i$, the individual observed chose $X_{i}$ over $X_{j}$.
-\newpage
+\bigskip
 
 Then let:
 
