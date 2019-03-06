@@ -239,11 +239,116 @@ We can then characterize our axioms with the following simple definitions:
 \textbf{WARP:} If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_d$.
 \bigskip
 
-\textbf{SARP:} If $(\mathcal{X},\mathcal{P})$ passes SARP, then: $\forall V_i \in V$, there exists no directed path from $V_i$ back to itself (I believe this is called a directed cycle, not quite sure on the exact terminology in graph theory).
+\textbf{SARP:} If $(\mathcal{X},\mathcal{P})$ passes SARP, then: $\forall V_i \in V$, there exists no directed walk from $V_i$ back to itself (I believe this is called a directed cycle, not quite sure on the exact terminology in graph theory).
 \bigskip
 
 \textbf{WGARP:} If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_s$.
 \bigskip
 
-\textbf{GARP:} If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed path from $V_i$ to $V_j$, then $(V_j,V_i)\not\in E_s$
+\textbf{GARP:} If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed path from $V_i$ to $V_j$, then $(V_j,V_i)\not\in E_s$.
+\bigskip
+
+\textbf{A New Way to Test WARP/SARP:} 
+
+Let $A_d$ be the adjacency matrix of $G_d$. To be rigorous, we can generate $A_d$ from our data set in the following manner. First, create the following $(k\times k)$ matrix from $\mathcal{X}$ and $\mathcal{P}$:
+
+\[
+Exp = 
+ \begin{pmatrix}
+  P_1X_1 & P_2X_1 & \cdots & P_kX_1 \\
+  P_1X_2 & P_2X_2 & \cdots & P_kX_2 \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  P_1X_k & P_2X_k & \cdots & P_kX_k
+ \end{pmatrix}
+\]
+
+This above can be referred to as the expenditure matrix. Note that the $(i,j)^{th}$ entry of this matrix represents the cost of bundle $i$ at the price of time $j$ (i.e. $P_jX_i$). Then consider the following:
+
+\[
+Exp_{diag} = 
+ \begin{pmatrix}
+  P_1X_1 & P_2X_2 & \cdots & P_kX_k \\
+  P_1X_1 & P_2X_2 & \cdots & P_kX_k \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  P_1X_1 & P_2X_2 & \cdots & P_kX_k
+ \end{pmatrix}
+\]
+
+In $Exp_{diag}$, every element in column $j$ is same for all $j$ and represents the actual cost of bundle $j$ at the price vector it was bought at (price vector of time $j$). Then consider the following:
+
+\[
+\alpha = Exp-Exp_{diag}
+ \begin{pmatrix}
+  0 & P_2X_1-P_2X_2 & \cdots & P_kX_1-P_kX_k \\
+  P_1X_2-P_1X_1 & 0 & \cdots & P_kX_2-P_kX_k \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  P_1X_k-P_1X_1 & P_2X_k-P_2X_2 & \cdots & 0
+ \end{pmatrix}
+\]
+
+Then define a function $f:\mathbb{R}\to\{0,1\}$:
+
+\[ 
+f(x)=
+    \begin{cases} 
+      1 & x\leq0 \\
+      0 & x>0
+   \end{cases}
+\]
+
+We can then get the adjacency matrix by applying $f$ to every element of $\alpha$ except its diagonals and taking its transpose:
+
+\[
+A_d =
+ \begin{pmatrix}
+  0 & f(\alpha_{1,2}) & \cdots & f(\alpha_{1,k}) \\
+  f(\alpha_{2,1}) & 0 & \cdots & f(\alpha_{2,k}) \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  f(\alpha_{k,1}) & f(\alpha_{k,2}) & \cdots & 0
+ \end{pmatrix} ^T
+\]
+
+We shall briefly explain why this works intuitively:
+
+\begin{itemize}
+    \item $f(\alpha_{i,j})=1$ if and only if $\alpha_{i,j}\leq0$
+    \item If $\alpha_{i,j}\leq0$, we know that $P_jX_i-P_jX_j\leq0$ and hence $P_jX_i\leq P_jX_j$
+    \item Hence, by definition, we have $X_j R_D X_i$
+    \item We conclude that $f(\alpha_{i,j})=1$ exactly when $X_j R_D X_i$
+    \item However, a value of $1$ in $(i,j)$ position would indicate that a directed edge from node $i$ to node $j$, but since we want our edges to indicate directly revealed preferences, we want a value of $1$ at the $(j,i)$ positions. Hence, we take the transpose and get $A_{d_{j,i}}=f(\alpha_{i,j})=1$ if and only if $X_j R_D X_i$, which is our desired adjacency matrix.
+\end{itemize}
+
+Now we're ready to use matrix operations on $A_d$ to easily test for WARP and SARP.
+\bigskip
+
+We know that the number of directed walks from any node $i$ to node $j$ of length $k$ is given by $A^k_d$ for adjacency matrix $A_d$ (this can be proven by induction). 
+\bigskip
+
+\textbf{WARP:} We defined WARP requirements as followed: If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_d$. Note that this is true exactly when there \textit{isn't} a directed walk of length 2 from any node $i$ back to itself (node $i$). Hence we say $(\mathcal{X},\mathcal{P})$ passes WARP if and only if the main diagonal of matrix $A_d^2$ is a vector of 0, i.e.
+
+\[
+diag(A_d^2) =
+ \begin{pmatrix}
+  0 \\
+  0 \\
+  \vdots \\
+  0
+ \end{pmatrix}
+\]
+
+\textbf{SARP:} We defined SARP requirements as followed: If $(\mathcal{X},\mathcal{P})$ passes SARP, then: $\forall V_i \in V$, there exists no directed walk from $V_i$ back to itself. So we have to account for walks of \textit{any length}. Consider the following:
+
+$$B_d=\sum_{i=2}^{k}A_d^i$$
+
+$B_d$'s $(i,j)^{th}$ element the number of directed walks of at least length 2 (since the maximum length of a walk is $k$, the cardinality of the vertex set) from node $i$ to node $j$. The values of the main diagonal is then the number of directed walks of any length (at least 2) from node $i$ back to itself. Then $(\mathcal{X},\mathcal{P})$ passes SARP if and only if the main diagonal of matrix $B_d=\sum_{i=2}^{k}A_d^i$ is a vector of 0, i.e.:
+
+\[
+diag(B_d) = diag(\sum_{i=2}^{k}A_d^i)=
+ \begin{pmatrix}
+  0 \\
+  0 \\
+  \vdots \\
+  0
+ \end{pmatrix}
+\]
 \end{document}
