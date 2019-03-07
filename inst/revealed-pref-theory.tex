@@ -147,7 +147,7 @@ Choice Number & $p_{1}$ & $p_{2}$ & $x_{1}$ & $x_{2}$ \\
 \end{tabular}
 \end{center}
 
-Then, $\forall n\in\{1,2,3\}$, we calculate $P_{n}X_{n}$ and $\forall i,j\in\{1,2,3\}$ such that $i\not=j$, we calculate $P_{j}X_{i}$. We then get the following matrix:
+Then, $\forall n\in\{1,2,3\}$, we calculate $P_{n}X_{n}$ and $\forall i,j\in\{1,2,3\}$ such that $i\not=j$, we calculate $P_{j}X_{i}$. We then get the following expenditure matrix:
 
 \begin{center}
 \begin{tabular}{ cccccc } 
@@ -159,6 +159,20 @@ Choice Number & Budget 1 & Budget 2 & Budget 3 \\
 \end{center}
 
 Looking at the last 3 columns of the matrix, we see that $\forall n\in\{1,2,3\}$, the $(n,n)$ element on the matrix represents the cost of the bundle actually chosen on time period $n$ (i.e. $P_{n}X_{n}$). Additionally, $\forall i,j\in\{1,2,3\}$ such that $i\not=j$, the $(i,j)$ element on the matrix, we calculate the cost of bundle $i$ at available price vector $j$ (i.e. $P_{j}X_{i}$).
+\bigskip
+
+From the above expenditure matrix, we can directly check if there are an violations for each of our axioms. Using our definition for directly revealed preferences, we put a $(*)$ next to each cell $(j,i)$ such that $\forall i,j\in\{1,2,3\}$ where $i\not=j$, $P_iX_j\leq P_iX_i$ (i.e. element $(j,i)\leq$ element $(i,i)$). This would indicate bundle $i$ DRP bundle $j$. We then get the following:
+
+\begin{center}
+\begin{tabular}{ cccccc } 
+Choice Number & Budget 1 & Budget 2 & Budget 3 \\
+1&5&4*&3* \\
+2&4*&5&3* \\
+3&6&6&4
+\end{tabular}
+\end{center}
+
+Note then that the above fails all our axioms. Since there's a $(*)$ on element $(2,1)$ and element $(1,2)$, indicating that bundle 1 DRP bundle 2 and also bundle 2 DRP bundle 1, failing WARP and SARP. Additionally, if we less our $(*)$ requirement to be: put a $(*)$ next to each cell $(j,i)$ such that $\forall i,j\in\{1,2,3\}$ where $i\not=j$, $P_iX_j<P_iX_i$, we would still get the same matrix and this fail both WGARP and GARP.
 
 \section{Appendix}
 
@@ -414,7 +428,7 @@ Hence, $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,
 Before we begin, consider the following lemma:
 
 
-\textit{Lemma A:} Let $X_1, X_2 Y$ be $(m\times m)$ matrices such that:
+\textit{Lemma A:} Let $X_1, X_2, Y$ be $(m\times m)$ matrices such that:
 
 \begin{minipage}{.5\linewidth}
 \[
