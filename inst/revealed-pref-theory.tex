@@ -3,17 +3,18 @@
 \setlength{\parindent}{0pt}
 
 \usepackage{amsmath, % this adds functions for formatting equations nicely
-			amssymb,
-			multirow,
-			multicol,
-			amsthm} % this gives us lots of greek symbols
-
+      amssymb,
+      multirow,
+      multicol,
+      amsthm,
+      mathtools} % this gives us lots of greek symbols
+      
 \newtheorem{definition}{Definition} % this lets us create definition blocks as below
 \newtheorem{remark}{Remark}
 
 \title{Revealed Preference Theory}
 
-\begin{document}	
+\begin{document}  
 
 \maketitle
 
@@ -245,7 +246,7 @@ We can then characterize our axioms with the following simple definitions:
 \textbf{WGARP:} If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_s$.
 \bigskip
 
-\textbf{GARP:} If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed path from $V_i$ to $V_j$, then $(V_j,V_i)\not\in E_s$.
+\textbf{GARP:} If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $V_i$ to $V_j$, then $(V_j,V_i)\not\in E_s$.
 \bigskip
 
 \textbf{A New Way to Test WARP/SARP:} 
@@ -340,7 +341,7 @@ diag(A_d^2) =
 
 $$B_d=\sum_{i=2}^{k}A_d^i$$
 
-$B_d$'s $(i,j)^{th}$ element the number of directed walks of at least length 2 (since the maximum length of a walk is $k$, the cardinality of the vertex set) from node $i$ to node $j$. The values of the main diagonal is then the number of directed walks of any length (at least 2) from node $i$ back to itself. Then $(\mathcal{X},\mathcal{P})$ passes SARP if and only if the main diagonal of matrix $B_d=\sum_{i=2}^{k}A_d^i$ is a vector of 0, i.e.:
+$B_d$'s $(i,j)^{th}$ element the number of directed walks of at least length 2 (since the maximum length of a walk is $k$ without looping around again, the cardinality of the vertex set) from node $i$ to node $j$. The values of the main diagonal is then the number of directed walks of any length (at least 2) from node $i$ back to itself. Then $(\mathcal{X},\mathcal{P})$ passes SARP if and only if the main diagonal of matrix $B_d=\sum_{i=2}^{k}A_d^i$ is a vector of 0, i.e.:
 
 \[
 diag(B_d) = diag(\sum_{i=2}^{k}A_d^i)=
@@ -351,4 +352,123 @@ diag(B_d) = diag(\sum_{i=2}^{k}A_d^i)=
   0
  \end{pmatrix}
 \]
+
+To test for WGARP and GARP, we would need a second adjacency matrix to reflect $G_s$. Let's call it $A_s$. Since the edge set $E_s$ is pretty similar (in fact a subset of) to $E_d$, we just have to make a slight adjustment to $A_d$'s construction. First we take $\alpha$ as before, since our expenditure matrix (which represents the same vertex set) doesn't change. Then we define a function $g:\mathbb{R}\to\{0,1\}$:
+
+\[ 
+g(x)=
+    \begin{cases} 
+      1 & x<0 \\
+      0 & x\geq0
+   \end{cases}
+\]
+
+Then we can define $A_s$ as followed:
+
+\[
+A_s =
+ \begin{pmatrix}
+  0 & g(\alpha_{1,2}) & \cdots & g(\alpha_{1,k}) \\
+  g(\alpha_{2,1}) & 0 & \cdots & g(\alpha_{2,k}) \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  g(\alpha_{k,1}) & g(\alpha_{k,2}) & \cdots & 0
+ \end{pmatrix} ^T
+\]
+
+The reasoning behind how $A_s$ works is the same as the rationale behind $A_d$ except the conditions of $g$ are set such that the relationships between bundle $i$ and bundle $j$ need to be SDRP in order for $(i,j)$ to be 1. Then the following are ways in which we can test for WGARP and GARP.
+\bigskip
+
+\textbf{WGARP:} We can test for WGARP by multiplying $A_d$ and $A_s$ by matrix multiplication.
+\bigskip
+
+\textit{Claim:} A data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $A_d\times A_s$ is a vector of 0.
+
+\begin{proof}
+Recall that: If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_s$. Which, when put in context of adjacency matrices, means that $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(i,j)^{th}$ position of $A_d$ ($A_{d_{i,j}}$) is equal to one, then the $(j,i)^{th}$ position of $A_s$ ($A_{s_{i,j}}$) cannot be equal to 1. We then consider $A_d\times A_s$ and its main diagonal. 
+\bigskip
+
+$\forall i\in\{1,\ldots,k\}$, let $\delta_i$ be the vector of the $i^{th}$ row of $A_d$ and $\xi_i$ be the vector of the $i^{th}$ column of $A_s$. Then we have $(A_d\times A_s)_{i,i}=\delta_i\cdot\xi_i$. Note that $\delta_{i_i}=0$ and $\xi_{i_i}=0$ since originally $A_d$ and $A_s$ have all 0's across their main diagonals.
+\bigskip
+
+We then know that, $\forall i\in\{1,\ldots,k\}$, $(A_d\times A_s)_{i,i}=0$ (i.e. the main diagonal of $A_d\times A_s$ is a zero vector) if and only if $\delta_i\cdot\xi_i=0$. Further, $\delta_i\cdot\xi_i=0$ if and only if $\forall j \in\{1,\ldots,k\}$ such that $i\not=j$, $\delta_{i_j}\cdot \xi_{i_j}=0$ (since we know that $\delta_{i_i}=\xi_{i_i}=0$, they won't contributed to the overall sum, which is what we want anyways by the WGARP rules). We then know that $\delta_{i_j}\cdot \xi_{i_j}=0$ if and only if $\delta_{i_j}=0$ or $\xi_{i_j}=0$. Further, "$\delta_{i_j}=0$ or $\xi_{i_j}=0$" if and only if $\neg (\delta_{i_j}=\xi_{i_j}=1)$ (since all terms in $A_d$ and $A_s$ are either one or zero). Note that $\delta_{i_j}=A_{d_{i,j}}$ and $\xi_{i_j}=A_{s_{j,i}}$ (since $\xi_i$ is the vector of the $i^{th}$ \textit{column} of $A_s$). Hence, $\neg (\delta_{i_j}=\xi_{i_j}=1)$ if and only if $\neg (A_{d_{i,j}}=A_{s_{j,i}}=1)$, which happens if $A_{d_{i,j}}=1$, then $A_{s_{j,i}}=0\not=1$. Note that this is the exact definition of passing WGARP. Summarizing this, we have:
+\begin{flalign*}
+\forall i\in\{1,\ldots,k\}, (A_d\times A_s)_{i,i}=0 &\iff \delta_i\cdot\xi_i=0 &\\
+&\iff \forall j \in\{1,\ldots,k\}\textrm{, }i\not=j,\ \delta_{i_j}\cdot \xi_{i_j}=0 &\\
+&\iff \delta_{i_j}=0\textrm{ or }\xi_{i_j}=0 &\\
+&\iff \neg (\delta_{i_j}=\xi_{i_j}=1) &\\
+&\iff \neg (A_{d_{i,j}}=A_{s_{j,i}}=1) &\\
+&\iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)
+\end{flalign*}
+
+Hence, $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$. Note the first statement simply means the main diagonal of $A_d\times A_s$ is the zero vector and the second statement is the condition for passing WGARP. We then have "passing WGARP" $\iff$ "main diagonal of $A_d\times A_s$ is a zero vector". Thus our claim is proven (since $A\iff B$ is the same as $B\iff A$).
+\end{proof}
+
+\textbf{GARP:} We can test for GARP by finding multiplying $\sum_{i=1}^{k-1}A_{d}^{i}$ with $A_s$ by matrix multiplication.
+\bigskip
+
+Before we begin, consider the following lemma:
+\bigskip
+
+\textit{Lemma A:} Let $X_1, X_2 Y$ be $(m\times m)$ matrices such that:
+
+\begin{minipage}{.5\linewidth}
+\[
+X_1 =
+ \begin{pmatrix}
+  x_{1,1} & x_{1,2} & \cdots & x_{1,m} \\
+  x_{2,1} & x_{2,2} & \cdots & x_{2,m} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  x_{m,1} & x_{m,2} & \cdots & x_{m,m}
+ \end{pmatrix}
+\]
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+\[
+X_2 =
+ \begin{pmatrix}
+  0 & x_{1,2} & \cdots & x_{1,m} \\
+  x_{2,1} & 0 & \cdots & x_{2,m} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  x_{m,1} & x_{m,2} & \cdots & 0
+ \end{pmatrix}
+\]
+\end{minipage}
+and 
+
+\[
+Y =
+ \begin{pmatrix}
+  0 & y_{1,2} & \cdots & y_{1,m} \\
+  y_{2,1} & 0 & \cdots & y_{2,m} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  y_{m,1} & y_{m,2} & \cdots & 0
+ \end{pmatrix}
+\]
+
+Then the main diagonals of $X_1\times Y$ and $X_2\times Y$ are the same (denoted $diag(X_1\times Y)=diag(X_2\times Y)$).
+
+\begin{proof}
+Fix an arbitrary $i\in\{1,\ldots,m\}$. Then let $Z_1=X_1\times Y$ and $Z_2=X_2\times Y$. We want to show that $Z_{1_{i,i}}=Z_{2_{i,i}}$. Note that $Z_{1_{i,i}}=x_{i,1}y_{1,i}+x_{i,2}y_{2,i}+\ldots+x_{i,i}y_{i,i}+\ldots+x_{i,m}y_{m,i}$ and that $Z_{2_{i,i}}=x_{i,1}y_{1,i}+x_{i,2}y_{2,i}+\ldots+0y_{i,i}+\ldots+x_{i,m}y_{m,i}$. The only difference between those are that for the first equation, we have $x_{i,i}y_{i,i}$ as the $i^{th}$ term and the second equation, we have $0y_{i,i}$ as the $i^{th}$ term. However, since $y_{i,i}=0$, we have that $x_{i,i}y_{i,i}=0y_{i,i}=0$ and thus $Z_{1_{i,i}}=Z_{2_{i,i}}$.
+\end{proof}
+
+\textit{Claim:} A data set $(\mathcal{X},\mathcal{P})$ passes GARP if and only if the main diagonal of $\sum_{i=1}^{k-1}A_{d}^{i}\times A_s$ is a vector of 0.
+
+\begin{proof}
+The proof of this will look very similar to the proof of WGARP, except that the elements in $\sum_{i=1}^{k-1}A_{d}^{i}$ will no longer be binary $(\{0,1\})$. However, they are all $\geq0$. Let $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, then $\beta_{d_{i,j}}$ would be the number of directed walks between node $i$ and node $j$ of any length up to $k-1$. Note that we chose to sum up to $k-1$ since anything past that, we would definitely have a cycle and summing past that point is redundant.
+\bigskip
+
+We want to make sure that if there's a directed walk from node $i$ to node $j$ in $G_d$, there isn't a directed edge between node $j$ and node $i$ in $G_s$. Formally, this is just our definition for GARP: If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $V_i$ to $V_j$, then $(V_j,V_i)\not\in E_s$. This is similar to WGARP in the sense that we're simply replacing the directed edge in the "if" statement to a directed walk. Note then that we have $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, which captures the existence of any directed walks between any two nodes. Hence if $\beta_{d_{i,j}}>0$, there exists at least 1 directed walk between node $i$ and node $j$ on graph $G_d$. We can then use our proof for WGARP and \textit{Lemma A} to construct the rest of this proof.
+\bigskip
+
+In our proof of WGARP, we see that $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$. There are two changes we need to make to this statement to fit our GARP claim. 
+\bigskip
+
+First, we see that we're no longer working with $A_d$ but working with $\beta_d$, which represents directed walks instead of edges. $\beta_d$ is also no longer filled with binary elements $\in\{0,1\}$. We can tweak our statement to fit these conditions by stating: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. Now, $\beta_{d_{i,j}}>0$ simply means there exists at least one path from $i,j$, which is what we want.
+\bigskip
+
+Second, when we constructed our proof of WGARP, we noted that "since we know that $\delta_{i_i}=\xi_{i_i}=0$ (i.e. $A_{d_{i,i}}=0$ and $A_{s_{i,i}}=0$), they won't contributed to the overall sum, which is what we want anyways by the WGARP rules". However, this no longer holds as we could have $\beta_{d_{i,i}}\not=0$ for some $i$ if there's any directed cycles in $G_d$ (but we don't care about those in GARP, per the definition of the axiom). But we do still have $A_{s_{i,i}}=0$ for all $i$ and thus, by \textit{Lemma A}, we don't need to "clear-out" the diagonals of $\beta_d$ before multiplying. Hence, our statement above still holds. 
+\bigskip
+
+Thus, we have: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. The first statement simply means the main diagonal of $(\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}\times A_s)$ is a zero vector and the second statement is the condition for passing GARP, hence our proof is complete (since $A\iff B$ is the same as $B\iff A$).
+\end{proof}
 \end{document}
