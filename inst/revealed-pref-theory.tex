@@ -7,7 +7,11 @@
       multirow,
       multicol,
       amsthm,
-      mathtools} % this gives us lots of greek symbols
+      todonotes, % add to do notes with \todo command
+      mathtools, } % this gives us lots of greek symbols
+
+\setlength\parindent{0pt} % sets indent to zero
+\setlength{\parskip}{10pt} 
       
 \newtheorem{definition}{Definition} % this lets us create definition blocks as below
 \newtheorem{remark}{Remark}
@@ -33,6 +37,7 @@ We say that $X$ is \textbf{strictly directly revealed preferred (SDRP)} to $Y$ i
 
 \begin{definition}
 Consider three bundles, $X$, $Y$, and $Z$. Then $X$ is \textbf{indirectly revealed preferred (IRP)} to $Z$ if $X$ is directly revealed preferred to $Y$ and $Y$ is directly revealed preferred to $Z$.
+\todo{Update to allow for chains of arbitrary length.}
 \end{definition}
 
 \begin{definition}
@@ -44,7 +49,8 @@ A set of choice data satisfies the \textbf{Weak Axiom of Revealed Preferences (W
 \end{definition}
 
 \begin{remark}
-If a consumer exhibits maximizing behavior, then their set of choice data will satisfy WARP. However, the converse isn't necessarily true when X and Y represent bundles from commodity spaces higher than two dimensions (i.e. there are more than two available goods and thus, $X$, $Y$, and $P$ are n-dimensional vectors such that $n> 2$\footnote{Rose, H. (1958). Consistency of preference: The two-commodity case. Review of Economic Studies, 25(2), 124–125.}). 
+If a consumer exhibits maximizing behavior, then their set of choice data will satisfy WARP. However, the converse isn't necessarily true when X and Y represent bundles from commodity spaces higher than two dimensions (i.e. there are more than two available goods and thus, $X$, $Y$, and $P$ are n-dimensional vectors such that $n> 2$\footnote{Rose, H. (1958). Consistency of preference: The two-commodity case. Review of Economic Studies, 25(2), 124–125. }). 
+\todo{Move citation to bibligraphy instead of footnote.}
 \end{remark}
 
 \begin{definition}
@@ -53,6 +59,7 @@ A set of choice data satisfies the \textbf{Strong Axiom of Revealed Preferences 
 
 \begin{remark}
 A consumer's set of choice data will satisfy SARP if and only if they exhibit maximizing behavior. 
+\todo{Add citation.}
 \end{remark}
 
 \begin{definition}
@@ -65,6 +72,7 @@ A set of choice data satisfies the \textbf{Generalized Axiom of Revealed Prefere
 
 \begin{remark}
 The key difference between SARP and GARP requirements are that GARP allows consumers to have multiple bundles that maximizes utility under the same price levels (i.e. consumers are allowed to exhibit preferences that treat goods as perfect substitutes of each other).
+\todo{Add citation.}
 \end{remark}
 
 The following table summarizes each of the axioms and their requirements. For all bundles $X$ and $Y$:
@@ -88,43 +96,43 @@ constraint must be relaxed in order to remove all violations of GARP. Lower valu
 
 \section{Calculating the CCEI (upperbound)}
 Suppose for an individual, we have $X_{1}, X_{2}, \ldots, X_{k}$ vectors representing $k$ bundles of $n$ goods chosen at $k$ different times so that $X_{i}\in\mathbb{R}^{n}_{+}$ for all $i\in\{1,2,\ldots,k\}$. Note that the technical notation can get a bit muddy, as $X_{i}=(x_{i_{1}}, x_{i_{2}}, \ldots, x_{i_{n}})$ where $x_{i_{j}}$ represents the quantity of good $j$ bought at time $i$. We also have $P_{1}, P_{2}, \dots, P_{k}$ vectors representing $k$ sets of available prices of $n$ goods at $k$ different times of that $P_{i}\in\mathbb{R}^{n}_{++}$ for all $i\in\{1,2,\ldots,k\}$. Similarly, $P_{i}=(p_{i_{1}}, p_{i_{2}}, \ldots, p_{i_{n}})$ where $p_{i_{j}}$ represents the price of good $j$ at time $i$.
-\bigskip
+\todo{Change notation here to have side-by-side subscripts instead of sub-subscripts, ie $p_{ij}$ instead of $p_{i_{j}}$.}
+
 
 We then say $\forall i,j\in\{1,2,\ldots,k\}$ such that $i\not=j$, let:
     $$D_{ij}=\frac{P_{i}X_{j}}{P_{i}X_{i}}-1$$
 Note that the above is only negative if and only if $X_{i}$ is strictly directly revealed preferred to $X_{j}$. That's equivalent of saying that although the full bundle of $X_{j}$ was available at the price vector of time $i$, the individual observed chose $X_{i}$ over $X_{j}$.
-\bigskip
 
-Then let:
 
+Then let
 $$d_{ij}=max\{D_{ij}, D_{ji}\}$$
-
 We note that $\forall i,j\in\{1,2,\ldots,k\}$ such that $i\not=j$, $d_{ij}<0$ if and only if we have a strictly directly revealed preference conflict. To see this, consider the following:
 
 \begin{itemize}
     \item $D_{ij}<0$ if and only if $X_{i}$ is strictly directly revealed preferred to $X_{j}$ (as per the previous paragraph). 
     \item Similarly, $D_{ji}<0$ if and only if $X_{j}$ is strictly directly revealed preferred to $X_{i}$.
     \item $d_{ij}=max\{D_{ij}, D_{ji}\}<0$ if and only if $D_{ij}<0$ and $D_{ji}<0$, which means that $X_{i}$ is strictly directly revealed preferred to $X_{j}$ \textbf{and} $X_{j}$ is strictly directly revealed preferred to $X_{i}$. 
-    \item Thus we have a strictly directly revealed preference conflict.
+    \item Thus we have a strictly directly revealed preference conflict if $d_{ij} < 0$.
 \end{itemize}
-Essentially, $d_{ij}$ perfectly captures whether there is a strictly directly revealed preference conflict between bundles $X_{i}$ and $X_{j}$. Moreover, $d_{ij}$ also captures the degree of the less "egregious" violation. That is, if $X_{i}$ is way more strictly directly revealed preferred to $X_{j}$ than $X_{j}$ is strictly directly revealed preferred to $X_{i}$, (i.e. if $D_{ij}<<0$ and $D_{ji}<0$), the second preference that caused the violation is less severe and can be more easily "fixed". Since $d_{ij}=max\{D_{ij}, D_{ji}\}<0$, the lesser violation $D_{ji}$ is captured instead.
-\bigskip
+
+Essentially, $d_{ij}$ perfectly captures whether there is a strictly directly revealed preference conflict between bundles $X_{i}$ and $X_{j}$. Moreover, $d_{ij}$ also captures the degree of the less ``egregious" violation. That is, if $X_{i}$ is way more strictly directly revealed preferred to $X_{j}$ than $X_{j}$ is strictly directly revealed preferred to $X_{i}$, (i.e. if $D_{ij}<<0$ and $D_{ji}<0$), the second preference that caused the violation is less severe and can be more easily "fixed". Since $d_{ij}=max\{D_{ij}, D_{ji}\}<0$, the lesser violation $D_{ji}$ is captured instead.
+
+We then let:
+$$
+e_{ij}=1-\max\{0,-d_{ij}\}
+$$\todo{Redefine this with piecewise function instead of $\max$}
+
+$e_{ij}$ is called the cross cost efficiency index between bundles $X_{i}$ and $X_{j}$. Note that if $d_{ij}\geq0$, then $-d_{ij}\leq0$ and we would get $e_{ij}=(1-0)=1$. Thus, if there are no strictly directly revealed preference conflicts between $X_{i}$ and $X_{j}$, we would get $e_{ij}=1$. If we have such a violation, then $-d_{ij}>0$ and hence we would get $e_{ij}=1+d_{ij}$ (note that $0<e_{ij}<1$ since $d_{ij}<0$). We claim that, by letting $\hat{ P_iX_i}=e_{ij}\cdot P_iX_i$ and $\hat{P_jX_j}=e_{ij}\cdot P_jX_j$ and using those values to recalculate a $\hat{d_{ij}}$, we would have $\hat{d_{ij}}\geq0$ and hence there are no strictly directly revealed preference violations. This can be seen in the example section and will be proved more rigorously towards the end of this manual. For now, it suffices to note that the lower the value of $e_{ij}$, the harder it is to ``fix" the violation between $X_{i}$ and $X_{j}$.
+
 
 We then let:
 
-$$e_{ij}=1-max\{0,-d_{ij}\}$$
+$$e^{*}=\min_{\forall i,j, i\not=j}\{e_{ij}\}$$
 
-$e_{ij}$ is called the cross cost efficiency index between bundles $X_{i}$ and $X_{j}$. Note that if $d_{ij}\geq0$, then $-d_{ij}\leq0$ and we would get $e_{ij}=(1-0)=1$. Thus, if there are no strictly directly revealed preference conflicts between $X_{i}$ and $X_{j}$, we would get $e_{ij}=1$. If we have such a violation, then $-d_{ij}>0$ and hence we would get $e_{ij}=1+d_{ij}$ (note that $0<e_{ij}<1$ since $d_{ij}<0$). We claim that, by letting $\hat{ P_iX_i}=e_{ij}\cdot P_iX_i$ and $\hat{P_jX_j}=e_{ij}\cdot P_jX_j$ and using those values to recalculate a $\hat{d_{ij}}$, we would have $\hat{d_{ij}}\geq0$ and hence there are no strictly directly revealed preference violations. This can be seen in the example section and will be proved more rigorously towards the end of this manual. For now, it suffices to note that the lower the value of $e_{ij}$, the harder it is to "fix" the violation between $X_{i}$ and $X_{j}$.
-\bigskip
+$e^{*}$, as given above, would resolve all strictly directly revealed preference violations. The lowest value of $e_{ij}$ for all $i,j\in\{1,2,\ldots,k\}$ would solve the most ``egregious" cross bundle violation and would obviously solve all other remaining cross bundle violations.
 
-We then let:
 
-$$e^{*}=\underset{\forall i,j, i\not=j}{min}\{e_{ij}\}$$
-
-$e^{*}$, as given above, would resolve all strictly directly revealed preference violations. The lowest value of $e_{ij}$ for all $i,j\in\{1,2,\ldots,k\}$ would solve the most "egregious" cross bundle violation and would obviously solve all other remaining cross bundle violations.
-\bigskip
-
-\textbf{However, this $\mathbf{e^*}$ is merely an upperbound for the CCEI} as it only resolves cross bundle violations in the dataset. Essentially, $e^*$ would only resolve violations that involve direct revealed preferences. Another value, say $e^*_{2}$, might be needed to resolve indirect revealed preferences and if $e^*_{2}\leq e^*$, then $e^*_{2}$ would be our actual CCEI as it resolve both indirect and direct revealed preference violations (and thus passing GARP).
+\textbf{However, this $\mathbf{e^*}$ is merely an upper bound for the CCEI} as it only resolves cross bundle violations in the dataset. Essentially, $e^*$ would only resolve violations that involve direct revealed preferences. Another value, say $e^*_{2}$, might be needed to resolve indirect revealed preferences and if $e^*_{2}\leq e^*$, then $e^*_{2}$ would be our actual CCEI as it resolve both indirect and direct revealed preference violations (and thus passing GARP).
 
 \section{Examples}
 
@@ -155,18 +163,14 @@ Looking at the last 3 columns of the matrix, we see that $\forall n\in\{1,2,3\}$
 \section{Appendix}
 
 Here we prove our claim in \textbf{Section 2}.
-\bigskip
+
 
 We first let:
-\bigskip
 
-\begin{minipage}{.5\linewidth}
-$$D_{ij}=\frac{P_iX_j}{P_iX_i}-1$$
-\end{minipage}%
-\begin{minipage}{.5\linewidth}
-$$D_{ji}=\frac{P_jX_i}{P_jX_j}-1$$
-\end{minipage}
-\bigskip
+
+$$D_{ij}=\frac{P_iX_j}{P_iX_i}-1 \quad \text{and} \quad D_{ji}=\frac{P_jX_i}{P_jX_j}-1.$$
+
+
 
 Suppose that $D_{ij}\leq D_{ji}<0$, which means that we have a violation but the strictly directly revealed preference of $X_j$ over $X_i$ is less severe than that of the inverse. Then we take:
 $$d_{ij}=max\{D_{ij},D_{ji}\}$$
@@ -178,15 +182,15 @@ We then can calculate:
 $$e_{ij}=1+d_{ij}=1+D_{ji}$$
 
 We then want to prove the following claim:
-\bigskip
+
 
 \textbf{Claim:} $\hat{D_{ji}}=\frac{P_jX_i}{(e_{ij})P_jX_j}-1\geq0$ and hence $\hat{d_{ij}}=max\{\hat{D_{ij}},\hat{D_{ji}}\}\geq0$
-\bigskip
+
 
 \begin{proof}
 Recall that:
 
-$$e_{ij}=1+D_{ji}=1+(\frac{P_jX_i}{P_jX_j}-1)=\frac{P_jX_i}{P_jX_j}$$
+$$e_{ij}=1+D_{ji}=1+ \left (\frac{P_jX_i}{P_jX_j}-1 \right )=\frac{P_jX_i}{P_jX_j}$$
 
 We then have:
 
@@ -205,10 +209,10 @@ Hence, $\hat{D_{ji}}\geq0$ and we have $\hat{d_{ij}}=max\{\hat{D_{ij}},\hat{D_{j
 \section{Axioms of Revealed Preferences: A Graph Theoretical Approach}
 
 \textbf{THIS FOLLOWING SECTION IS A DRAFT} mainly used to see if there's a faster way to test *ARP and calculate exact values of CCEI without binary search.
-\bigskip
+
 
 Let's begin by looking at the problem with a new perspective. Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ be sets of quantity and price vectors, respectively. We then have data set $(\mathcal{X},\mathcal{P})$. Then consider the following directed graphs:
-\bigskip
+
 
 \begin{minipage}{.5\linewidth}
 $$G_d=\{V,E_d\}$$
@@ -216,11 +220,12 @@ $$G_d=\{V,E_d\}$$
 \begin{minipage}{.5\linewidth}
 $$G_s=\{V,E_s\}$$
 \end{minipage}
-\bigskip
+
 
 where:
 
 $$V=\{(X_i,P_i)\ |\ \forall i\in\{1,\ldots,k\}\}\subseteq \mathcal{X}\times\mathcal{P}$$
+
 
 such that $V_{i}=(X_i,P_i)$ fully captures all information about the bundle (both quantity and price) at time $i$. $V$ is then the vertex set for both the graphs. Then consider the following edge sets:
 
@@ -228,26 +233,26 @@ $$E_d=\{(V_i,V_j)\ |\ X_i R_D X_j,\ i.e.\ P_iX_i\geq P_iX_j\}$$
 
 $$E_s=\{(V_i,V_j)\ |\ X_i R_{SD} X_j,\ i.e.\ P_iX_i> P_iX_j\}$$
 
-(Note it might be better to just make the vertex set the set of $\mathcal{X}$ instead, but to be safe I just did an ordered pair between quantity and price).
-\bigskip
+(Note it might be better to just make the vertex set the set of $\mathcal{X}$ instead, but to be safe I just did an ordered pair between quantity and price).\todo{Lets make the vertexes just the bundles, not the prices.}
+
 
 Then, it's apparent that $G_d$ is the directed graph for all directly revealed preference relationships and $G_s$ is the direct graph for all \textit{strictly} directly revealed preference relationships. If there's a path / edge from $V_i$ to $V_j$, we have $X_i$ is (strictly) directly revealed preferred to $X_j$ depending on the graph. Further, we shall note that $E_s\subseteq E_d$, as obviously all strictly directly revealed preferred relationships are directly revealed preferred.
-\bigskip
+
 
 We can then characterize our axioms with the following simple definitions:
-\bigskip
+
 
 \textbf{WARP:} If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_d$.
-\bigskip
+
 
 \textbf{SARP:} If $(\mathcal{X},\mathcal{P})$ passes SARP, then: $\forall V_i \in V$, there exists no directed walk from $V_i$ back to itself (I believe this is called a directed cycle, not quite sure on the exact terminology in graph theory).
-\bigskip
+
 
 \textbf{WGARP:} If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_s$.
-\bigskip
+
 
 \textbf{GARP:} If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $V_i$ to $V_j$, then $(V_j,V_i)\not\in E_s$.
-\bigskip
+
 
 \textbf{A New Way to Test WARP/SARP:} 
 
@@ -320,10 +325,10 @@ We shall briefly explain why this works intuitively:
 \end{itemize}
 
 Now we're ready to use matrix operations on $A_d$ to easily test for WARP and SARP.
-\bigskip
+
 
 We know that the number of directed walks from any node $i$ to node $j$ of length $k$ is given by $A^k_d$ for adjacency matrix $A_d$ (this can be proven by induction). 
-\bigskip
+
 
 \textbf{WARP:} We defined WARP requirements as followed: If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_d$. Note that this is true exactly when there \textit{isn't} a directed walk of length 2 from any node $i$ back to itself (node $i$). Hence we say $(\mathcal{X},\mathcal{P})$ passes WARP if and only if the main diagonal of matrix $A_d^2$ is a vector of 0, i.e.
 
@@ -376,19 +381,19 @@ A_s =
 \]
 
 The reasoning behind how $A_s$ works is the same as the rationale behind $A_d$ except the conditions of $g$ are set such that the relationships between bundle $i$ and bundle $j$ need to be SDRP in order for $(i,j)$ to be 1. Then the following are ways in which we can test for WGARP and GARP.
-\bigskip
+
 
 \textbf{WGARP:} We can test for WGARP by multiplying $A_d$ and $A_s$ by matrix multiplication.
-\bigskip
+
 
 \textit{Claim:} A data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $A_d\times A_s$ is a vector of 0.
 
 \begin{proof}
 Recall that: If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_s$. Which, when put in context of adjacency matrices, means that $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(i,j)^{th}$ position of $A_d$ ($A_{d_{i,j}}$) is equal to one, then the $(j,i)^{th}$ position of $A_s$ ($A_{s_{i,j}}$) cannot be equal to 1. We then consider $A_d\times A_s$ and its main diagonal. 
-\bigskip
+
 
 $\forall i\in\{1,\ldots,k\}$, let $\delta_i$ be the vector of the $i^{th}$ row of $A_d$ and $\xi_i$ be the vector of the $i^{th}$ column of $A_s$. Then we have $(A_d\times A_s)_{i,i}=\delta_i\cdot\xi_i$. Note that $\delta_{i_i}=0$ and $\xi_{i_i}=0$ since originally $A_d$ and $A_s$ have all 0's across their main diagonals.
-\bigskip
+
 
 We then know that, $\forall i\in\{1,\ldots,k\}$, $(A_d\times A_s)_{i,i}=0$ (i.e. the main diagonal of $A_d\times A_s$ is a zero vector) if and only if $\delta_i\cdot\xi_i=0$. Further, $\delta_i\cdot\xi_i=0$ if and only if $\forall j \in\{1,\ldots,k\}$ such that $i\not=j$, $\delta_{i_j}\cdot \xi_{i_j}=0$ (since we know that $\delta_{i_i}=\xi_{i_i}=0$, they won't contributed to the overall sum, which is what we want anyways by the WGARP rules). We then know that $\delta_{i_j}\cdot \xi_{i_j}=0$ if and only if $\delta_{i_j}=0$ or $\xi_{i_j}=0$. Further, "$\delta_{i_j}=0$ or $\xi_{i_j}=0$" if and only if $\neg (\delta_{i_j}=\xi_{i_j}=1)$ (since all terms in $A_d$ and $A_s$ are either one or zero). Note that $\delta_{i_j}=A_{d_{i,j}}$ and $\xi_{i_j}=A_{s_{j,i}}$ (since $\xi_i$ is the vector of the $i^{th}$ \textit{column} of $A_s$). Hence, $\neg (\delta_{i_j}=\xi_{i_j}=1)$ if and only if $\neg (A_{d_{i,j}}=A_{s_{j,i}}=1)$, which happens if $A_{d_{i,j}}=1$, then $A_{s_{j,i}}=0\not=1$. Note that this is the exact definition of passing WGARP. Summarizing this, we have:
 \begin{flalign*}
@@ -404,10 +409,10 @@ Hence, $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,
 \end{proof}
 
 \textbf{GARP:} We can test for GARP by finding multiplying $\sum_{i=1}^{k-1}A_{d}^{i}$ with $A_s$ by matrix multiplication.
-\bigskip
+
 
 Before we begin, consider the following lemma:
-\bigskip
+
 
 \textit{Lemma A:} Let $X_1, X_2 Y$ be $(m\times m)$ matrices such that:
 
@@ -455,19 +460,16 @@ Fix an arbitrary $i\in\{1,\ldots,m\}$. Then let $Z_1=X_1\times Y$ and $Z_2=X_2\t
 
 \begin{proof}
 The proof of this will look very similar to the proof of WGARP, except that the elements in $\sum_{i=1}^{k-1}A_{d}^{i}$ will no longer be binary $(\{0,1\})$. However, they are all $\geq0$. Let $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, then $\beta_{d_{i,j}}$ would be the number of directed walks between node $i$ and node $j$ of any length up to $k-1$. Note that we chose to sum up to $k-1$ since anything past that, we would definitely have a cycle and summing past that point is redundant.
-\bigskip
+
 
 We want to make sure that if there's a directed walk from node $i$ to node $j$ in $G_d$, there isn't a directed edge between node $j$ and node $i$ in $G_s$. Formally, this is just our definition for GARP: If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $V_i$ to $V_j$, then $(V_j,V_i)\not\in E_s$. This is similar to WGARP in the sense that we're simply replacing the directed edge in the "if" statement to a directed walk. Note then that we have $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, which captures the existence of any directed walks between any two nodes. Hence if $\beta_{d_{i,j}}>0$, there exists at least 1 directed walk between node $i$ and node $j$ on graph $G_d$. We can then use our proof for WGARP and \textit{Lemma A} to construct the rest of this proof.
-\bigskip
+
 
 In our proof of WGARP, we see that $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$. There are two changes we need to make to this statement to fit our GARP claim. 
-\bigskip
 
 First, we see that we're no longer working with $A_d$ but working with $\beta_d$, which represents directed walks instead of edges. $\beta_d$ is also no longer filled with binary elements $\in\{0,1\}$. We can tweak our statement to fit these conditions by stating: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. Now, $\beta_{d_{i,j}}>0$ simply means there exists at least one path from $i,j$, which is what we want.
-\bigskip
 
 Second, when we constructed our proof of WGARP, we noted that "since we know that $\delta_{i_i}=\xi_{i_i}=0$ (i.e. $A_{d_{i,i}}=0$ and $A_{s_{i,i}}=0$), they won't contributed to the overall sum, which is what we want anyways by the WGARP rules". However, this no longer holds as we could have $\beta_{d_{i,i}}\not=0$ for some $i$ if there's any directed cycles in $G_d$ (but we don't care about those in GARP, per the definition of the axiom). But we do still have $A_{s_{i,i}}=0$ for all $i$ and thus, by \textit{Lemma A}, we don't need to "clear-out" the diagonals of $\beta_d$ before multiplying. Hence, our statement above still holds. 
-\bigskip
 
 Thus, we have: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. The first statement simply means the main diagonal of $(\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}\times A_s)$ is a zero vector and the second statement is the condition for passing GARP, hence our proof is complete (since $A\iff B$ is the same as $B\iff A$).
 \end{proof}
