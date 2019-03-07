@@ -10,6 +10,8 @@
       todonotes, % add to do notes with \todo command
       mathtools, } % this gives us lots of greek symbols
 
+\usepackage[round]{natbib} % extra functionality for citations
+
 \setlength\parindent{0pt} % sets indent to zero
 \setlength{\parskip}{10pt} 
       
@@ -49,7 +51,7 @@ A set of choice data satisfies the \textbf{Weak Axiom of Revealed Preferences (W
 \end{definition}
 
 \begin{remark}
-If a consumer exhibits maximizing behavior, then their set of choice data will satisfy WARP. However, the converse isn't necessarily true when X and Y represent bundles from commodity spaces higher than two dimensions (i.e. there are more than two available goods and thus, $X$, $Y$, and $P$ are n-dimensional vectors such that $n> 2$\footnote{Rose, H. (1958). Consistency of preference: The two-commodity case. Review of Economic Studies, 25(2), 124–125. }). 
+If a consumer exhibits maximizing behavior, then their set of choice data will satisfy WARP. However, the converse isn't necessarily true when X and Y represent bundles from commodity spaces higher than two dimensions (i.e. there are more than two available goods and thus, $X$, $Y$, and $P$ are n-dimensional vectors such that $n> 2$)  See \citet{Rose1958Consistency-of-Preference:-The-Two-Commodity-Case}. 
 \todo{Move citation to bibligraphy instead of footnote.}
 \end{remark}
 
@@ -487,4 +489,8 @@ Second, when we constructed our proof of WGARP, we noted that "since we know tha
 
 Thus, we have: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. The first statement simply means the main diagonal of $(\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}\times A_s)$ is a zero vector and the second statement is the condition for passing GARP, hence our proof is complete (since $A\iff B$ is the same as $B\iff A$).
 \end{proof}
+
+\bibliographystyle{plainnat}
+\bibliography{bibliography}
+
 \end{document}
