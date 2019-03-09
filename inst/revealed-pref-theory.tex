@@ -8,7 +8,8 @@
       multicol,
       amsthm,
       todonotes, % add to do notes with \todo command
-      mathtools, } % this gives us lots of greek symbols
+      mathtools,
+      stmaryrd } % this gives us lots of greek symbols
 
 \usepackage[round]{natbib} % extra functionality for citations
 
@@ -20,7 +21,7 @@
 
 \title{Revealed Preference Theory}
 
-\begin{document}  
+\begin{document}
 
 \maketitle
 
@@ -245,9 +246,9 @@ $$V=\{(X_i,P_i)\ |\ \forall i\in\{1,\ldots,k\}\}\subseteq \mathcal{X}\times\math
 
 such that $V_{i}=(X_i,P_i)$ fully captures all information about the bundle (both quantity and price) at time $i$. $V$ is then the vertex set for both the graphs. Then consider the following edge sets:
 
-$$E_d=\{(V_i,V_j)\ |\ X_i R_D X_j,\ i.e.\ P_iX_i\geq P_iX_j\}$$
+$$E_d=\{(V_i,V_j)\ |\ X_i R_D X_j,\ i.e.\ P_iX_i\geq P_iX_j,\ i\not=j\}$$
 
-$$E_s=\{(V_i,V_j)\ |\ X_i R_{SD} X_j,\ i.e.\ P_iX_i> P_iX_j\}$$
+$$E_s=\{(V_i,V_j)\ |\ X_i R_{SD} X_j,\ i.e.\ P_iX_i> P_iX_j,\ i\not=j\}$$
 
 (Note it might be better to just make the vertex set the set of $\mathcal{X}$ instead, but to be safe I just did an ordered pair between quantity and price).\todo{Lets make the vertexes just the bundles, not the prices.}
 
@@ -270,7 +271,7 @@ We can then characterize our axioms with the following simple definitions:
 \textbf{GARP:} If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $V_i$ to $V_j$, then $(V_j,V_i)\not\in E_s$.
 
 
-\textbf{A New Way to Test WARP/SARP:} 
+\section{WARP/SARP with Graph Theoretical Approach}
 
 Let $A_d$ be the adjacency matrix of $G_d$. To be rigorous, we can generate $A_d$ from our data set in the following manner. First, create the following $(k\times k)$ matrix from $\mathcal{X}$ and $\mathcal{P}$:
 
@@ -373,6 +374,8 @@ diag(B_d) = diag(\sum_{i=2}^{k}A_d^i)=
   0
  \end{pmatrix}
 \]
+
+\section{WGARP/GARP with Graph Theoretical Approach}
 
 To test for WGARP and GARP, we would need a second adjacency matrix to reflect $G_s$. Let's call it $A_s$. Since the edge set $E_s$ is pretty similar (in fact a subset of) to $E_d$, we just have to make a slight adjustment to $A_d$'s construction. First we take $\alpha$ as before, since our expenditure matrix (which represents the same vertex set) doesn't change. Then we define a function $g:\mathbb{R}\to\{0,1\}$:
 
@@ -489,6 +492,122 @@ Second, when we constructed our proof of WGARP, we noted that "since we know tha
 
 Thus, we have: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. The first statement simply means the main diagonal of $(\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}\times A_s)$ is a zero vector and the second statement is the condition for passing GARP, hence our proof is complete (since $A\iff B$ is the same as $B\iff A$).
 \end{proof}
+
+\section{CCEI with Graph Theoretical Approach}
+
+The following section explores a method to use graph theory and weighted adjacency matrices to obtain a CCEI score for each consumer. 
+\bigskip
+
+\textbf{Idea:} The main idea here is that we can reconsider our graphs $G_d, G_s$ to make them into weighted graphs that reflect the extent to which a bundle is (strictly) directly revealed preferred to another one. We then use the information obtained from these new graphs to calculate a CCEI score associated with our dataset $(\mathcal{X},\mathcal{P})$.
+\bigskip
+
+Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ as before. Then let us set up $G_d$ and $G_s$ but for each $e_d\in E_d$ and $e_s\in E_s$, define functions $W_d:E_d\to\mathbb{R}$ and $W_s:E_s\to\mathbb{R}$, respectively, so that $W_d(e_d)$ is the weight of edge $e_d$ and $W_s(e_s)$ is the weight of edge $e_s$. Let us rigorously define our weight functions.
+\bigskip
+
+Let $e_d\in E_d$. Then we know that, for $i\not=j$, $e_d=(X_i, X_j)$ such that $X_i R_D X_j$, which means $P_iX_i\geq P_iX_j$. We then define $W_d$ such that $W_d(e_d)=\frac{P_iX_i}{P_iX_j}-1$. Note then that all the weights will be non-negative since $P_iX_i\geq P_iX_j$ is needed for the edge to exist. This, however, does raise the issue of edges with weights of zero, which we will address later. Further, let $e_s\in E_s$, we then know that, for $i\not=j$, $e_s=(X_i, X_j)$ such that $X_i R_SD X_j$, which means $P_iX_i>P_iX_j$. Then define $W_s$ such that $W_s(e_s)=\frac{P_iX_i}{P_iX_j}-1$. Note that all edges will have weights $>0$ in this case, as $P_iX_i>P_iX_j$ is needed for the edge to exist.
+\bigskip
+
+Then let's consider our expenditure matrix, as given in the previous section:
+
+\[
+Exp = 
+ \begin{pmatrix}
+  P_1X_1 & P_2X_1 & \cdots & P_kX_1 \\
+  P_1X_2 & P_2X_2 & \cdots & P_kX_2 \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  P_1X_k & P_2X_k & \cdots & P_kX_k
+ \end{pmatrix}
+\]
+
+Similarly, we also retrieve a second matrix, $Exp_{diag}$ from it:
+
+\[
+Exp_{diag} = 
+ \begin{pmatrix}
+  P_1X_1 & P_2X_2 & \cdots & P_kX_k \\
+  P_1X_1 & P_2X_2 & \cdots & P_kX_k \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  P_1X_1 & P_2X_2 & \cdots & P_kX_k
+ \end{pmatrix}
+\]
+
+We then create a matrix $Q$ such that:
+
+\[
+Q = Exp_{diag} \varoslash Exp - 
+ \begin{pmatrix}
+  1 & \cdots & 1 \\
+  \vdots & \ddots & \vdots \\
+  1 & \cdots & 1
+ \end{pmatrix}
+\]
+
+Since the "$\varoslash$" means division by element, and we know that both $Exp_{diag}, Exp$ are both positive matrices with no zero element (prices are clearly always positive, and all we need is that the quantity vector has at least one non-zero element in it, which we can assume), we get the following:
+
+\[
+Q = 
+ \begin{pmatrix}
+  0 & q_{1,2} & \cdots & q_{1,k} \\
+  q_{2,1} & 0 & \cdots & q_{2,k} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  q_{k,1} & q_{k,2} & \cdots & 0
+ \end{pmatrix} =
+ \begin{pmatrix}
+ 0 & \frac{P_2X_2}{P_2X_1}-1 & \cdots & \frac{P_kX_k}{P_kX_1}-1 \\[6pt]
+ \frac{P_1X_1}{P_1X_2}-1 & 0 & \cdots & \frac{P_kX_k}{P_kX_2}-1 \\[6pt]
+ \vdots & \vdots & \ddots & \vdots \\[6pt]
+ \frac{P_1X_1}{P_1X_k}-1 & \frac{P_2X_2}{P_2X_k}-1 & \cdots & 0
+ \end{pmatrix}
+\]
+
+Then we define two functions, $d:\mathbb{R}\to\mathbb{R}$ and $s:\mathbb{R}\to\mathbb{R}$, as follows:
+
+\begin{minipage}{.5\linewidth}
+\[ 
+d(x)=
+ \begin{cases} 
+   x & x\geq0 \\
+    0 & x<0
+ \end{cases}
+\]
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+\[
+s(x)=
+    \begin{cases} 
+      x & x>0 \\
+      0 & x\leq0
+   \end{cases}
+\]
+\end{minipage}
+
+Note that $d$ and $s$ are functions that will be applied to $Q$ for it to reflect the extent of either direct and strictly direct revealed preferences, with 0 being non-(strictly) directly revealed preferred. We then can define our adjacency matrices, $\Omega_d$ and $\Omega_s$ as follows (by applying $d,s$ to each element excpept the diagonals):
+
+\[
+\Omega_d =
+	\begin{pmatrix}
+	0 & d(q_{1,2}) & \cdots & d(q_{1,k}) \\
+    d(q_{2,1}) & 0 & \cdots & d(q_{2,k}) \\
+    \vdots & \vdots & \ddots & \vdots \\
+    d(q_{k,1}) & d(q_{k,2}) & \cdots & 0
+	\end{pmatrix}^T
+\]
+
+\[
+\Omega_s =
+	\begin{pmatrix}
+	0 & s(q_{1,2}) & \cdots & s(q_{1,k}) \\
+    s(q_{2,1}) & 0 & \cdots & s(q_{2,k}) \\
+    \vdots & \vdots & \ddots & \vdots \\
+    s(q_{k,1}) & s(q_{k,2}) & \cdots & 0
+	\end{pmatrix} ^T
+\]
+
+Note that these are awfully similar to $A_d$ and $A_s$ in the previous section except that the matrix is no longer filled with binary elements but actually capture the extent of each preference. We shall briefly go over the reasoning behind why $\Omega_d$ is in fact the weighted adjacency matrix and thus the reader should follow similar logic to understand $\Omega_s$ as well.
+
+\begin{itemize}
+	\item
+\end{itemize}
 
 \bibliographystyle{plainnat}
 \bibliography{bibliography}
