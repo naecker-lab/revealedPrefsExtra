@@ -39,8 +39,8 @@ We say that $X$ is \textbf{strictly directly revealed preferred (SDRP)} to $Y$ i
 \end{definition}
 
 \begin{definition}
-Consider three bundles, $X$, $Y$, and $Z$. Then $X$ is \textbf{indirectly revealed preferred (IRP)} to $Z$ if $X$ is directly revealed preferred to $Y$ and $Y$ is directly revealed preferred to $Z$.
-\todo{Update to allow for chains of arbitrary length.}
+Consider $k$ bundles, $X_1, X_2, \ldots, X_k$. Then, for $i,j\in\{1,\ldots,k\}$ such that $i\not=j$, $X_i$ is \textbf{indirectly revealed preferred (IRP)} to $X_j$ if there exists some sequence $\{X^m_k\}_{m=1}^{M}$ such that $X^m_k$ DRP $X^{m+1}_k$, $X_i$ DRP $X^1_k$ and $X^M_k$ DRP $X_j$.
+\todo{Update to allow for chains of arbitrary length. \checkmark}
 \end{definition}
 
 \begin{definition}
@@ -98,8 +98,8 @@ constraint must be relaxed in order to remove all violations of GARP. Lower valu
 \end{definition}
 
 \section{Calculating the CCEI (upperbound)}
-Suppose for an individual, we have $X_{1}, X_{2}, \ldots, X_{k}$ vectors representing $k$ bundles of $n$ goods chosen at $k$ different times so that $X_{i}\in\mathbb{R}^{n}_{+}$ for all $i\in\{1,2,\ldots,k\}$. Note that the technical notation can get a bit muddy, as $X_{i}=(x_{i_{1}}, x_{i_{2}}, \ldots, x_{i_{n}})$ where $x_{i_{j}}$ represents the quantity of good $j$ bought at time $i$. We also have $P_{1}, P_{2}, \dots, P_{k}$ vectors representing $k$ sets of available prices of $n$ goods at $k$ different times of that $P_{i}\in\mathbb{R}^{n}_{++}$ for all $i\in\{1,2,\ldots,k\}$. Similarly, $P_{i}=(p_{i_{1}}, p_{i_{2}}, \ldots, p_{i_{n}})$ where $p_{i_{j}}$ represents the price of good $j$ at time $i$.
-\todo{Change notation here to have side-by-side subscripts instead of sub-subscripts, ie $p_{ij}$ instead of $p_{i_{j}}$.}
+Suppose for an individual, we have $X_{1}, X_{2}, \ldots, X_{k}$ vectors representing $k$ bundles of $n$ goods chosen at $k$ different times so that $X_{i}\in\mathbb{R}^{n}_{+}$ for all $i\in\{1,2,\ldots,k\}$. Note that the technical notation can get a bit muddy, as $X_{i}=(x_{i1}, x_{i2}, \ldots, x_{in})$ where $x_{ij}$ represents the quantity of good $j$ bought at time $i$. We also have $P_{1}, P_{2}, \dots, P_{k}$ vectors representing $k$ sets of available prices of $n$ goods at $k$ different times so that $P_{i}\in\mathbb{R}^{n}_{++}$ for all $i\in\{1,2,\ldots,k\}$. Similarly, $P_{i}=(p_{i1}, p_{i2}, \ldots, p_{in})$ where $p_{ij}$ represents the price of good $j$ at time $i$.
+\todo{Change notation here to have side-by-side subscripts instead of sub-subscripts, ie $p_{ij}$ instead of $p_{i_{j}}$. \checkmark}
 
 
 We then say $\forall i,j\in\{1,2,\ldots,k\}$ such that $i\not=j$, let:
@@ -121,15 +121,20 @@ We note that $\forall i,j\in\{1,2,\ldots,k\}$ such that $i\not=j$, $d_{ij}<0$ if
 Essentially, $d_{ij}$ perfectly captures whether there is a strictly directly revealed preference conflict between bundles $X_{i}$ and $X_{j}$. Moreover, $d_{ij}$ also captures the degree of the less ``egregious" violation. That is, if $X_{i}$ is way more strictly directly revealed preferred to $X_{j}$ than $X_{j}$ is strictly directly revealed preferred to $X_{i}$, (i.e. if $D_{ij}<<0$ and $D_{ji}<0$), the second preference that caused the violation is less severe and can be more easily "fixed". Since $d_{ij}=max\{D_{ij}, D_{ji}\}<0$, the lesser violation $D_{ji}$ is captured instead.
 
 We then let:
-$$
-e_{ij}=1-\max\{0,-d_{ij}\}
-$$\todo{Redefine this with piecewise function instead of $\max$}
+
+\[
+e_{ij}=
+\begin{cases}
+1 & d_{ij}\geq0 \\
+1+d_{ij} & d_{ij}<0
+\end{cases}
+\]
+\todo{Redefine this with piecewise function instead of $\max$ \checkmark}
 
 $e_{ij}$ is called the cross cost efficiency index between bundles $X_{i}$ and $X_{j}$. Note that if $d_{ij}\geq0$, then $-d_{ij}\leq0$ and we would get $e_{ij}=(1-0)=1$. Thus, if there are no strictly directly revealed preference conflicts between $X_{i}$ and $X_{j}$, we would get $e_{ij}=1$. If we have such a violation, then $-d_{ij}>0$ and hence we would get $e_{ij}=1+d_{ij}$ (note that $0<e_{ij}<1$ since $d_{ij}<0$). We claim that, by letting $\hat{ P_iX_i}=e_{ij}\cdot P_iX_i$ and $\hat{P_jX_j}=e_{ij}\cdot P_jX_j$ and using those values to recalculate a $\hat{d_{ij}}$, we would have $\hat{d_{ij}}\geq0$ and hence there are no strictly directly revealed preference violations. This can be seen in the example section and will be proved more rigorously towards the end of this manual. For now, it suffices to note that the lower the value of $e_{ij}$, the harder it is to ``fix" the violation between $X_{i}$ and $X_{j}$.
 
 
 We then let:
-
 $$e^{*}=\min_{\forall i,j, i\not=j}\{e_{ij}\}$$
 
 $e^{*}$, as given above, would resolve all strictly directly revealed preference violations. The lowest value of $e_{ij}$ for all $i,j\in\{1,2,\ldots,k\}$ would solve the most ``egregious" cross bundle violation and would obviously solve all other remaining cross bundle violations.
@@ -232,26 +237,18 @@ Let's begin by looking at the problem with a new perspective. Let $\mathcal{X}=\
 
 
 \begin{minipage}{.5\linewidth}
-$$G_d=\{V,E_d\}$$
+$$G_d=\{\mathcal{X},E_d\}$$
 \end{minipage}%
 \begin{minipage}{.5\linewidth}
-$$G_s=\{V,E_s\}$$
+$$G_s=\{\mathcal{X},E_s\}$$
 \end{minipage}
 
 
 where:
-
-$$V=\{(X_i,P_i)\ |\ \forall i\in\{1,\ldots,k\}\}\subseteq \mathcal{X}\times\mathcal{P}$$
-
-
-such that $V_{i}=(X_i,P_i)$ fully captures all information about the bundle (both quantity and price) at time $i$. $V$ is then the vertex set for both the graphs. Then consider the following edge sets:
-
 $$E_d=\{(V_i,V_j)\ |\ X_i R_D X_j,\ i.e.\ P_iX_i\geq P_iX_j,\ i\not=j\}$$
 
 $$E_s=\{(V_i,V_j)\ |\ X_i R_{SD} X_j,\ i.e.\ P_iX_i> P_iX_j,\ i\not=j\}$$
-
-(Note it might be better to just make the vertex set the set of $\mathcal{X}$ instead, but to be safe I just did an ordered pair between quantity and price).\todo{Lets make the vertexes just the bundles, not the prices.}
-
+\todo{Lets make the vertexes just the bundles, not the prices. \checkmark}
 
 Then, it's apparent that $G_d$ is the directed graph for all directly revealed preference relationships and $G_s$ is the direct graph for all \textit{strictly} directly revealed preference relationships. If there's a path / edge from $V_i$ to $V_j$, we have $X_i$ is (strictly) directly revealed preferred to $X_j$ depending on the graph. Further, we shall note that $E_s\subseteq E_d$, as obviously all strictly directly revealed preferred relationships are directly revealed preferred.
 
@@ -501,10 +498,10 @@ The following section explores a method to use graph theory and weighted adjacen
 \textbf{Idea:} The main idea here is that we can reconsider our graphs $G_d, G_s$ to make them into weighted graphs that reflect the extent to which a bundle is (strictly) directly revealed preferred to another one. We then use the information obtained from these new graphs to calculate a CCEI score associated with our dataset $(\mathcal{X},\mathcal{P})$.
 \bigskip
 
-Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ as before. Then let us set up $G_d$ and $G_s$ but for each $e_d\in E_d$ and $e_s\in E_s$, define functions $W_d:E_d\to\mathbb{R}$ and $W_s:E_s\to\mathbb{R}$, respectively, so that $W_d(e_d)$ is the weight of edge $e_d$ and $W_s(e_s)$ is the weight of edge $e_s$. Let us rigorously define our weight functions.
+Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ as before. Then let us set up $G_d$ and $G_s$ but for each $e_d\in E_d$ and $e_s\in E_s$, define a function $W:E_d \cup E_s\to\mathbb{R}_{\geq0}$ so that $W(e_d)$ is the weight of edge $e_d$ and $W(e_s)$ is the weight of edge $e_s$. Let us rigorously define our weight functions.
 \bigskip
 
-Let $e_d\in E_d$. Then we know that, for $i\not=j$, $e_d=(X_i, X_j)$ such that $X_i R_D X_j$, which means $P_iX_i\geq P_iX_j$. We then define $W_d$ such that $W_d(e_d)=\frac{P_iX_i}{P_iX_j}-1$. Note then that all the weights will be non-negative since $P_iX_i\geq P_iX_j$ is needed for the edge to exist. This, however, does raise the issue of edges with weights of zero, which we will address later. Further, let $e_s\in E_s$, we then know that, for $i\not=j$, $e_s=(X_i, X_j)$ such that $X_i R_SD X_j$, which means $P_iX_i>P_iX_j$. Then define $W_s$ such that $W_s(e_s)=\frac{P_iX_i}{P_iX_j}-1$. Note that all edges will have weights $>0$ in this case, as $P_iX_i>P_iX_j$ is needed for the edge to exist.
+Let $e_d \in E_d \subseteq E_d\cup E_s$. Then we know that, for $i\not=j$, $e_d=(X_i, X_j)$ such that $X_i R_D X_j$, which means $P_iX_i\geq P_iX_j$. We define $W$ such that $W(e_d)=\frac{P_iX_i}{P_iX_j}-1$. Note then that all the weights will be non-negative since $P_iX_i\geq P_iX_j$ is needed for the edge to exist. This, however, does raise the issue of edges with weights of zero, which we will address later. Further, let $e_s\in E_s\subseteq E_d\cup E_s$, we then know that, for $i\not=j$, $e_s=(X_i, X_j)$ such that $X_i R_{SD} X_j$, which means $P_iX_i>P_iX_j$. Then $W(e_s)=\frac{P_iX_i}{P_iX_j}-1$. Note that all edges will have weights $>0$ in this case, as $P_iX_i>P_iX_j$ is needed for the edge to exist.
 \bigskip
 
 Then let's consider our expenditure matrix, as given in the previous section:
@@ -567,7 +564,7 @@ Then we define two functions, $d:\mathbb{R}\to\mathbb{R}$ and $s:\mathbb{R}\to\m
 d(x)=
  \begin{cases} 
    x & x\geq0 \\
-    0 & x<0
+    -1 & x<0
  \end{cases}
 \]
 \end{minipage}
@@ -576,7 +573,7 @@ d(x)=
 s(x)=
     \begin{cases} 
       x & x>0 \\
-      0 & x\leq0
+      -1 & x\leq0
    \end{cases}
 \]
 \end{minipage}
@@ -585,30 +582,74 @@ Note that $d$ and $s$ are functions that will be applied to $Q$ for it to reflec
 
 \[
 \Omega_d =
-	\begin{pmatrix}
-	0 & d(q_{1,2}) & \cdots & d(q_{1,k}) \\
-    d(q_{2,1}) & 0 & \cdots & d(q_{2,k}) \\
+  \begin{pmatrix}
+  -1 & d(q_{1,2}) & \cdots & d(q_{1,k}) \\
+    d(q_{2,1}) & -1 & \cdots & d(q_{2,k}) \\
     \vdots & \vdots & \ddots & \vdots \\
-    d(q_{k,1}) & d(q_{k,2}) & \cdots & 0
-	\end{pmatrix}^T
+    d(q_{k,1}) & d(q_{k,2}) & \cdots & -1
+  \end{pmatrix}^T
 \]
 
 \[
 \Omega_s =
-	\begin{pmatrix}
-	0 & s(q_{1,2}) & \cdots & s(q_{1,k}) \\
-    s(q_{2,1}) & 0 & \cdots & s(q_{2,k}) \\
+  \begin{pmatrix}
+  -1 & s(q_{1,2}) & \cdots & s(q_{1,k}) \\
+    s(q_{2,1}) & -1 & \cdots & s(q_{2,k}) \\
     \vdots & \vdots & \ddots & \vdots \\
-    s(q_{k,1}) & s(q_{k,2}) & \cdots & 0
-	\end{pmatrix} ^T
+    s(q_{k,1}) & s(q_{k,2}) & \cdots & -1
+  \end{pmatrix} ^T
 \]
 
-Note that these are awfully similar to $A_d$ and $A_s$ in the previous section except that the matrix is no longer filled with binary elements but actually capture the extent of each preference. We shall briefly go over the reasoning behind why $\Omega_d$ is in fact the weighted adjacency matrix and thus the reader should follow similar logic to understand $\Omega_s$ as well.
-
+Note that these are awfully similar to $A_d$ and $A_s$ in the previous section except that the matrix is no longer filled with binary elements but actually capture the extent of each preference and the diagonals are now $-1$'s instead of $0$'s. Recall that in $\Omega_d$, in the case that $\frac{P_iX_i}{P_iX_j}-1=0$ (i.e. $P_iX_i=P_iX_j$), we have an edge with zero weight. But since we still want the edge there, we will represent all the cases in which there are \textit{no} edges with $-1$'s in the adjacency matrix. For consistency's sake, we will maintain the same rule for $\Omega_s$ even though the problem doesn't necesarrily apply. We shall briefly go over the reasoning behind why $\Omega_d$ is in fact the weighted adjacency matrix. The reader should follow similar logic to understand $\Omega_s$ as well.
 \begin{itemize}
-	\item
+  \item We first see that $\Omega_{d_{i,j}}$ is in fact $d(q_{j,i})$.
+  \item If $\Omega_{d_{i,j}}=d(q_{j,i})=-1$, we have $q_{j,i}<0$ and hence $\frac{P_iX_i}{P_iX_j}-1<0$ and thus $P_iX_i<P_iX_j$. We then get $\neg(X_i R_D X_j)$ so there's no edge between $X_i$ and $X_j$. Hence $\Omega_{d_{i,j}}=-1$, as desired.
+  \item If $\Omega_{d_{i,j}}=d(q_{j,i})\geq0$, we then have $q_{j,i}\geq0$ and hence $\frac{P_iX_i}{P_iX_j}-1\geq0$ and thus $P_iX_i\geq P_iX_j$. Thus we have an edge between $X_i$ and $X_j$ for $i\not=j$, as $X_iR_D X_j$ by definition. We then note that $d$ is in fact a bijective function for values $\geq0$ and that since $q_{j,i}\geq0$, we have that $d(q_{j,i})=q_{j,i}$ Following definitions, we get $\Omega_{d_{i,j}}=d(q_{j,i})=q_{j,i}=\frac{P_iX_i}{P_iX_j}-1\geq0$, which are precisely the weights we wanted with the $W_d$ function defined earlier.
 \end{itemize}
+Let $X_i$ and $X_j$ be two nodes (bundles) for $i,j\in\{1,\ldots,k\}$ such that $i\not=j$. If $(X_i, X_j)\in E_d \cup E_s (=E_d)$ (i.e. $X_i$ is at least directly revealed preferred to $X_j$ and that $E_s\subseteq E_d$), we then know that, for $e_d=(X_i, X_j)\in E_d$, $W(e_d)=\frac{P_iX_i}{P_iX_j}-1\geq0$. Then, we claim that $\exists c_{ij}\in[0,1]$ such that $c_{ij}\frac{P_iX_i}{P_iX_j}-1=0$. Intuitively, we say that for some bundle $i$ that we know is at least directly revealed preferred (and thus have to be SDRP, by definition) to bundle $j$, we can find some $c_{ij}$ that "shrinks" the budget of $i$ by an amount such that bundle $i$ is no longer strictly directly revealed preferred to bundle $j$ (but still directly revealed preferred). We then know that $\forall\varepsilon>0$, $(c_{ij}-\varepsilon)\frac{P_iX_i}{P_iX_j}-1<0$ and hence $(c_{ij}-\varepsilon)$ will shrink bundle $i$ to be no longer directly revealed preferred to bundle $j$ (I'm actually not sure about this claim, need to discuss with an analysis professor). Putting in graph theory context, we're shrinking the price vector by a constant before "multiplying" it to the quantity vector, therefore changing the relationship between nodes $X_i$ and $X_j$. We can see this easily by rearranging our equation with vector operation rules: $\frac{(c_{ij}P_i)X_i}{P_iX_j}-1=0$. Now we shall prove our claim of $c_{ij}$'s existence.
 
+
+
+\bigskip
+
+\textbf{Claim:} For $i,j\in\{1,\ldots,k\}$ such that $i\not=j$, let $e_d=(X_i,X_j)\in E_d$ and $W(e_d)=\frac{P_iX_i}{P_iX_j}-1\geq0$ be the weight of $e_d$ as defined. Then $c_{ij}=\frac{1}{W(e_d)+1}$ is the constant such that $c_{ij}\frac{P_iX_i}{P_iX_j}-1=0$.
+
+\begin{proof}
+First, note that $W(e_d)\in \mathbb{R}_{\geq0}$ and thus $c_{ij}=\frac{1}{W(e_d)+1}\in[0,1]$. Then, by assumption, we let $W(e_d)=\frac{P_iX_i}{P_iX_j}-1$. Thus: $$c_{ij}=\frac{1}{(\frac{P_iX_i}{P_iX_j}-1)+1}=\frac{1}{\frac{P_iX_i}{P_iX_j}}=\frac{P_iX_j}{P_iX_i}$$ 
+We then have: $$c_{ij}\frac{P_iX_i}{P_iX_j}-1=\frac{P_iX_j}{P_iX_i}\frac{P_iX_i}{P_iX_j}-1=1-1=0$$
+which concludes our proof.
+\end{proof}
+
+\textbf{What does this buy us?}
+
+Note that for all edges, $W((X_i, X_j))$ is the $(i,j)^{th}$ element of the adjacency matrix in which the edge exists. In the case, if $X_i$ and $X_j$ are the nodes that present a conflict that violates GARP, we can find $\omega_{ij}=min\{W((X_i, X_j)), W((X_j, X_i))\}$ and calculate a $c_{ij}$ such that, $\forall\varepsilon>0$, $c_{ij}-\varepsilon$ completely solves the violation. The following paragraphs will detail and prove how this process is possible.
+\bigskip
+
+We now define function $\lambda:\mathbb{R}^{m\times m} \times \mathbb{R}^{m\times m} \to \mathbb{R}^{m\times m}$ as follows:
+
+Let $X,Y$ be $(m\times m)$ matrices and let $\lambda(X,Y)=Z$, then:
+$$z_{i,j}=max\{min\{x_{i,1}, y_{1,j}\}, min\{x_{i,2}, y_{2,j}\}, \ldots, min\{x_{i,m}, y_{m,j}\}\}$$
+where $z_{i,j}$ is the $(i,j)^{th}$ element of $Z$. note that this is similar with matrix multiplication in that we consider the $i^{th}$ row of $X$ and $j^{th}$ column of $Y$, but instead of pairwise multiplication and overall summation (i.e. dot product), we take pairwise minimum and overall maximum. 
+\bigskip
+
+We can then test for the extent of each WGARP violation by looking at the diagonals of $\lambda(\Omega_d, \Omega_s)$. This can be seen in the following two claims and their respective proofs.
+\bigskip
+
+\textbf{Claim:} The data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $\lambda(\Omega_d, \Omega_s)$ is a vector of $-1$'s, i.e.:
+
+\[
+diag(\lambda(\Omega_d, \Omega_s))
+\begin{pmatrix}
+-1 \\
+-1 \\
+\vdots \\
+-1
+\end{pmatrix}
+\]
+
+\begin{proof}
+
+\end{proof}
 \bibliographystyle{plainnat}
 \bibliography{bibliography}
 
