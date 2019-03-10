@@ -245,27 +245,27 @@ $$G_s=\{\mathcal{X},E_s\}$$
 
 
 where:
-$$E_d=\{(V_i,V_j)\ |\ X_i R_D X_j,\ i.e.\ P_iX_i\geq P_iX_j,\ i\not=j\}$$
+$$E_d=\{(X_i,X_j)\ |\ X_i R_D X_j,\ i.e.\ P_iX_i\geq P_iX_j,\ i\not=j\}$$
 
-$$E_s=\{(V_i,V_j)\ |\ X_i R_{SD} X_j,\ i.e.\ P_iX_i> P_iX_j,\ i\not=j\}$$
+$$E_s=\{(X_i,X_j)\ |\ X_i R_{SD} X_j,\ i.e.\ P_iX_i> P_iX_j,\ i\not=j\}$$
 \todo{Lets make the vertexes just the bundles, not the prices. \checkmark}
 
-Then, it's apparent that $G_d$ is the directed graph for all directly revealed preference relationships and $G_s$ is the direct graph for all \textit{strictly} directly revealed preference relationships. If there's a path / edge from $V_i$ to $V_j$, we have $X_i$ is (strictly) directly revealed preferred to $X_j$ depending on the graph. Further, we shall note that $E_s\subseteq E_d$, as obviously all strictly directly revealed preferred relationships are directly revealed preferred.
+We have our edge set $\mathcal{X}$ for both graphs. Then, it's apparent that $G_d$ is the directed graph for all directly revealed preference relationships and $G_s$ is the direct graph for all \textit{strictly} directly revealed preference relationships. If there's a path / edge from $X_i$ to $X_j$, we have $X_i$ is (strictly) directly revealed preferred to $X_j$ depending on the graph. Further, we shall note that $E_s\subseteq E_d$, as obviously all strictly directly revealed preferred relationships are directly revealed preferred.
 
 
 We can then characterize our axioms with the following simple definitions:
 
 
-\textbf{WARP:} If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_d$.
+\textbf{WARP:} If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_d$.
 
 
-\textbf{SARP:} If $(\mathcal{X},\mathcal{P})$ passes SARP, then: $\forall V_i \in V$, there exists no directed walk from $V_i$ back to itself (I believe this is called a directed cycle, not quite sure on the exact terminology in graph theory).
+\textbf{SARP:} If $(\mathcal{X},\mathcal{P})$ passes SARP, then: $\forall X_i \in \mathcal{X}$, there exists no directed walk from $X_i$ back to itself (I believe this is called a directed cycle, not quite sure on the exact terminology in graph theory).
 
 
-\textbf{WGARP:} If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_s$.
+\textbf{WGARP:} If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_s$.
 
 
-\textbf{GARP:} If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $V_i$ to $V_j$, then $(V_j,V_i)\not\in E_s$.
+\textbf{GARP:} If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $X_i$ to $X_j$ in $G_d$, then $(X_j,X_i)\not\in E_s$.
 
 
 \section{WARP/SARP with Graph Theoretical Approach}
@@ -335,16 +335,16 @@ We shall briefly explain why this works intuitively:
     \item If $\alpha_{i,j}\leq0$, we know that $P_jX_i-P_jX_j\leq0$ and hence $P_jX_i\leq P_jX_j$
     \item Hence, by definition, we have $X_j R_D X_i$
     \item We conclude that $f(\alpha_{i,j})=1$ exactly when $X_j R_D X_i$
-    \item However, a value of $1$ in $(i,j)$ position would indicate that a directed edge from node $i$ to node $j$, but since we want our edges to indicate directly revealed preferences, we want a value of $1$ at the $(j,i)$ positions. Hence, we take the transpose and get $A_{d_{j,i}}=f(\alpha_{i,j})=1$ if and only if $X_j R_D X_i$, which is our desired adjacency matrix.
+    \item However, a value of $1$ in $(i,j)$ position would indicate that a directed edge from vertex $i$ to vertex $j$, but since we want our edges to indicate directly revealed preferences, we want a value of $1$ at the $(j,i)$ positions. Hence, we take the transpose and get $A_{d_{j,i}}=f(\alpha_{i,j})=1$ if and only if $X_j R_D X_i$, which is our desired adjacency matrix.
 \end{itemize}
 
 Now we're ready to use matrix operations on $A_d$ to easily test for WARP and SARP.
 
 
-We know that the number of directed walks from any node $i$ to node $j$ of length $k$ is given by $A^k_d$ for adjacency matrix $A_d$ (this can be proven by induction). 
+We know that the number of directed walks from any vertex $i$ to vertex $j$ of length $k$ is given by $A^k_d$ for adjacency matrix $A_d$ (this can be proven by induction). 
 
 
-\textbf{WARP:} We defined WARP requirements as followed: If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_d$. Note that this is true exactly when there \textit{isn't} a directed walk of length 2 from any node $i$ back to itself (node $i$). Hence we say $(\mathcal{X},\mathcal{P})$ passes WARP if and only if the main diagonal of matrix $A_d^2$ is a vector of 0, i.e.
+\textbf{WARP:} We defined WARP requirements as followed: If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_d$. Note that this is true exactly when there \textit{isn't} a directed walk of length 2 from any vertex $i$ back to itself (vertex $i$). Hence we say $(\mathcal{X},\mathcal{P})$ passes WARP if and only if the main diagonal of matrix $A_d^2$ is a vector of 0, i.e.
 
 \[
 diag(A_d^2) =
@@ -356,11 +356,11 @@ diag(A_d^2) =
  \end{pmatrix}
 \]
 
-\textbf{SARP:} We defined SARP requirements as followed: If $(\mathcal{X},\mathcal{P})$ passes SARP, then: $\forall V_i \in V$, there exists no directed walk from $V_i$ back to itself. So we have to account for walks of \textit{any length}. Consider the following:
+\textbf{SARP:} We defined SARP requirements as followed: If $(\mathcal{X},\mathcal{P})$ passes SARP, then: $\forall X_i \in \mathcal{X}$, there exists no directed walk from $X_i$ back to itself. So we have to account for walks of \textit{any length}. Consider the following:
 
 $$B_d=\sum_{i=2}^{k}A_d^i$$
 
-$B_d$'s $(i,j)^{th}$ element the number of directed walks of at least length 2 (since the maximum length of a walk is $k$ without looping around again, the cardinality of the vertex set) from node $i$ to node $j$. The values of the main diagonal is then the number of directed walks of any length (at least 2) from node $i$ back to itself. Then $(\mathcal{X},\mathcal{P})$ passes SARP if and only if the main diagonal of matrix $B_d=\sum_{i=2}^{k}A_d^i$ is a vector of 0, i.e.:
+$B_d$'s $(i,j)^{th}$ element the number of directed walks of at least length 2 (since the maximum length of a walk is $k$ without looping around again, the cardinality of the vertex set) from vertex $i$ to vertex $j$. The values of the main diagonal is then the number of directed walks of any length (at least 2) from vertex $i$ back to itself. Then $(\mathcal{X},\mathcal{P})$ passes SARP if and only if the main diagonal of matrix $B_d=\sum_{i=2}^{k}A_d^i$ is a vector of 0, i.e.:
 
 \[
 diag(B_d) = diag(\sum_{i=2}^{k}A_d^i)=
@@ -405,7 +405,7 @@ The reasoning behind how $A_s$ works is the same as the rationale behind $A_d$ e
 \textit{Claim:} A data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $A_d\times A_s$ is a vector of 0.
 
 \begin{proof}
-Recall that: If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(V_i,V_j)\in E_d$, then $(V_j, V_i)\not\in E_s$. Which, when put in context of adjacency matrices, means that $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(i,j)^{th}$ position of $A_d$ ($A_{d_{i,j}}$) is equal to one, then the $(j,i)^{th}$ position of $A_s$ ($A_{s_{i,j}}$) cannot be equal to 1. We then consider $A_d\times A_s$ and its main diagonal. 
+Recall that: If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_s$. Which, when put in context of adjacency matrices, means that $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(i,j)^{th}$ position of $A_d$ ($A_{d_{i,j}}$) is equal to one, then the $(j,i)^{th}$ position of $A_s$ ($A_{s_{i,j}}$) cannot be equal to 1. We then consider $A_d\times A_s$ and its main diagonal. 
 
 
 $\forall i\in\{1,\ldots,k\}$, let $\delta_i$ be the vector of the $i^{th}$ row of $A_d$ and $\xi_i$ be the vector of the $i^{th}$ column of $A_s$. Then we have $(A_d\times A_s)_{i,i}=\delta_i\cdot\xi_i$. Note that $\delta_{i_i}=0$ and $\xi_{i_i}=0$ since originally $A_d$ and $A_s$ have all 0's across their main diagonals.
@@ -475,10 +475,10 @@ Fix an arbitrary $i\in\{1,\ldots,m\}$. Then let $Z_1=X_1\times Y$ and $Z_2=X_2\t
 \textit{Claim:} A data set $(\mathcal{X},\mathcal{P})$ passes GARP if and only if the main diagonal of $\sum_{i=1}^{k-1}A_{d}^{i}\times A_s$ is a vector of 0.
 
 \begin{proof}
-The proof of this will look very similar to the proof of WGARP, except that the elements in $\sum_{i=1}^{k-1}A_{d}^{i}$ will no longer be binary $(\{0,1\})$. However, they are all $\geq0$. Let $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, then $\beta_{d_{i,j}}$ would be the number of directed walks between node $i$ and node $j$ of any length up to $k-1$. Note that we chose to sum up to $k-1$ since anything past that, we would definitely have a cycle and summing past that point is redundant.
+The proof of this will look very similar to the proof of WGARP, except that the elements in $\sum_{i=1}^{k-1}A_{d}^{i}$ will no longer be binary $(\{0,1\})$. However, they are all $\geq0$. Let $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, then $\beta_{d_{i,j}}$ would be the number of directed walks between vertex $i$ and vertex $j$ of any length up to $k-1$. Note that we chose to sum up to $k-1$ since anything past that, we would definitely have a cycle and summing past that point is redundant.
 
 
-We want to make sure that if there's a directed walk from node $i$ to node $j$ in $G_d$, there isn't a directed edge between node $j$ and node $i$ in $G_s$. Formally, this is just our definition for GARP: If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $V_i$ to $V_j$, then $(V_j,V_i)\not\in E_s$. This is similar to WGARP in the sense that we're simply replacing the directed edge in the "if" statement to a directed walk. Note then that we have $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, which captures the existence of any directed walks between any two nodes. Hence if $\beta_{d_{i,j}}>0$, there exists at least 1 directed walk between node $i$ and node $j$ on graph $G_d$. We can then use our proof for WGARP and \textit{Lemma A} to construct the rest of this proof.
+We want to make sure that if there's a directed walk from vertex $i$ to vertex $j$ in $G_d$, there isn't a directed edge between vertex $j$ and vertex $i$ in $G_s$. Formally, this is just our definition for GARP: If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $X_i$ to $X_j$ in $G_d$, then $(X_j,X_i)\not\in E_s$. This is similar to WGARP in the sense that we're simply replacing the directed edge in the "if" statement to a directed walk. Note then that we have $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, which captures the existence of any directed walks between any two verices. Hence if $\beta_{d_{i,j}}>0$, there exists at least 1 directed walk between vertex $i$ and vertex $j$ on graph $G_d$. We can then use our proof for WGARP and \textit{Lemma A} to construct the rest of this proof.
 
 
 In our proof of WGARP, we see that $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$. There are two changes we need to make to this statement to fit our GARP claim. 
@@ -606,7 +606,7 @@ Note that these are awfully similar to $A_d$ and $A_s$ in the previous section e
   \item If $\Omega_{d_{i,j}}=d(q_{j,i})=-1$, we have $q_{j,i}<0$ and hence $\frac{P_iX_i}{P_iX_j}-1<0$ and thus $P_iX_i<P_iX_j$. We then get $\neg(X_i R_D X_j)$ so there's no edge between $X_i$ and $X_j$. Hence $\Omega_{d_{i,j}}=-1$, as desired.
   \item If $\Omega_{d_{i,j}}=d(q_{j,i})\geq0$, we then have $q_{j,i}\geq0$ and hence $\frac{P_iX_i}{P_iX_j}-1\geq0$ and thus $P_iX_i\geq P_iX_j$. Thus we have an edge between $X_i$ and $X_j$ for $i\not=j$, as $X_iR_D X_j$ by definition. We then note that $d$ is in fact a bijective function for values $\geq0$ and that since $q_{j,i}\geq0$, we have that $d(q_{j,i})=q_{j,i}$ Following definitions, we get $\Omega_{d_{i,j}}=d(q_{j,i})=q_{j,i}=\frac{P_iX_i}{P_iX_j}-1\geq0$, which are precisely the weights we wanted with the $W_d$ function defined earlier.
 \end{itemize}
-Let $X_i$ and $X_j$ be two nodes (bundles) for $i,j\in\{1,\ldots,k\}$ such that $i\not=j$. If $(X_i, X_j)\in E_d \cup E_s (=E_d)$ (i.e. $X_i$ is at least directly revealed preferred to $X_j$ and that $E_s\subseteq E_d$), we then know that, for $e_d=(X_i, X_j)\in E_d$, $W(e_d)=\frac{P_iX_i}{P_iX_j}-1\geq0$. Then, we claim that $\exists c_{ij}\in[0,1]$ such that $c_{ij}\frac{P_iX_i}{P_iX_j}-1=0$. Intuitively, we say that for some bundle $i$ that we know is at least directly revealed preferred (and thus have to be SDRP, by definition) to bundle $j$, we can find some $c_{ij}$ that "shrinks" the budget of $i$ by an amount such that bundle $i$ is no longer strictly directly revealed preferred to bundle $j$ (but still directly revealed preferred). We then know that $\forall\varepsilon>0$, $(c_{ij}-\varepsilon)\frac{P_iX_i}{P_iX_j}-1<0$ and hence $(c_{ij}-\varepsilon)$ will shrink bundle $i$ to be no longer directly revealed preferred to bundle $j$ (I'm actually not sure about this claim, need to discuss with an analysis professor). Putting in graph theory context, we're shrinking the price vector by a constant before "multiplying" it to the quantity vector, therefore changing the relationship between nodes $X_i$ and $X_j$. We can see this easily by rearranging our equation with vector operation rules: $\frac{(c_{ij}P_i)X_i}{P_iX_j}-1=0$. Now we shall prove our claim of $c_{ij}$'s existence.
+Let $X_i$ and $X_j$ be two vertices (bundles) for $i,j\in\{1,\ldots,k\}$ such that $i\not=j$. If $(X_i, X_j)\in E_d \cup E_s (=E_d)$ (i.e. $X_i$ is at least directly revealed preferred to $X_j$ and that $E_s\subseteq E_d$), we then know that, for $e_d=(X_i, X_j)\in E_d$, $W(e_d)=\frac{P_iX_i}{P_iX_j}-1\geq0$. Then, we claim that $\exists c_{ij}\in[0,1]$ such that $c_{ij}\frac{P_iX_i}{P_iX_j}-1=0$. Intuitively, we say that for some bundle $i$ that we know is at least directly revealed preferred (and thus have to be SDRP, by definition) to bundle $j$, we can find some $c_{ij}$ that "shrinks" the budget of $i$ by an amount such that bundle $i$ is no longer strictly directly revealed preferred to bundle $j$ (but still directly revealed preferred). We then know that $\forall\varepsilon>0$, $(c_{ij}-\varepsilon)\frac{P_iX_i}{P_iX_j}-1<0$ and hence $(c_{ij}-\varepsilon)$ will shrink bundle $i$ to be no longer directly revealed preferred to bundle $j$ (I'm actually not sure about this claim, need to discuss with an analysis professor). Putting in graph theory context, we're shrinking the price vector by a constant before "multiplying" it to the quantity vector, therefore changing the relationship between vertices $X_i$ and $X_j$. We can see this easily by rearranging our equation with vector operation rules: $\frac{(c_{ij}P_i)X_i}{P_iX_j}-1=0$. Now we shall prove our claim of $c_{ij}$'s existence.
 
 
 
@@ -622,7 +622,7 @@ which concludes our proof.
 
 \textbf{What does this buy us?}
 
-Note that for all edges, $W((X_i, X_j))$ is the $(i,j)^{th}$ element of the adjacency matrix in which the edge exists. In the case, if $X_i$ and $X_j$ are the nodes that present a conflict that violates GARP, we can find $\omega_{ij}=min\{W((X_i, X_j)), W((X_j, X_i))\}$ and calculate a $c_{ij}$ such that, $\forall\varepsilon>0$, $c_{ij}-\varepsilon$ completely solves the violation. The following paragraphs will detail and prove how this process is possible.
+Note that for all edges, $W((X_i, X_j))$ is the $(i,j)^{th}$ element of the adjacency matrix in which the edge exists. In the case, if $X_i$ and $X_j$ are the vertices that present a conflict that violates GARP, we can find $\omega_{ij}=min\{W((X_i, X_j)), W((X_j, X_i))\}$ and calculate a $c_{ij}$ such that, $\forall\varepsilon>0$, $c_{ij}-\varepsilon$ completely solves the violation. The following paragraphs will detail and prove how this process is possible.
 \bigskip
 
 We now define function $\lambda:\mathbb{R}^{m\times m} \times \mathbb{R}^{m\times m} \to \mathbb{R}^{m\times m}$ as follows:
@@ -635,10 +635,10 @@ where $z_{i,j}$ is the $(i,j)^{th}$ element of $Z$. note that this is similar wi
 We can then test for the extent of each WGARP violation by looking at the diagonals of $\lambda(\Omega_d, \Omega_s)$. This can be seen in the following two claims and their respective proofs.
 \bigskip
 
-\textbf{Claim:} The data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $\lambda(\Omega_d, \Omega_s)$ is a vector of $-1$'s, i.e.:
+\textbf{Claim 1:} The data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $\lambda(\Omega_d, \Omega_s)$ is a vector of $-1$'s, i.e.:
 
 \[
-diag(\lambda(\Omega_d, \Omega_s))
+diag(\lambda(\Omega_d, \Omega_s)) =
 \begin{pmatrix}
 -1 \\
 -1 \\
@@ -648,7 +648,38 @@ diag(\lambda(\Omega_d, \Omega_s))
 \]
 
 \begin{proof}
+Recall that: If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_s$. Putting this in context of adjacency matrices, we have: $\forall i,j\in\{1,\ldots,k\}$ such that $i\not=j$, if the $(i,j)^{th}$ element of $\Omega_d$ is greater than or equal to zero, then the $(j,i)^{th}$ element of $\Omega_s$ have to be equal to -1. Thus, we need $(\Omega_{d_{i,j}}\geq0 \implies \Omega_{s_{j,i}}=-1)$ to pass WGARP. This simply means that if there exists some edge between $X_i$ and $X_j$ in $G_d$ (no matter the weight), there cannot exist an edge between $X_j$ and $X_i$ in $G_s$. We then consider $\lambda(\Omega_d, \Omega_s)$ and its diagonal.
+\bigskip
 
+$\forall i\in \{1,\ldots,k\}$, let $\delta^i$ denote the vector of the $i^{th}$ row of $\Omega_d$ and $\xi^i$ be the vector of the $i^{th}$ column of $\Omega_s$. Then we have: $$\lambda(\Omega_d, \Omega_s)_{i,i}=max\{ min\{\delta_1^i, \xi_1^i\}, \ldots, min\{\delta_i^i, \xi_i^i\}, \ldots, min\{\delta_k^i, \xi_k^i\}\}$$
+Note that all elements in $\Omega_d\in \{-1\}\cup\mathbb{R}_{\geq0}$ and all elements in $\Omega_s \{-1\}\cup\mathbb{R}_{>0}$, with $-1$ denoting no edge between two vectices and non-negative (positive in the case of $\Omega_s$) real numbers denoting the weight of an existing edge. Then $\forall i,j\in\{1,\ldots,k\}$, $\delta_j^i,\xi_j^i$ are elements in $\Omega_d$ and $\Omega_s$, respectively, and would be no less than $-1$ by construction. Let $\lambda_j^i=min\{\delta_j^i,\xi_j^i\}$ for $i,j\in\{1,\ldots,k\}$ and we say $\forall i,j\in\{1,\ldots,k\}$, $\lambda_j^i=min\{\delta_j^i,\xi_j^i\}\in\{-1\}\cup\mathbb{R}_{\geq0}$.
+
+We then know that, $\forall i\in \{1,\ldots,k\}$, $\lambda(\Omega_d, \Omega_s)_{i,i}=max\{\lambda_1^i, \ldots, \lambda_i^i, \ldots, \lambda_k^i\}=-1$ if and only if $\forall j\in\{1,\ldots,k\}$, $\lambda_j^i=-1$ since $\lambda_j^i\in\{-1\}\cup\mathbb{R}_{\geq0}$ for all $j$. Further, $\forall j\in\{1,\ldots,k\}$, $\lambda_j^i=-1$ if and only if $min\{\delta_j^i,\xi_j^i\}=-1$. Here we note that $\lambda_i^i$ must equal to $-1$ since $\delta_i^i=\xi_i^i=-1$ (there are no loops in $\Omega_d$ and $\Omega_s$) and thus $min\{\delta_i^i,\xi_i^i\}=-1$. We then have $min\{\delta_j^i,\xi_j^i\}=-1$ if and only if $(\delta_j^i\geq0 \implies \xi_j^i=-1)$, which is true since $\delta_j^i\not=1 \iff \delta_j^i\geq0$ (as $\delta_j^i\in \{-1\}\cup\mathbb{R}_{\geq0}$). By definitions of $\delta_j^i$ and $\xi_j^i$, we then have $(\delta_j\geq0 \implies \xi_j=-1)$ if and only if $(\Omega_{d_{i,j}}\geq0 \implies \Omega_{s_{j,i}}=-1)$ (as $\delta^i$ is the $i^{th}$ row of $\Omega_d$ and $\xi^i$ is the $i^{th}$ \textit{column} of $\Omega_s$). Summarizing, we have:
+\begin{flalign*}
+\forall i\in \{1,\ldots,k\},\ \lambda(\Omega_d, \Omega_s)_{i,i}=-1 &\iff \forall j\in\{1,\ldots,k\},\ \lambda_j^i=-1 &\\
+& \iff min\{\delta_j^i,\xi_j^i\}=-1 &\\
+& \iff (\delta_j^i\geq0 \implies \xi_j^i=-1) &\\
+& \iff (\Omega_{d_{i,j}}\geq0 \implies \Omega_{s_{j,i}}=-1)
+\end{flalign*}
+We then conclude that $\forall i,j\in \{1,\ldots,k\}$ such that $i\not=j$, $\lambda(\Omega_d, \Omega_s)_{i,i}=-1 \iff (\Omega_{d_{i,j}}\geq0 \implies \Omega_{s_{j,i}}=-1)$. Note the first statement means the main diagonal of $\lambda(\Omega_d, \Omega_s)$ is a vector of $-1$'s and the second statement is the condition of passing WGARP. We then have "passing WGARP" $\iff$ "the main diagonal of $\lambda(\Omega_d, \Omega_s)_{i,i}$ is a vector of $-1$'s", which proves our claim.
+\end{proof}
+\bigskip
+
+\textbf{Claim 2:} Let $\Omega_d, \Omega_s$ be such that: 
+
+\[
+diag(\lambda(\Omega_d, \Omega_s)) \not=
+\begin{pmatrix}
+-1 \\
+-1 \\
+\vdots \\
+-1
+\end{pmatrix}
+\]
+and thus the data set fails WGARP. Then, $\forall i\in\{1,\ldots,k\}$, $\lambda(\Omega_d, \Omega_s)_{i,i}$ captures the lesser pairwise weight of the worst WGARP violation involving vertex $i$.
+
+\begin{proof}
+Fix an arbitrary $i\in\{1,\ldots,k\}$ and consider $\lambda(\Omega_d, \Omega_s)_{i,i}$.
 \end{proof}
 \bibliographystyle{plainnat}
 \bibliography{bibliography}
