@@ -9,9 +9,14 @@
       amsthm,
       todonotes, % add to do notes with \todo command
       mathtools,
-      stmaryrd } % this gives us lots of greek symbols
+      stmaryrd,
+      tikz } % this gives us lots of greek symbols
 
 \usepackage[round]{natbib} % extra functionality for citations
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
 
 \setlength\parindent{0pt} % sets indent to zero
 \setlength{\parskip}{10pt} 
@@ -53,7 +58,7 @@ A set of choice data satisfies the \textbf{Weak Axiom of Revealed Preferences (W
 
 \begin{remark}
 If a consumer exhibits maximizing behavior, then their set of choice data will satisfy WARP. However, the converse isn't necessarily true when X and Y represent bundles from commodity spaces higher than two dimensions (i.e. there are more than two available goods and thus, $X$, $Y$, and $P$ are n-dimensional vectors such that $n> 2$)  See \citet{Rose1958Consistency-of-Preference:-The-Two-Commodity-Case}. 
-\todo{Move citation to bibligraphy instead of footnote.}
+\todo{Move citation to bibligraphy instead of footnote. \checkmark}
 \end{remark}
 
 \begin{definition}
@@ -61,8 +66,8 @@ A set of choice data satisfies the \textbf{Strong Axiom of Revealed Preferences 
 \end{definition}
 
 \begin{remark}
-A consumer's set of choice data will satisfy SARP if and only if they exhibit maximizing behavior. 
-\todo{Add citation.}
+A consumer's set of choice data will satisfy SARP if and only if they exhibit maximizing behavior. See \citet{Samuelson1938A-Note-on-the-Pure-Theory-of-Consumer's-Behaviour}.
+\todo{Add citation. \checkmark}
 \end{remark}
 
 \begin{definition}
@@ -483,7 +488,7 @@ We want to make sure that if there's a directed walk from vertex $i$ to vertex $
 
 In our proof of WGARP, we see that $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$. There are two changes we need to make to this statement to fit our GARP claim. 
 
-First, we see that we're no longer working with $A_d$ but working with $\beta_d$, which represents directed walks instead of edges. $\beta_d$ is also no longer filled with binary elements $\in\{0,1\}$. We can tweak our statement to fit these conditions by stating: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. Now, $\beta_{d_{i,j}}>0$ simply means there exists at least one path from $i,j$, which is what we want.
+First, we see that we're no longer working with $A_d$ but working with $\beta_d$, which represents directed walks instead of edges. $\beta_d$ is also no longer filled with binary elements $\in\{0,1\}$. We can tweak our statement to fit these conditions by stating: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. Now, $\beta_{d_{i,j}}>0$ simply means there exists at least one path from $i,j$ regardless of length, which is what we want.
 
 Second, when we constructed our proof of WGARP, we noted that "since we know that $\delta_{i_i}=\xi_{i_i}=0$ (i.e. $A_{d_{i,i}}=0$ and $A_{s_{i,i}}=0$), they won't contributed to the overall sum, which is what we want anyways by the WGARP rules". However, this no longer holds as we could have $\beta_{d_{i,i}}\not=0$ for some $i$ if there's any directed cycles in $G_d$ (but we don't care about those in GARP, per the definition of the axiom). But we do still have $A_{s_{i,i}}=0$ for all $i$ and thus, by \textit{Lemma A}, we don't need to "clear-out" the diagonals of $\beta_d$ before multiplying. Hence, our statement above still holds. 
 
@@ -627,59 +632,131 @@ Note that for all edges, $W((X_i, X_j))$ is the $(i,j)^{th}$ element of the adja
 
 We now define function $\lambda:\mathbb{R}^{m\times m} \times \mathbb{R}^{m\times m} \to \mathbb{R}^{m\times m}$ as follows:
 
-Let $X,Y$ be $(m\times m)$ matrices and let $\lambda(X,Y)=Z$, then:
-$$z_{i,j}=max\{min\{x_{i,1}, y_{1,j}\}, min\{x_{i,2}, y_{2,j}\}, \ldots, min\{x_{i,m}, y_{m,j}\}\}$$
+Let $X,Y$ be $(m\times m)$ matrices and let $\lambda(X,Y)=Z$, then, $\forall i,j\in\{1,\ldots,m\}$:
+$$Z_{i,j}=max\{min\{X_{i,1}, Y_{1,j}\}, min\{X_{i,2}, Y_{2,j}\}, \ldots, min\{X_{i,m}, Y_{m,j}\}\}$$
 where $z_{i,j}$ is the $(i,j)^{th}$ element of $Z$. note that this is similar with matrix multiplication in that we consider the $i^{th}$ row of $X$ and $j^{th}$ column of $Y$, but instead of pairwise multiplication and overall summation (i.e. dot product), we take pairwise minimum and overall maximum. 
 \bigskip
 
-We can then test for the extent of each WGARP violation by looking at the diagonals of $\lambda(\Omega_d, \Omega_s)$. This can be seen in the following two claims and their respective proofs.
-\bigskip
+We further define a function $\lambda_t:(\mathbb{R}^{m\times m})^t\to\mathbb{R}^{m\times m}$ such that for $Y_1,\ldots,Y_t\in \mathbb{R}^{m\times m}$, we have:
 
-\textbf{Claim 1:} The data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $\lambda(\Omega_d, \Omega_s)$ is a vector of $-1$'s, i.e.:
+
 
 \[
-diag(\lambda(\Omega_d, \Omega_s)) =
-\begin{pmatrix}
--1 \\
--1 \\
-\vdots \\
--1
-\end{pmatrix}
+  \lambda_t(Y_1,\ldots, Y_t) =
+    \underbrace{\lambda(\cdots\lambda(\lambda(\lambda(}_\text{t-1 times}
+    Y_1,Y_2),Y_3),Y_4,\ldots, Y_t)
+\]
+
+\textbf{Claim:} $\forall t\in \mathbb{N}_{\geq2}$,
+\[
+  \lambda_t(\underbrace{\Omega_d,\ldots,\Omega_d}_\text{t times})_{i,j}=
+  \begin{cases}
+  -1 & \textrm{if } X_i, X_j\textrm{ are not connected by a walk of }t \textrm{ edges} \\
+  & \textrm{on }G_d \\
+  \rho_{i,j} & \textrm{such that }\rho_{i,j}\textrm{ is the weight of the strongest edge } \\
+  &\textrm{among the weakest edges of all walks of } t \textrm{ edges} \\
+  & \textrm{from }X_i\textrm{ to }X_j \textrm{ on } G_d
+  \end{cases}
+\]
+We abbreviate $\lambda_t(\Omega_d,\ldots,\Omega_d)=\lambda_t(\Omega_d)$. Then, we formally write:
+\[
+  \lambda_t(\Omega_d)_{i,j}=
+  \begin{cases}
+  -1 & \textrm{if } \nexists (X^v)_{v=1}^{n-1} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
+  & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
+  & (X^{n-1},X_j)\in E_d\\ 
+  \rho_{i,j} & \textrm{if }\exists (X^{uv})_{u,v=1}^{u=U,\ v=n-1}\ (\textrm{for some }U\geq1) \\
+  & \textrm{such that }\forall u,\ \forall v,\ X^{uv}\in\mathcal{X} \textrm{ and } \\
+  & (X^{uv},X^{u(v+1)})\in E_d, (X_i, X^{u1})\in E_d \textrm{ and } \\
+  & (X^{u(n-1)},X_j)\in E_d, \textrm{ then: } \\
+  & \rho_{i,j}=max\Big\{min\big\{W(X_i,X^{u1}),W(X^{uv},X^{u(v+1)}), \\
+  & W(X^{u(n-1)},X_j)\ |\ v\in\{1,\ldots,n-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\}, \\
+  &\textrm{where } W\textrm{ is the weight function, as defined previously}
+  \end{cases}
+\]
+Intuitively, we say:
+\[
+  \lambda_t(\Omega_d)_{i,j}=
+  \begin{cases}
+  -1 & \textrm{if bundles }X_i \textrm{ and }X_j\textrm{ are not connected by a} \\
+  & \textrm{preference chain of length } t\\
+  \rho_{i,j} & \textrm{where }\rho_{i,j}\textrm{ is the largest weight across the weights} \\
+  & \textrm{of the smallest preference in each preference chain }
+  \end{cases}
 \]
 
 \begin{proof}
-Recall that: If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_s$. Putting this in context of adjacency matrices, we have: $\forall i,j\in\{1,\ldots,k\}$ such that $i\not=j$, if the $(i,j)^{th}$ element of $\Omega_d$ is greater than or equal to zero, then the $(j,i)^{th}$ element of $\Omega_s$ have to be equal to -1. Thus, we need $(\Omega_{d_{i,j}}\geq0 \implies \Omega_{s_{j,i}}=-1)$ to pass WGARP. This simply means that if there exists some edge between $X_i$ and $X_j$ in $G_d$ (no matter the weight), there cannot exist an edge between $X_j$ and $X_i$ in $G_s$. We then consider $\lambda(\Omega_d, \Omega_s)$ and its diagonal.
-\bigskip
+We approach this with proof by induction.
 
-$\forall i\in \{1,\ldots,k\}$, let $\delta^i$ denote the vector of the $i^{th}$ row of $\Omega_d$ and $\xi^i$ be the vector of the $i^{th}$ column of $\Omega_s$. Then we have: $$\lambda(\Omega_d, \Omega_s)_{i,i}=max\{ min\{\delta_1^i, \xi_1^i\}, \ldots, min\{\delta_i^i, \xi_i^i\}, \ldots, min\{\delta_k^i, \xi_k^i\}\}$$
-Note that all elements in $\Omega_d\in \{-1\}\cup\mathbb{R}_{\geq0}$ and all elements in $\Omega_s \{-1\}\cup\mathbb{R}_{>0}$, with $-1$ denoting no edge between two vectices and non-negative (positive in the case of $\Omega_s$) real numbers denoting the weight of an existing edge. Then $\forall i,j\in\{1,\ldots,k\}$, $\delta_j^i,\xi_j^i$ are elements in $\Omega_d$ and $\Omega_s$, respectively, and would be no less than $-1$ by construction. Let $\lambda_j^i=min\{\delta_j^i,\xi_j^i\}$ for $i,j\in\{1,\ldots,k\}$ and we say $\forall i,j\in\{1,\ldots,k\}$, $\lambda_j^i=min\{\delta_j^i,\xi_j^i\}\in\{-1\}\cup\mathbb{R}_{\geq0}$.
-
-We then know that, $\forall i\in \{1,\ldots,k\}$, $\lambda(\Omega_d, \Omega_s)_{i,i}=max\{\lambda_1^i, \ldots, \lambda_i^i, \ldots, \lambda_k^i\}=-1$ if and only if $\forall j\in\{1,\ldots,k\}$, $\lambda_j^i=-1$ since $\lambda_j^i\in\{-1\}\cup\mathbb{R}_{\geq0}$ for all $j$. Further, $\forall j\in\{1,\ldots,k\}$, $\lambda_j^i=-1$ if and only if $min\{\delta_j^i,\xi_j^i\}=-1$. Here we note that $\lambda_i^i$ must equal to $-1$ since $\delta_i^i=\xi_i^i=-1$ (there are no loops in $\Omega_d$ and $\Omega_s$) and thus $min\{\delta_i^i,\xi_i^i\}=-1$. We then have $min\{\delta_j^i,\xi_j^i\}=-1$ if and only if $(\delta_j^i\geq0 \implies \xi_j^i=-1)$, which is true since $\delta_j^i\not=1 \iff \delta_j^i\geq0$ (as $\delta_j^i\in \{-1\}\cup\mathbb{R}_{\geq0}$). By definitions of $\delta_j^i$ and $\xi_j^i$, we then have $(\delta_j\geq0 \implies \xi_j=-1)$ if and only if $(\Omega_{d_{i,j}}\geq0 \implies \Omega_{s_{j,i}}=-1)$ (as $\delta^i$ is the $i^{th}$ row of $\Omega_d$ and $\xi^i$ is the $i^{th}$ \textit{column} of $\Omega_s$). Summarizing, we have:
+\textbf{Base Case:} Let $t=2$, we then have $\lambda_2(\Omega_d,\Omega_d)=\lambda(\Omega_d,\Omega_d)$. Set arbitrary $i,j\in\{1,\ldots,k\}$ and consider:
 \begin{flalign*}
-\forall i\in \{1,\ldots,k\},\ \lambda(\Omega_d, \Omega_s)_{i,i}=-1 &\iff \forall j\in\{1,\ldots,k\},\ \lambda_j^i=-1 &\\
-& \iff min\{\delta_j^i,\xi_j^i\}=-1 &\\
-& \iff (\delta_j^i\geq0 \implies \xi_j^i=-1) &\\
-& \iff (\Omega_{d_{i,j}}\geq0 \implies \Omega_{s_{j,i}}=-1)
+\lambda(\Omega_d,\Omega_d)_{i,j} &=max\big\{min\{\Omega^d_{i,1},\Omega^d_{1,j}\},\ldots,min\{\Omega^d_{i,k},\Omega^d_{k,j}\}\big\} &\\
+& =max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in\{1,\ldots,k\}\big\}
 \end{flalign*}
-We then conclude that $\forall i,j\in \{1,\ldots,k\}$ such that $i\not=j$, $\lambda(\Omega_d, \Omega_s)_{i,i}=-1 \iff (\Omega_{d_{i,j}}\geq0 \implies \Omega_{s_{j,i}}=-1)$. Note the first statement means the main diagonal of $\lambda(\Omega_d, \Omega_s)$ is a vector of $-1$'s and the second statement is the condition of passing WGARP. We then have "passing WGARP" $\iff$ "the main diagonal of $\lambda(\Omega_d, \Omega_s)_{i,i}$ is a vector of $-1$'s", which proves our claim.
-\end{proof}
-\bigskip
+We then consider two cases:
 
-\textbf{Claim 2:} Let $\Omega_d, \Omega_s$ be such that: 
+\circled{1} If $\forall f\in\{1,\ldots,k\}$, $\Omega^d_{i,f}=-1$ or $\Omega^d_{f,j}=-1$, then $\lambda(\Omega_d,\Omega_d)_{i,j}=-1$ as $\forall i,j\in\{1,\ldots,k\}$, $\Omega^d_{i,j}\in\{-1\}\cup\mathbb{R}_{\geq0}$. Thus, if $\forall f\in\{1,\ldots,k\}$, $\Omega^d_{i,f}=-1$ or $\Omega^d_{f,j}=-1$, then $\lambda(\Omega_d,\Omega_d)_{i,j}=max\{-1,\ldots,-1\}=-1$.
 
+\circled{2} Suppose $\exists F\subseteq\{1,\ldots,k\}$ (where $F\not=\varnothing$) such that $\forall f\in F$, $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$. We then have $\lambda(\Omega_d,\Omega_d)_{i,j}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}, -1\ |\ f\in F\big\}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$.
+
+Considering \circled{1} and \circled{2}, we have precisely the definition in our claim:
+
+For \circled{1}, if $\nexists f$ such that $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$, then we know $(X_i,X_f)\not\in E_d$ or $(X_f, X_j)\not\in E_d$ for all $f\in\{1,\ldots,k\}$. Hence, $\forall f$, there isn't an edge from $X_i$ to $X_f$ or there isn't an edge from $X_f$ to $X_j$. Thus, we know there isn't a walk of 2 edges from $X_i$ to $X_j$. We then conclude that $\lambda(\Omega_d,\Omega_d)_{i,j}=-1$ if there isn't a walk of 2 edges from $X_i$ to $X_j$.
+
+For \circled{2}, we have that $\lambda(\Omega_d,\Omega_d)_{i,j}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$, where $\varnothing\not=F\subseteq\{1,\ldots,k\}$ such that $\forall f\in F$, $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$. We then know that, $\forall f\in F$, $(X_i,X_f)\in E_d$ and $(X_f,X_j)\in E_d$. For each $f$, there's a unique walk from $X_i$ to $X_j$ that consists of $\{(X_i,X_f), (X_f,X_j)\}$. Note that the weights of those edges of each walk are $\Omega^d_{i,f}$ and $\Omega^d_{f,j}$, respectively. Hence, when we take $\lambda(\Omega_d,\Omega_d)_{i,j}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$, we're taking the minimum weight between two edges of each walk and taking the maximum across all walks, which is precisely our value of ``the strongest edge among the weakest edges of all walks of $2$ edges''.
+
+Combining those, we have the following:
 \[
-diag(\lambda(\Omega_d, \Omega_s)) \not=
-\begin{pmatrix}
--1 \\
--1 \\
-\vdots \\
--1
-\end{pmatrix}
+\lambda_2(\Omega_d,\Omega_d)_{i,j}=\lambda(\Omega_d,\Omega_d)_{i,j}=
+\begin{cases}
+-1 & \textrm{if } X_i, X_j \textrm{ are not connected by a walk of } \\
+& 2\textrm{ edges on }G_d \\
+\rho_{i,j} & \textrm{such that } \rho_{i,j} \textrm{ is the weight of the} \\
+& \textrm{strongest edge among the weakest edges} \\
+& \textrm{of all walks of } 2\textrm{ edges from }X_i \textrm{ to } X_j \\
+& \textrm{on } G_d
+\end{cases}
 \]
-and thus the data set fails WGARP. Then, $\forall i\in\{1,\ldots,k\}$, $\lambda(\Omega_d, \Omega_s)_{i,i}$ captures the lesser pairwise weight of the worst WGARP violation involving vertex $i$.
+Hence, our base case proof is complete.
 
-\begin{proof}
-Fix an arbitrary $i\in\{1,\ldots,k\}$ and consider $\lambda(\Omega_d, \Omega_s)_{i,i}$.
+\textbf{Inductive Case:} Let $t=n$, we then have: 
+\[
+\lambda_n(\underbrace{\Omega_d,\ldots,\Omega_d}_\text{n times})=\underbrace{\lambda(\cdots\lambda(\lambda(\lambda(}_\text{n-1 times}
+    \Omega_d,\Omega_d),\Omega_d),\Omega_d,\ldots, \Omega_d)
+\]
+
+For the ease of notation, we will denote the matrix $\lambda_n(\Omega_d,\ldots,\Omega_d)=\lambda^n(\Omega_d)$. We then assume the following:
+\[
+\lambda^n(\Omega_d)_{i,j}=
+\begin{cases}
+-1 & \textrm{if } X_i, X_j\textrm{ are not connected by a walk of }n \textrm{ edges} \\
+  & \textrm{on }G_d \\
+\rho_{i,j} & \textrm{such that }\rho_{i,j}\textrm{ is the weight of the strongest edge } \\
+  &\textrm{among the weakest edges of all walks of } n \textrm{ edges} \\
+  & \textrm{from }X_i\textrm{ to }X_j \textrm{ on } G_d
+\end{cases}
+\]
+Now let $t=n+1$, we then have:
+\begin{flalign*}
+\lambda_{n+1}(\underbrace{\Omega_d,\ldots,\Omega_d}_\text{n+1 times}) &=\underbrace{\lambda\bigl(\cdots\lambda(\lambda(\lambda(}_\text{n times}
+    \Omega_d,\Omega_d),\Omega_d),\Omega_d,\ldots, \Omega_d \bigr) &\\
+& =\lambda\bigl(\underbrace{\lambda(\cdots\lambda(\lambda(\lambda(}_\text{n-1 times}
+    \Omega_d,\Omega_d),\Omega_d),\Omega_d,\ldots, \Omega_d),\Omega_d\bigr) &\\
+& =\lambda\bigl(\lambda_n(\underbrace{\Omega_d,\ldots,\Omega_d}_\text{n times}),\Omega_d\bigr) &\\
+& =\lambda\bigl(\lambda^n(\Omega_d),\Omega_d\bigr)
+\end{flalign*}
+
+Similarly, we denote $\lambda_{n+1}(\Omega_d,\ldots,\Omega_d)=\lambda^{n+1}(\Omega_d)$. We then have:
+\begin{flalign*}
+\lambda^{n+1}(\Omega_d)_{i,j} &=\lambda\bigl(\lambda^n(\Omega_d),\Omega_d\bigr)_{i,j} &\\
+& =max\bigl\{min\{\lambda^n(\Omega_d)_{i,l},\Omega^d_{l,j}\}\ |\ l\in\{1,\ldots,k\}\bigr\} 
+\end{flalign*}
+
+We then have the following 2 cases:
+
+\circled{1} If $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=-1$ or $\Omega^d_{l,j}=-1$, then $\lambda^{n+1}(\Omega_d)_{i,j}=-1$. This is because $\forall i,j\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,j},\Omega^d_{i,j}\in\{-1\}\cup\mathbb{R}_{\geq0}$ (since elements of $\lambda^n(\Omega_d)$ are simply drawn from elements of $\Omega_d$). Thus, if $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=-1$ or $\Omega^d_{l,j}=-1$, then $\lambda^{n+1}(\Omega_d)_{i,j}=max\{-1,\ldots,-1\}=-1$.
+
+\circled{2}
 \end{proof}
 \bibliographystyle{plainnat}
 \bibliography{bibliography}
