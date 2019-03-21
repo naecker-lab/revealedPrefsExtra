@@ -662,16 +662,18 @@ We abbreviate $\lambda_t(\Omega_d,\ldots,\Omega_d)=\lambda_t(\Omega_d)$. Then, w
 \[
   \lambda_t(\Omega_d)_{i,j}=
   \begin{cases}
-  -1 & \textrm{if } \nexists (X^v)_{v=1}^{n-1} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
+  -1 & \textrm{if } \nexists (X^v)_{v=1}^{t-1} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
   & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
-  & (X^{n-1},X_j)\in E_d\\ 
-  \rho_{i,j} & \textrm{if }\exists (X^{uv})_{u,v=1}^{u=U,\ v=n-1}\ (\textrm{for some }U\geq1) \\
+  & (X^{t-1},X_j)\in E_d\\ 
+  \rho_{i,j} & \textrm{if }\exists (X^{uv})_{u,v=1}^{u=U,\ v=t-1}\ (\textrm{for some }U\geq1) \\
   & \textrm{such that }\forall u,\ \forall v,\ X^{uv}\in\mathcal{X} \textrm{ and } \\
-  & (X^{uv},X^{u(v+1)})\in E_d, (X_i, X^{u1})\in E_d \textrm{ and } \\
-  & (X^{u(n-1)},X_j)\in E_d, \textrm{ then: } \\
+  & (X^{uv},X^{u(v+1)})\in E_d\ (\textrm{if }t>2), (X_i, X^{u1})\in E_d \textrm{ and } \\
+  & (X^{u(t-1)},X_j)\in E_d, \textrm{ then: } \\
   & \rho_{i,j}=max\Big\{min\big\{W(X_i,X^{u1}),W(X^{uv},X^{u(v+1)}), \\
-  & W(X^{u(n-1)},X_j)\ |\ v\in\{1,\ldots,n-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\}, \\
-  &\textrm{where } W\textrm{ is the weight function, as defined previously}
+  & W(X^{u(t-1)},X_j)\ |\ v\in\{1,\ldots,t-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\} \\
+  &\textrm{if } t>2,\ \textrm{and }\\
+  &\rho_{i,j}=max\Big\{min\big\{W(X_i,X^{u1}), W(X^{u1},X_j)\big\}\ |\ u\in\\
+  &\{1,\ldots,U\}\Big\} \textrm{ if } t=2\\
   \end{cases}
 \]
 Intuitively, we say:
@@ -681,7 +683,8 @@ Intuitively, we say:
   -1 & \textrm{if bundles }X_i \textrm{ and }X_j\textrm{ are not connected by a} \\
   & \textrm{preference chain of length } t\\
   \rho_{i,j} & \textrm{where }\rho_{i,j}\textrm{ is the largest weight across the weights} \\
-  & \textrm{of the smallest preference in each preference chain }
+  & \textrm{of the smallest preferences in each preference chain }\\
+  & \textrm{of length }t
   \end{cases}
 \]
 
@@ -701,25 +704,18 @@ We then consider two cases:
 
 Considering \circled{1} and \circled{2}, we have precisely the definition in our claim:
 
-For \circled{1}, if $\nexists f$ such that $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$, then we know $(X_i,X_f)\not\in E_d$ or $(X_f, X_j)\not\in E_d$ for all $f\in\{1,\ldots,k\}$. Hence, $\forall f$, there isn't an edge from $X_i$ to $X_f$ or there isn't an edge from $X_f$ to $X_j$. Thus, we know there isn't a walk of 2 edges from $X_i$ to $X_j$. We then conclude that $\lambda(\Omega_d,\Omega_d)_{i,j}=-1$ if there isn't a walk of 2 edges from $X_i$ to $X_j$.
+For \circled{1}, if $\nexists f$ such that $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$, then we know $(X_i,X_f)\not\in E_d$ or $(X_f, X_j)\not\in E_d$ for all $f\in\{1,\ldots,k\}$. Hence, $\nexists (X^v)_{v=1}^1=X^v$ such that $X^v\in \mathcal{X}$ and $(X_i,X^v)\in E_d$ and $(X^v,X_j)\in E_d$, which is precisely our condition in the formalized version of our claim.
 
-For \circled{2}, we have that $\lambda(\Omega_d,\Omega_d)_{i,j}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$, where $\varnothing\not=F\subseteq\{1,\ldots,k\}$ such that $\forall f\in F$, $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$. We then know that, $\forall f\in F$, $(X_i,X_f)\in E_d$ and $(X_f,X_j)\in E_d$. For each $f$, there's a unique walk from $X_i$ to $X_j$ that consists of $\{(X_i,X_f), (X_f,X_j)\}$. Note that the weights of those edges of each walk are $\Omega^d_{i,f}$ and $\Omega^d_{f,j}$, respectively. Hence, when we take $\lambda(\Omega_d,\Omega_d)_{i,j}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$, we're taking the minimum weight between two edges of each walk and taking the maximum across all walks, which is precisely our value of ``the strongest edge among the weakest edges of all walks of $2$ edges''.
+For \circled{2}, we have that $\lambda(\Omega_d,\Omega_d)_{i,j}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$, where $\varnothing\not=F\subseteq\{1,\ldots,k\}$ such that $\forall f\in F$, $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$. We then know that, $\forall f\in F$, $(X_i,X_f)\in E_d$ and $(X_f,X_j)\in E_d$. Then, we know that $\exists(X^{uv})_{u,v=1}^{u=U,\ v=1}=(X^{u1})_{u=1}^{U}$ (for $U=|F|$) such that $\forall u$, $X^{u1}\in\mathcal{X}$ and $(X_i,X^{u1})\in E_d$ and $(X^{u1},X_j)\in E_d$. We then have:
+\begin{flalign*}
+\lambda(\Omega_d,\Omega_d)_{i,j} &= max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\} &\\
+& = max\big\{min\{W(X_i, X_f), W(X_f,X_j)\}\ |\ f\in F\big\} &\\
+& = max\big\{min\{W(X_i, X^{u1}), W(X^{u1},X_j)\}\ |\ u\in\{1,\ldots,U\}\big\} &\\
+& \textrm{ by construction of } F \textrm{ and }(X^{u1})_{u=1}^{U}
+\end{flalign*}
+Which is precisely our value in the formalized version of our claim. Combining those, our base case is complete.
 
-Combining those, we have the following:
-\[
-\lambda_2(\Omega_d,\Omega_d)_{i,j}=\lambda(\Omega_d,\Omega_d)_{i,j}=
-\begin{cases}
--1 & \textrm{if } X_i, X_j \textrm{ are not connected by a walk of } \\
-& 2\textrm{ edges on }G_d \\
-\rho_{i,j} & \textrm{such that } \rho_{i,j} \textrm{ is the weight of the} \\
-& \textrm{strongest edge among the weakest edges} \\
-& \textrm{of all walks of } 2\textrm{ edges from }X_i \textrm{ to } X_j \\
-& \textrm{on } G_d
-\end{cases}
-\]
-Hence, our base case proof is complete.
-
-\textbf{Inductive Case:} Let $t=n$, we then have: 
+\textbf{Inductive Case:} Let $t=n>2$, we then have: 
 \[
 \lambda_n(\underbrace{\Omega_d,\ldots,\Omega_d}_\text{n times})=\underbrace{\lambda(\cdots\lambda(\lambda(\lambda(}_\text{n-1 times}
     \Omega_d,\Omega_d),\Omega_d),\Omega_d,\ldots, \Omega_d)
@@ -729,11 +725,15 @@ For the ease of notation, we will denote the matrix $\lambda_n(\Omega_d,\ldots,\
 \[
 \lambda^n(\Omega_d)_{i,j}=
 \begin{cases}
--1 & \textrm{if } X_i, X_j\textrm{ are not connected by a walk of }n \textrm{ edges} \\
-  & \textrm{on }G_d \\
-\rho_{i,j} & \textrm{such that }\rho_{i,j}\textrm{ is the weight of the strongest edge } \\
-  &\textrm{among the weakest edges of all walks of } n \textrm{ edges} \\
-  & \textrm{from }X_i\textrm{ to }X_j \textrm{ on } G_d
+-1 & \textrm{if } \nexists (X^v)_{v=1}^{n-1} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
+  & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
+  & (X^{n-1},X_j)\in E_d\\ 
+\rho_{i,j} & \textrm{if }\exists (X^{uv})_{u,v=1}^{u=U,\ v=n-1}\ (\textrm{for some }U\geq1) \\
+  & \textrm{such that }\forall u,\ \forall v,\ X^{uv}\in\mathcal{X} \textrm{ and } \\
+  & (X^{uv},X^{u(v+1)})\in E_d, (X_i, X^{u1})\in E_d \textrm{ and } \\
+  & (X^{u(n-1)},X_j)\in E_d, \textrm{ then: } \\
+  & \rho_{i,j}=max\Big\{min\big\{W(X_i,X^{u1}),W(X^{uv},X^{u(v+1)}), \\
+  & W(X^{u(n-1)},X_j)\ |\ v\in\{1,\ldots,n-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\}
 \end{cases}
 \]
 Now let $t=n+1$, we then have:
