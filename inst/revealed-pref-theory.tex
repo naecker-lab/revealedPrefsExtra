@@ -407,7 +407,7 @@ The reasoning behind how $A_s$ works is the same as the rationale behind $A_d$ e
 \textbf{WGARP:} We can test for WGARP by multiplying $A_d$ and $A_s$ by matrix multiplication.
 
 
-\textit{Claim:} A data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $A_d\times A_s$ is a vector of 0.
+\textit{Theorem 1:} A data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $A_d\times A_s$ is a vector of 0.
 
 \begin{proof}
 Recall that: If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_s$. Which, when put in context of adjacency matrices, means that $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(i,j)^{th}$ position of $A_d$ ($A_{d_{i,j}}$) is equal to one, then the $(j,i)^{th}$ position of $A_s$ ($A_{s_{i,j}}$) cannot be equal to 1. We then consider $A_d\times A_s$ and its main diagonal. 
@@ -477,7 +477,7 @@ Then the main diagonals of $X_1\times Y$ and $X_2\times Y$ are the same (denoted
 Fix an arbitrary $i\in\{1,\ldots,m\}$. Then let $Z_1=X_1\times Y$ and $Z_2=X_2\times Y$. We want to show that $Z_{1_{i,i}}=Z_{2_{i,i}}$. Note that $Z_{1_{i,i}}=x_{i,1}y_{1,i}+x_{i,2}y_{2,i}+\ldots+x_{i,i}y_{i,i}+\ldots+x_{i,m}y_{m,i}$ and that $Z_{2_{i,i}}=x_{i,1}y_{1,i}+x_{i,2}y_{2,i}+\ldots+0y_{i,i}+\ldots+x_{i,m}y_{m,i}$. The only difference between those are that for the first equation, we have $x_{i,i}y_{i,i}$ as the $i^{th}$ term and the second equation, we have $0y_{i,i}$ as the $i^{th}$ term. However, since $y_{i,i}=0$, we have that $x_{i,i}y_{i,i}=0y_{i,i}=0$ and thus $Z_{1_{i,i}}=Z_{2_{i,i}}$.
 \end{proof}
 
-\textit{Claim:} A data set $(\mathcal{X},\mathcal{P})$ passes GARP if and only if the main diagonal of $\sum_{i=1}^{k-1}A_{d}^{i}\times A_s$ is a vector of 0.
+\textit{Theorem 2:} A data set $(\mathcal{X},\mathcal{P})$ passes GARP if and only if the main diagonal of $\sum_{i=1}^{k-1}A_{d}^{i}\times A_s$ is a vector of 0.
 
 \begin{proof}
 The proof of this will look very similar to the proof of WGARP, except that the elements in $\sum_{i=1}^{k-1}A_{d}^{i}$ will no longer be binary $(\{0,1\})$. However, they are all $\geq0$. Let $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, then $\beta_{d_{i,j}}$ would be the number of directed walks between vertex $i$ and vertex $j$ of any length up to $k-1$. Note that we chose to sum up to $k-1$ since anything past that, we would definitely have a cycle and summing past that point is redundant.
@@ -617,7 +617,7 @@ Let $X_i$ and $X_j$ be two vertices (bundles) for $i,j\in\{1,\ldots,k\}$ such th
 
 \bigskip
 
-\textbf{Claim:} For $i,j\in\{1,\ldots,k\}$ such that $i\not=j$, let $e_d=(X_i,X_j)\in E_d$ and $W(e_d)=\frac{P_iX_i}{P_iX_j}-1\geq0$ be the weight of $e_d$ as defined. Then $c_{ij}=\frac{1}{W(e_d)+1}$ is the constant such that $c_{ij}\frac{P_iX_i}{P_iX_j}-1=0$.
+\textit{Lemma B:} For $i,j\in\{1,\ldots,k\}$ such that $i\not=j$, let $e_d=(X_i,X_j)\in E_d$ and $W(e_d)=\frac{P_iX_i}{P_iX_j}-1\geq0$ be the weight of $e_d$ as defined. Then $c_{ij}=\frac{1}{W(e_d)+1}$ is the constant such that $c_{ij}\frac{P_iX_i}{P_iX_j}-1=0$.
 
 \begin{proof}
 First, note that $W(e_d)\in \mathbb{R}_{\geq0}$ and thus $c_{ij}=\frac{1}{W(e_d)+1}\in[0,1]$. Then, by assumption, we let $W(e_d)=\frac{P_iX_i}{P_iX_j}-1$. Thus: $$c_{ij}=\frac{1}{(\frac{P_iX_i}{P_iX_j}-1)+1}=\frac{1}{\frac{P_iX_i}{P_iX_j}}=\frac{P_iX_j}{P_iX_i}$$ 
@@ -647,7 +647,7 @@ We further define a function $\lambda_t:(\mathbb{R}^{m\times m})^t\to\mathbb{R}^
     Y_1,Y_2),Y_3),Y_4,\ldots, Y_t)
 \]
 
-\textbf{Claim:} $\forall t\in \mathbb{N}_{\geq2}$,
+\textit{Theorem 3:} $\forall t\in \mathbb{N}_{\geq2}$,
 \[
   \lambda_t(\underbrace{\Omega_d,\ldots,\Omega_d}_\text{t times})_{i,j}=
   \begin{cases}
@@ -676,7 +676,7 @@ We abbreviate $\lambda_t(\Omega_d,\ldots,\Omega_d)=\lambda_t(\Omega_d)$. Then, w
   &\{1,\ldots,U\}\Big\} \textrm{ if } t=2\\
   \end{cases}
 \]
-Intuitively, we say:
+Note that $\forall i,j$, $\rho_{i,j}\geq0$ since $W$ is the weight function as defined earlier such that $W:E_d \cup E_s\to\mathbb{R}_{\geq0}$. Further, intuitively, we say:
 \[
   \lambda_t(\Omega_d)_{i,j}=
   \begin{cases}
@@ -687,6 +687,95 @@ Intuitively, we say:
   & \textrm{of length }t
   \end{cases}
 \]
+
+Before we begin the proof of \textit{Theorem 3}, let's take a look at the following lemma.
+
+\textit{Lemma C:} We claim that, for any arbitrary real values of $\alpha^j_i$ and $\beta$, the following equality holds:
+\[
+min
+\left\{
+  \begin{aligned}
+    max\left\{
+      \begin{aligned}
+        min\{\alpha_1^1,&\ldots,\alpha_1^J\} \\
+        &\vdots \\
+        min\{\alpha_I^1,&\ldots,\alpha_I^J\}
+      \end{aligned}
+    \right\}
+  \end{aligned}
+  , \beta
+\right\}
+=
+max\left\{
+  \begin{aligned}
+    min\{\alpha_1^1,&\ldots,\alpha_1^J,\beta\} \\
+    &\vdots \\
+    min\{\alpha_I^1,&\ldots,\alpha_I^J,\beta\} \\
+  \end{aligned}
+\right\}
+\]
+
+\begin{proof}
+Considering the LHS, we have that:
+\[
+LHS=
+\begin{cases}
+\beta & \textrm{if } \beta\leq
+max\left\{
+      \begin{aligned}
+        min\{\alpha_1^1,&\ldots,\alpha_1^J\} \\
+        &\vdots \\
+        min\{\alpha_I^1,&\ldots,\alpha_I^J\}
+      \end{aligned}
+    \right\} \\
+    \\
+\alpha_x^y\not=\beta &\textrm {if } \alpha_x^y\leq\alpha_x^1,\ldots,\alpha_x^J \textrm{ and} \\
+& \alpha_x^y\geq min\{\alpha_1^1,\ldots,\alpha_1^J\},\ldots,min\{\alpha_I^1,\ldots,\alpha_I^J\} \textrm { and}\\
+& \alpha_x^y\leq \beta
+\end{cases}
+\]
+We can further write this as:
+\[
+LHS=
+\begin{cases}
+\beta & \textrm{if }\exists\ i_1\in\{1,\ldots,I\} \textrm{ such that }\forall j\in\{1,\ldots,J\}, \beta\leq\alpha_{i_1}^j \\
+\alpha_x^y\not=\beta & \textrm{if } \alpha_x^y\leq\alpha_x^j,\ \forall j\in\{1,\ldots,J\} \textrm{ and} \\
+& \forall i\in\{1,\ldots,I\},\ \exists\ j\in\{1,\ldots,J\} \textrm{ such that } \alpha_x^y\geq\alpha_i^j \textrm{ and } \\
+& \alpha_x^y\leq \beta
+\end{cases}
+\]
+Now consider the RHS, we have:
+\[
+RHS = 
+\begin{cases}
+\beta & \textrm{if }\exists\ i_1\in\{1,\ldots,I\} \textrm{ such that }\forall j\in\{1,\ldots,J\}, \beta\leq\alpha_{i_1}^j\ (*) \\
+& \textrm{i.e. } \beta\geq\alpha_{i_1}^1,\ldots,\alpha_{i_1}^J\\
+\alpha_x^y\not=\beta &\textrm{if }\alpha_x^y\leq\beta\ (***) \textrm{ and}\\
+& \alpha_x^y\leq\alpha_x^1,\ldots,\alpha_x^J \textrm{ and}\\
+& \alpha_x^y\geq min\{\alpha_1^1,\ldots,\alpha_1^J,\beta\},\ldots,min\{\alpha_I^1,\ldots,\alpha_I^J,\beta\}\ (**)
+\end{cases}
+\]
+Looking at $(*)$, the condition ``$\exists\ i_1\in\{1,\ldots,I\} \textrm{ such that }\forall j\in\{1,\ldots,J\}, \beta\leq\alpha_{i_1}^j$'' suffices because under such condition, $RHS=max\{\beta, \alpha_{i_2}\ |\ i_2\in I_2\}$ where $I_2\subseteq I$ is the set of $i\in I$ such that $\forall i_2\in I_2$, $min\{\alpha_{i_2}^1,\ldots,\alpha_{i_2}^J,\beta\}=\alpha_{i_2}\not=\beta$. By the definition of the minimum, we then have: $\alpha_{i_2}\leq\beta$ and hence, $RHS=max\{\beta, \alpha_{i_2}\leq\beta\ |\ i_2\in I_2\}=\beta$, as desired.
+
+We then look at $(**)$: $\alpha_x^y\geq min\{\alpha_1^1,\ldots,\alpha_1^J,\beta\},\ldots,min\{\alpha_I^1,\ldots,\alpha_I^J,\beta\}$. We can rewrite this condition as: $\alpha_x^y\geq min\big\{min\{\alpha_1^1,\ldots,\alpha_1^J\},\beta\big\},\ldots,min\big\{min\{\alpha_I^1,\\\ldots,\alpha_I^J\},\beta\big\}$. We then claim that, given the conditions of $(***)$, it suffices to write: $\alpha_x^y\geq min\big\{min\{\alpha_1^1,\ldots,\alpha_1^J\}\big\},\ldots,min\big\{min\{\alpha_I^1,\ldots,\alpha_I^J\}\big\}$ and hence $\alpha_x^y\geq min\{\alpha_1^1,\ldots,\alpha_1^J\},\ldots,min\{\alpha_I^1,\ldots,\alpha_I^J\}$. The following is a brief proof:
+
+Suppose towards a contradiction that the condition written above does not suffice and the entire condition, $\alpha_x^y\geq min\big\{min\{\alpha_1^1,\ldots,\alpha_1^J\},\beta\big\},\ldots,min\big\{min\{\alpha_I^1,\\\ldots,\alpha_I^J\},\beta\big\}$, is required. Then, we know that $\exists i\in\{1,\ldots,I\}$ such that $min\big\{\\min\{\alpha_i^1,\ldots,\alpha_i^J\},\beta\big\}=\beta$. We then have that $\alpha_x^y\geq\beta$, but by $(***)$, we also have $\alpha_x^y\leq\beta$, hence we have $\alpha_x^y=\beta$, which is a direct contradiction to the initial condition of $\alpha_x^y\not=\beta$. Hence, we know that it suffices to write $\alpha_x^y\geq min\{\alpha_1^1,\ldots,\alpha_1^J,\beta\},\ldots,min\{\alpha_I^1,\ldots,\alpha_I^J,\beta\}$ as $\alpha_x^y\geq min\{\alpha_1^1,\ldots,\alpha_1^J\},\ldots,min\{\\ \alpha_I^1,\ldots,\alpha_I^J\}$, given $(***)$.
+
+Putting this all together, we have the following for the $RHS$:
+\[
+RHS=
+\begin{cases}
+\beta & \textrm{if }\exists\ i_1\in\{1,\ldots,I\} \textrm{ such that }\forall j\in\{1,\ldots,J\}, \beta\leq\alpha_{i_1}^j \\
+\alpha_x^y\not=\beta & \textrm{if } \alpha\leq\beta \textrm{ and}\\
+& \forall i\in\{1,\ldots,I\}, \exists\ j\in\{1,\ldots,J\}, \textrm{ such that } \alpha_x^y\geq\alpha_i^j \textrm{, and}\\
+& \alpha_x^y\leq\alpha_x^j,\ \forall j\in\{1,\ldots,J\}
+\end{cases}
+\]
+
+Note then that $LHS=RHS$ and hence our lemma is proven.
+\end{proof}
+
+Now we shall prove \textit{Theorem 3}.
 
 \begin{proof}
 We approach this with proof by induction.
@@ -704,7 +793,7 @@ We then consider two cases:
 
 Considering \circled{1} and \circled{2}, we have precisely the definition in our claim:
 
-For \circled{1}, if $\nexists f$ such that $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$, then we know $(X_i,X_f)\not\in E_d$ or $(X_f, X_j)\not\in E_d$ for all $f\in\{1,\ldots,k\}$. Hence, $\nexists (X^v)_{v=1}^1=X^v$ such that $X^v\in \mathcal{X}$ and $(X_i,X^v)\in E_d$ and $(X^v,X_j)\in E_d$, which is precisely our condition in the formalized version of our claim.
+For \circled{1}, if $\nexists f$ such that $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$, then we know $(X_i,X_f)\not\in E_d$ or $(X_f, X_j)\not\in E_d$ for all $f\in\{1,\ldots,k\}$. Hence, $\nexists (X^v)_{v=1}^1=X^v$ such that $X^v\in \mathcal{X}$ and $(X_i,X^v)\in E_d$ and $(X^v,X_j)\in E_d$, which is precisely our condition in the first case of the formalized version of our claim.
 
 For \circled{2}, we have that $\lambda(\Omega_d,\Omega_d)_{i,j}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$, where $\varnothing\not=F\subseteq\{1,\ldots,k\}$ such that $\forall f\in F$, $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$. We then know that, $\forall f\in F$, $(X_i,X_f)\in E_d$ and $(X_f,X_j)\in E_d$. Then, we know that $\exists(X^{uv})_{u,v=1}^{u=U,\ v=1}=(X^{u1})_{u=1}^{U}$ (for $U=|F|$) such that $\forall u$, $X^{u1}\in\mathcal{X}$ and $(X_i,X^{u1})\in E_d$ and $(X^{u1},X_j)\in E_d$. We then have:
 \begin{flalign*}
@@ -713,7 +802,7 @@ For \circled{2}, we have that $\lambda(\Omega_d,\Omega_d)_{i,j}=max\big\{min\{\O
 & = max\big\{min\{W(X_i, X^{u1}), W(X^{u1},X_j)\}\ |\ u\in\{1,\ldots,U\}\big\} &\\
 & \textrm{ by construction of } F \textrm{ and }(X^{u1})_{u=1}^{U}
 \end{flalign*}
-Which is precisely our value in the formalized version of our claim. Combining those, our base case is complete.
+Which is precisely our value in the second case of the formalized version of our claim. Combining those, our base case is complete.
 
 \textbf{Inductive Case:} Let $t=n>2$, we then have: 
 \[
@@ -754,10 +843,249 @@ Similarly, we denote $\lambda_{n+1}(\Omega_d,\ldots,\Omega_d)=\lambda^{n+1}(\Ome
 
 We then have the following 2 cases:
 
-\circled{1} If $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=-1$ or $\Omega^d_{l,j}=-1$, then $\lambda^{n+1}(\Omega_d)_{i,j}=-1$. This is because $\forall i,j\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,j},\Omega^d_{i,j}\in\{-1\}\cup\mathbb{R}_{\geq0}$ (since elements of $\lambda^n(\Omega_d)$ are simply drawn from elements of $\Omega_d$). Thus, if $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=-1$ or $\Omega^d_{l,j}=-1$, then $\lambda^{n+1}(\Omega_d)_{i,j}=max\{-1,\ldots,-1\}=-1$.
+\circled{1} If $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=-1$ or $\Omega^d_{l,j}=-1$, then $\lambda^{n+1}(\Omega_d)_{i,j}=-1$. This is because $\forall i,j\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,j},\ \Omega^d_{i,j}\in\{-1\}\cup\mathbb{R}_{\geq0}$ (since elements of $\lambda^n(\Omega_d)$ are simply drawn from elements of $\Omega_d$). Thus, if $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=-1$ or $\Omega^d_{l,j}=-1$, then $\lambda^{n+1}(\Omega_d)_{i,j}=max\{-1,\ldots,-1\}=-1$.
 
-\circled{2}
+\circled{2} If $\exists L\in\{1,\ldots,k\}$ (where $L\not=\varnothing$) such that $\forall l\in L$, $\lambda^n(\Omega_d)_{i,l}\geq0$ and $\Omega^d_{l,j}\geq0$, then: $\lambda^{n+1}(\Omega_d)_{i,j}=max\big\{min\{\lambda^n(\Omega_d)_{i,l}, \Omega^d_{l,j},-1\}\ |\ l\in L\big\}=max\big\{min\{\lambda^n(\Omega_d)_{i,l}, \Omega^d_{l,j}\}\ |\ l\in L\big\}$
+
+Again, considering \circled{1} and \circled{2}, we have precisely our formalized claim:
+
+For \circled{1}, if $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=-1$ or $\Omega^d_{l,j}=-1$, then we know that, $\forall l$, $\Big[\nexists (X^v)_{v=1}^{n-1}$ such that $\forall v$, $X^v\in\mathcal{X}$ and $(X^v, X^{v+1})\in E_d$, $(X_i,X^1)\in E_d$ and $(X^{n-1},X_l)\in E_d\Big]$ or $\Big[ (X_l,X_j)\not\in E_d\Big]$. Hence, we know $\nexists (X^v)_{v=1}^{n}$ such that $\forall v$, $X^v\in \mathcal{X}$ and $(X^v, X^{v+1})\in E_d$, $(X_i, X^1)\in E_d$ and $(X^n,X_j)\in E_d$, which is precisely the condition in the first case of our formalized claim, when $\lambda^{n+1}(\Omega_d)=-1$.
+
+For \circled{2}, we have that $\lambda^{n+1}(\Omega_d)_{i,j}=max\big\{min\{\lambda^n(\Omega_d)_{i,l},\Omega^d_{l,j}\}\ |\ l\in L\big\}$, where $\varnothing\not=L\subseteq\{1,\ldots,k\}$ such that $\forall l\in L$, $\lambda^n(\Omega_d)_{i,l}\geq0$ and $\Omega^d_{l,j}\geq0$. By the definition of $\lambda^n$ function, we know that if $\lambda^n(\Omega_d)_{i,l}\not=\rho_{i,l}$, then $\lambda^n(\Omega_d)_{i,l}=-1$. Taking the contrapositive, we have that if $\lambda^n(\Omega_d)_{i,l}\not=-1$, then $\lambda^n(\Omega_d)_{i,l}=\rho_{i,l}$ (as $\rho_{i,l}$ is defined in the function). Since we have $-1\not=\lambda^n(\Omega_d)_{i,l}\geq0$, we then know that $\lambda^n(\Omega_d)_{i,l}=\rho_{i,l}$. We then have that:
+\begin{flalign*}
+\lambda^{n+1}(\Omega_d)_{i,j} & =max\big\{min\{\lambda^n(\Omega_d)_{i,l},\Omega^d_{l,j}\}\ |\ l\in L\big\} &\\
+& = max\big\{min\{\rho_{i,l},\Omega^d_{l,j}\}\ |\ l\in L\big\}
+\end{flalign*}
+We then let $l_m\in L$ denote the $m^{th}$ element of $L$ such that $L=\{l_1,\ldots,l_{|L|}\}$. Then, $\forall l_m\in L$, by definition, $\exists (X_{l_m}^{uv})_{u,v=1}^{v=n-1,\ u=U_m}$ such that $\forall u,\ \forall v$, $X_{l_m}^{uv}\in\mathcal{X}$ and $(X_{l_m}^{uv},X_{l_i}^{u(v+1)})\in E_d$, and $(X_i,X_{l_m}^{u1})\in E_d$ and $(X_{l_m}^{u(n-1)},X_{l_m})\in E_d$. Then applying the definitions of $\rho_{i,l}$ and $\Omega_{i,j}^d$, we have:
+
+\[
+\lambda^{n+1}(\Omega_d)_{i,j} =max
+\left\{
+  \begin{aligned}
+    &min
+      \left\{
+      \begin{aligned}
+        &max
+          \left\{
+          \begin{aligned}
+            &min\left\{
+            \begin{aligned}
+            &W(X_i,X_{l_1}^{u1}), W(X_{l_1}^{uv},X_{l_1}^{u(v+1)}), \\
+            &W(X_{l_1}^{u(n-1)},X_{l_1})\ |\ v\in\{1,\ldots,n-2\}
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_1\}
+          \end{aligned}
+          \right\} \\
+          &, W(X_{l_1},X_j)
+      \end{aligned}
+      \right\} \\
+      &\vdots \\
+      &\vdots \\
+    &min
+      \left\{
+      \begin{aligned}
+        &max
+          \left\{
+          \begin{aligned}
+            &min\left\{
+            \begin{aligned}
+            &W(X_i,X_{l_{|L|}}^{u1}), W(X_{l_{|L|}}^{uv},X_{l_{|L|}}^{u(v+1)}), \\
+            &W(X_{l_{|L|}}^{u(n-1)},X_{l_{|L|}})\ |\ v\in\{1,\ldots,n-2\}
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_{|L|}\}
+          \end{aligned}
+          \right\} \\
+          &, W(X_{l_{|L|}},X_j)
+      \end{aligned}
+      \right\} \\
+  \end{aligned}
+\right\}
+\]
+
+We then construct a sequence $(X^m)_{m=1}^M$ that's in bijection of the set $\{X_l\ |\ l\in L\}=\big\{X_{l_m}\ |\ m\in\{1,\ldots,|L|\}\big\}$. We then would have $M=|L|$, by construction. Using this notation, we have:
+\[
+\lambda^{n+1}(\Omega_d)_{i,j} =max
+\left\{
+  \begin{aligned}
+    &min
+      \left\{
+      \begin{aligned}
+        &max
+          \left\{
+          \begin{aligned}
+            &min\left\{
+            \begin{aligned}
+            &W(X_i,X^{1(u)1}), W(X^{1uv},X^{1u(v+1)}), \\
+            &W(X^{1u(n-1)},X^1)\ |\ v\in\{1,\ldots,n-2\}
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_1\}
+          \end{aligned}
+          \right\} \\
+          &, W(X^1,X_j)
+      \end{aligned}
+      \right\} \\
+      &\vdots \\
+      &\vdots \\
+    &min
+      \left\{
+      \begin{aligned}
+        &max
+          \left\{
+          \begin{aligned}
+            &min\left\{
+            \begin{aligned}
+            &W(X_i,X^{Mu1}), W(X^{Muv},X^{Mu(v+1)}), \\
+            &W(X^{Mu(n-1)},X^M)\ |\ v\in\{1,\ldots,n-2\}
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_M\}
+          \end{aligned}
+          \right\} \\
+          &, W(X^M,X_j)
+      \end{aligned}
+      \right\} \\
+  \end{aligned}
+\right\}
+\]
+
+Note that the superscripts are indexed as $X^{muv}$. Now, we fix a particular $m$ and apply \textit{Lemma C}, as follows:
+
+\[
+\begin{aligned}
+&min
+      \left\{
+      \begin{aligned}
+        &max
+          \left\{
+          \begin{aligned}
+            &min\left\{
+            \begin{aligned}
+            &W(X_i,X^{mu1}), W(X^{muv},X^{mu(v+1)}), \\
+            &W(X^{mu(n-1)},X^m)\ |\ v\in\{1,\ldots,n-2\}
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_m\}
+          \end{aligned}
+          \right\} \\
+          &, W(X^m,X_j)
+      \end{aligned}
+      \right\} \\
+      &= \\
+&max
+          \left\{
+          \begin{aligned}
+            &min\left\{
+            \begin{aligned}
+            &W(X_i,X^{mu1}), W(X^{muv},X^{mu(v+1)}), \\
+            &W(X^{mu(n-1)},X^m), W(X^m,X_j)\ \\
+            &|\ v\in\{1,\ldots,n-2\}
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_m\}
+          \end{aligned}
+          \right\}
+\end{aligned}
+\]
+
+Fixing a particular $u\in\{1,\ldots,U_m\}$ (with the already fixed $m$), we construct a sequence $(X^{mug})_{g=1}^{g=n}$ such that $(X^{mug})_{g=1}^n=((X^{muv})_{v=1}^{n-1}),X^m)$. Hence, we have that $X^{mun}=X^m$ We then can write, for a fixed $m$, the following:
+
+\[
+\begin{aligned}
+&max
+          \left\{
+          \begin{aligned}
+            &min\left\{
+            \begin{aligned}
+            &W(X_i,X^{mu1}), W(X^{mug},X^{mu(g+1)}), \\
+            &W(X^{mun},X_j)\ |\ g\in\{1,\ldots,n-1\}\\
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_m\}
+          \end{aligned}
+          \right\}
+\end{aligned}
+\]
+
+
+
+Using this equality, we then have:
+\[
+\lambda^{n+1}(\Omega_d)_{i,j} =max
+\left\{
+  \begin{aligned}
+  &max
+          \left\{
+          \begin{aligned}
+            &min\left\{
+            \begin{aligned}
+            &W(X_i,X^{mu1}), W(X^{mug},X^{mu(g+1)}), \\
+            &W(X^{mun},X_j)\ |\ g\in\{1,\ldots,n-1\}\\
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_m\}
+          \end{aligned}
+          \right\} \\
+  & m\in\{i,\ldots,M\}
+  \end{aligned}
+\right\}
+\]
+
+Grouping the two maximums, we have:
+\[
+\lambda^{n+1}(\Omega_d)_{i,j} =max
+\left\{
+  \begin{aligned}
+            &min\left\{
+            \begin{aligned}
+            &W(X_i,X^{mu1}), W(X^{mug},X^{mu(g+1)}), \\
+            &W(X^{mun},X_j)\ |\ g\in\{1,\ldots,n-1\}\\
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_m\},\ m\in\{i,\ldots,M\}
+  \end{aligned}
+\right\}
+\]
+
+Now, consider the sequence $(X^{mug})_{m,u,g=1}^{m=M,\ u=U_m,\ g=n}$. Fixing a particular $g$, we have $(X^{mu})_{m,u=1}^{m=M,\ u=U_m}$. Then construct a sequence $(X^z)_{z=1}^Z$ in bijection of $(X^{mu})_{m,u=1}^{m=M,\ u=U_m}$ such that $Z=\sum_{m\in M}U_m$. We then have the following: 
+
+\[
+\lambda^{n+1}(\Omega_d)_{i,j} =max
+\left\{
+  \begin{aligned}
+            &min\left\{
+            \begin{aligned}
+            &W(X_i,X^{z1}), W(X^{zg},X^{z(g+1)}), \\
+            &W(X^{zn},X_j)\ |\ g\in\{1,\ldots,n-1\}\\
+            \end{aligned}
+            \right\} \\
+            &|\ z\in\{1,\ldots,Z\}
+  \end{aligned}
+\right\}
+\]
+
+With \circled{1} and \circled{2}, we have the following:
+
+\[
+\lambda^{n+1}(\Omega_d)_{i,j}=
+\begin{cases}
+-1 & \textrm{if } \nexists (X^v)_{v=1}^{n} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
+  & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
+  & (X^{n},X_j)\in E_d\\ 
+\rho_{i,j} & \textrm{if }\exists (X^{zg})_{z,g=1}^{z=Z,\ g=n}\ (\textrm{for some }Z\geq1) \\
+  & \textrm{such that }\forall z,\ \forall g,\ X^{zg}\in\mathcal{X} \textrm{ and } \\
+  & (X^{zg},X^{z(g+1)})\in E_d, (X_i, X^{z1})\in E_d \textrm{ and } \\
+  & (X^{zn},X_j)\in E_d, \textrm{ then: } \\
+  & \rho_{i,j}=max\Big\{min\big\{W(X_i,X^{z1}),W(X^{zg},X^{z(g+1)}), \\
+  & W(X^{zn},X_j)\ |\ g\in\{1,\ldots,n-1\}\big\}\ |\ z\in\{1,\ldots,Z\}\Big\}
+\end{cases}
+\]
+Hence, our inductive case is proven.
 \end{proof}
+
+
 \bibliographystyle{plainnat}
 \bibliography{bibliography}
 
