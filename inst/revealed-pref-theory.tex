@@ -255,7 +255,7 @@ $$E_d=\{(X_i,X_j)\ |\ X_i R_D X_j,\ i.e.\ P_iX_i\geq P_iX_j,\ i\not=j\}$$
 $$E_s=\{(X_i,X_j)\ |\ X_i R_{SD} X_j,\ i.e.\ P_iX_i> P_iX_j,\ i\not=j\}$$
 \todo{Lets make the vertexes just the bundles, not the prices. \checkmark}
 
-We have our edge set $\mathcal{X}$ for both graphs. Then, it's apparent that $G_d$ is the directed graph for all directly revealed preference relationships and $G_s$ is the direct graph for all \textit{strictly} directly revealed preference relationships. If there's a path / edge from $X_i$ to $X_j$, we have $X_i$ is (strictly) directly revealed preferred to $X_j$ depending on the graph. Further, we shall note that $E_s\subseteq E_d$, as obviously all strictly directly revealed preferred relationships are directly revealed preferred.
+We have our vertex set $\mathcal{X}$ for both graphs. Then, it's apparent that $G_d$ is the directed graph for all directly revealed preference relationships and $G_s$ is the direct graph for all \textit{strictly} directly revealed preference relationships. If there's a path / edge from $X_i$ to $X_j$, we have $X_i$ is (strictly) directly revealed preferred to $X_j$ depending on the graph. Further, we shall note that $E_s\subseteq E_d$, as obviously all strictly directly revealed preferred relationships are directly revealed preferred.
 
 
 We can then characterize our axioms with the following simple definitions:
@@ -1085,7 +1085,21 @@ With \circled{1} and \circled{2}, we have the following:
 Hence, our inductive case is proven.
 \end{proof}
 
+We then define a $k\times k$ matrix $\Lambda$ such that $\forall i,j\in\{1,\ldots,k\}$, we have that $\Lambda_{i,j}=max\{\lambda^2(\Omega_d)_{i,j},\lambda^3(\Omega_d)_{i,j},\ldots,\lambda^{k-1}(\Omega_d)_{i,j}\}$ (i.e. $\Lambda$ is the element-wise maximization of matrices $\lambda^2(\Omega_d),\ldots,\lambda^{k-1}(\Omega_d)$). 
 
+\textit{Corollary 3.1:} $\Lambda_{i,j}=\varrho_{i,j}\geq0$, $\forall i,j\{1,\ldots,k\}$ such that $i\not=j$, represents the weight of the strongest edge among the weakest edges of all walks, no matter the number of edges in the walks, from $X_i$ to $X_j$ on $G_d$.
+
+This comes directly from \textit{Theorem 3}, as each $\lambda^t(\Omega_d)_{i,j}$ represents the weight of the strongest edge among the weakest edge of \textit{walks of} $t$ \textit{edges} from $X_i$ to $X_j$ on $G_d$. Taking the maximum for $t\in\{1,\ldots,k-1\}$ would cover the strongest edge among weakest edge of all walks (regardless of number of edges) as there are only $k$ total of vertices and we have $i\not=j$.
+
+\textit{Corollary 3.2:} If $\Lambda_{i,j}=-1$, then $\nexists$ any path from $X_i$ to $X_j$ on $G_d$.
+
+This also comes directly from \textit{Theorem 3}. Since we have $\Lambda_{i,j}=-1$, then $max\{\lambda^2(\Omega_d)_{i,j},\lambda^3(\Omega_d)_{i,j},\ldots,\lambda^{k-1}(\Omega_d)_{i,j}\}=-1$ and hence $\lambda^2(\Omega_d)_{i,j}=\lambda^3(\Omega_d)_{i,j}=\ldots=\lambda^{k-1}(\Omega_d)_{i,j}=-1$.
+
+\textit{Theorem 4:} If, $\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=-1$, then the dataset $(\mathcal{X},\mathcal{P})$ has no GARP violations. 
+
+\textit{Theorem 5:} If $\exists i\in\{1,\ldots,k\}$ such that $\lambda(\Lambda,\Omega_s)_{i,i}\geq0$, then $\lambda(\Lambda,\Omega_s)_{i,i}$ represents the weakest edge of the worst (strongest) GARP violation involving $X_i$.
+
+\textit{Theorem 6:} Let $\psi = max\big\{\lambda(\Lambda,\Omega_s)_{i,i}\ |\ i\in\{1,\ldots,k\}\big\}$, then let $c=\frac{1}{\psi+1}$. We then have: $\forall \varepsilon>0$, $c-\varepsilon$ is a CCEI score related to the dataset $(\mathcal{X},\mathcal{P})$.
 \bibliographystyle{plainnat}
 \bibliography{bibliography}
 
