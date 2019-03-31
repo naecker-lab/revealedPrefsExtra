@@ -477,7 +477,7 @@ Then the main diagonals of $X_1\times Y$ and $X_2\times Y$ are the same (denoted
 Fix an arbitrary $i\in\{1,\ldots,m\}$. Then let $Z_1=X_1\times Y$ and $Z_2=X_2\times Y$. We want to show that $Z_{1_{i,i}}=Z_{2_{i,i}}$. Note that $Z_{1_{i,i}}=x_{i,1}y_{1,i}+x_{i,2}y_{2,i}+\ldots+x_{i,i}y_{i,i}+\ldots+x_{i,m}y_{m,i}$ and that $Z_{2_{i,i}}=x_{i,1}y_{1,i}+x_{i,2}y_{2,i}+\ldots+0y_{i,i}+\ldots+x_{i,m}y_{m,i}$. The only difference between those are that for the first equation, we have $x_{i,i}y_{i,i}$ as the $i^{th}$ term and the second equation, we have $0y_{i,i}$ as the $i^{th}$ term. However, since $y_{i,i}=0$, we have that $x_{i,i}y_{i,i}=0y_{i,i}=0$ and thus $Z_{1_{i,i}}=Z_{2_{i,i}}$.
 \end{proof}
 
-\textit{Theorem 2:} A data set $(\mathcal{X},\mathcal{P})$ passes GARP if and only if the main diagonal of $\sum_{i=1}^{k-1}A_{d}^{i}\times A_s$ is a vector of 0.
+\textit{Theorem 2:} A data set $(\mathcal{X},\mathcal{P})$ passes GARP if and only if the main diagonal of $(\sum_{i=1}^{k-1}A_{d}^{i})\times A_s$ is a vector of 0.
 
 \begin{proof}
 The proof of this will look very similar to the proof of WGARP, except that the elements in $\sum_{i=1}^{k-1}A_{d}^{i}$ will no longer be binary $(\{0,1\})$. However, they are all $\geq0$. Let $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, then $\beta_{d_{i,j}}$ would be the number of directed walks between vertex $i$ and vertex $j$ of any length up to $k-1$. Note that we chose to sum up to $k-1$ since anything past that, we would definitely have a cycle and summing past that point is redundant.
@@ -503,13 +503,13 @@ The following section explores a method to use graph theory and weighted adjacen
 \textbf{Idea:} The main idea here is that we can reconsider our graphs $G_d, G_s$ to make them into weighted graphs that reflect the extent to which a bundle is (strictly) directly revealed preferred to another one. We then use the information obtained from these new graphs to calculate a CCEI score associated with our dataset $(\mathcal{X},\mathcal{P})$.
 \bigskip
 
-Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ as before. Then let us set up $G_d$ and $G_s$ but for each $e_d\in E_d$ and $e_s\in E_s$, define a function $W:E_d \cup E_s\to\mathbb{R}_{\geq0}$ so that $W(e_d)$ is the weight of edge $e_d$ and $W(e_s)$ is the weight of edge $e_s$. Let us rigorously define our weight functions.
+Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ as before. Then let us set up $G_d$ and $G_s$ but define functions: $W_d:E_d \to\mathbb{R}_{\geq1}$ and $W_s:E_s \to\mathbb{R}_{>1}$ so that $W(e_d)$ is the weight of edge $e_d$ and $W(e_s)$ is the weight of edge $e_s$. Let us rigorously define our weight functions.
 \bigskip
 
-Let $e_d \in E_d \subseteq E_d\cup E_s$. Then we know that, for $i\not=j$, $e_d=(X_i, X_j)$ such that $X_i R_D X_j$, which means $P_iX_i\geq P_iX_j$. We define $W$ such that $W(e_d)=\frac{P_iX_i}{P_iX_j}-1$. Note then that all the weights will be non-negative since $P_iX_i\geq P_iX_j$ is needed for the edge to exist. This, however, does raise the issue of edges with weights of zero, which we will address later. Further, let $e_s\in E_s\subseteq E_d\cup E_s$, we then know that, for $i\not=j$, $e_s=(X_i, X_j)$ such that $X_i R_{SD} X_j$, which means $P_iX_i>P_iX_j$. Then $W(e_s)=\frac{P_iX_i}{P_iX_j}-1$. Note that all edges will have weights $>0$ in this case, as $P_iX_i>P_iX_j$ is needed for the edge to exist.
+Let $e_d \in E_d$ and $e_s\in E_s$ Then we know that, for $i\not=j$, $e_d=(X_i, X_j)$ such that $X_i R_D X_j$, which means $P_iX_i\geq P_iX_j$. We define $W_d$ such that $W_d(e_d)=\frac{P_iX_i}{P_iX_j}$. Further, let $e_s\in E_s$, we then know that, for $i\not=j$, $e_s=(X_i, X_j)$ such that $X_i R_{SD} X_j$, which means $P_iX_i>P_iX_j$. Then $W_s(e_s)=\frac{P_iX_i}{P_iX_j}>1$.
 \bigskip
 
-Then let's consider our expenditure matrix, as given in the previous section:
+Then we create the weighted adjacency matrices (for $G_d$ and $G_s$) from our dataset. Let's consider our expenditure matrix, as given in the previous section:
 
 \[
 Exp = 
@@ -536,12 +536,7 @@ Exp_{diag} =
 We then create a matrix $Q$ such that:
 
 \[
-Q = Exp_{diag} \varoslash Exp - 
- \begin{pmatrix}
-  1 & \cdots & 1 \\
-  \vdots & \ddots & \vdots \\
-  1 & \cdots & 1
- \end{pmatrix}
+Q = Exp_{diag} \varoslash Exp
 \]
 
 Since the "$\varoslash$" means division by element, and we know that both $Exp_{diag}, Exp$ are both positive matrices with no zero element (prices are clearly always positive, and all we need is that the quantity vector has at least one non-zero element in it, which we can assume), we get the following:
@@ -549,27 +544,27 @@ Since the "$\varoslash$" means division by element, and we know that both $Exp_{
 \[
 Q = 
  \begin{pmatrix}
-  0 & q_{1,2} & \cdots & q_{1,k} \\
-  q_{2,1} & 0 & \cdots & q_{2,k} \\
+  1 & q_{1,2} & \cdots & q_{1,k} \\
+  q_{2,1} & 1 & \cdots & q_{2,k} \\
   \vdots & \vdots & \ddots & \vdots \\
-  q_{k,1} & q_{k,2} & \cdots & 0
+  q_{k,1} & q_{k,2} & \cdots & 1
  \end{pmatrix} =
  \begin{pmatrix}
- 0 & \frac{P_2X_2}{P_2X_1}-1 & \cdots & \frac{P_kX_k}{P_kX_1}-1 \\[6pt]
- \frac{P_1X_1}{P_1X_2}-1 & 0 & \cdots & \frac{P_kX_k}{P_kX_2}-1 \\[6pt]
+ 1 & \frac{P_2X_2}{P_2X_1} & \cdots & \frac{P_kX_k}{P_kX_1} \\[6pt]
+ \frac{P_1X_1}{P_1X_2} & 1 & \cdots & \frac{P_kX_k}{P_kX_2} \\[6pt]
  \vdots & \vdots & \ddots & \vdots \\[6pt]
- \frac{P_1X_1}{P_1X_k}-1 & \frac{P_2X_2}{P_2X_k}-1 & \cdots & 0
+ \frac{P_1X_1}{P_1X_k} & \frac{P_2X_2}{P_2X_k} & \cdots & 1
  \end{pmatrix}
 \]
 
-Then we define two functions, $d:\mathbb{R}\to\mathbb{R}$ and $s:\mathbb{R}\to\mathbb{R}$, as follows:
+Then we define two functions, $d:\mathbb{R}_{+}\to\mathbb{R}_{\geq1}\cup\{0\}$ and $s:\mathbb{R}_{+}\to\mathbb{R}_{>1}\cup\{0\}$, as follows:
 
 \begin{minipage}{.5\linewidth}
 \[ 
 d(x)=
  \begin{cases} 
-   x & x\geq0 \\
-    -1 & x<0
+   x & x\geq1 \\
+    0 & x<1
  \end{cases}
 \]
 \end{minipage}
@@ -577,57 +572,53 @@ d(x)=
 \[
 s(x)=
     \begin{cases} 
-      x & x>0 \\
-      -1 & x\leq0
+      x & x>1 \\
+      0 & x\leq1
    \end{cases}
 \]
 \end{minipage}
 
-Note that $d$ and $s$ are functions that will be applied to $Q$ for it to reflect the extent of either direct and strictly direct revealed preferences, with 0 being non-(strictly) directly revealed preferred. We then can define our adjacency matrices, $\Omega_d$ and $\Omega_s$ as follows (by applying $d,s$ to each element excpept the diagonals):
+Note that $d$ and $s$ are functions that will be applied to $Q$ for it to reflect the extent of either direct and strictly direct revealed preferences, with 0 being non-(strictly) directly revealed preferred. We then can define our adjacency matrices, $\Omega_d$ and $\Omega_s$ as follows (by applying $d,s$ to each element excpept the diagonals, and setting the diagonals to 0, as there are no loops in our graph):
 
 \[
 \Omega_d =
   \begin{pmatrix}
-  -1 & d(q_{1,2}) & \cdots & d(q_{1,k}) \\
-    d(q_{2,1}) & -1 & \cdots & d(q_{2,k}) \\
+  0 & d(q_{1,2}) & \cdots & d(q_{1,k}) \\
+    d(q_{2,1}) & 0 & \cdots & d(q_{2,k}) \\
     \vdots & \vdots & \ddots & \vdots \\
-    d(q_{k,1}) & d(q_{k,2}) & \cdots & -1
+    d(q_{k,1}) & d(q_{k,2}) & \cdots & 0
   \end{pmatrix}^T
 \]
 
 \[
 \Omega_s =
   \begin{pmatrix}
-  -1 & s(q_{1,2}) & \cdots & s(q_{1,k}) \\
-    s(q_{2,1}) & -1 & \cdots & s(q_{2,k}) \\
+  0 & s(q_{1,2}) & \cdots & s(q_{1,k}) \\
+    s(q_{2,1}) & 0 & \cdots & s(q_{2,k}) \\
     \vdots & \vdots & \ddots & \vdots \\
-    s(q_{k,1}) & s(q_{k,2}) & \cdots & -1
+    s(q_{k,1}) & s(q_{k,2}) & \cdots & 0
   \end{pmatrix} ^T
 \]
 
-Note that these are awfully similar to $A_d$ and $A_s$ in the previous section except that the matrix is no longer filled with binary elements but actually capture the extent of each preference and the diagonals are now $-1$'s instead of $0$'s. Recall that in $\Omega_d$, in the case that $\frac{P_iX_i}{P_iX_j}-1=0$ (i.e. $P_iX_i=P_iX_j$), we have an edge with zero weight. But since we still want the edge there, we will represent all the cases in which there are \textit{no} edges with $-1$'s in the adjacency matrix. For consistency's sake, we will maintain the same rule for $\Omega_s$ even though the problem doesn't necesarrily apply. We shall briefly go over the reasoning behind why $\Omega_d$ is in fact the weighted adjacency matrix. The reader should follow similar logic to understand $\Omega_s$ as well.
+Note that these are awfully similar to $A_d$ and $A_s$ in the previous section except that the matrix is no longer filled with binary elements but actually capture the extent of each preference. We shall briefly go over the reasoning behind why $\Omega_d$ is in fact the weighted adjacency matrix. The reader should follow similar logic to understand $\Omega_s$ as well. Let $i\not=j$ for simplicity and:
 \begin{itemize}
   \item We first see that $\Omega_{d_{i,j}}$ is in fact $d(q_{j,i})$.
-  \item If $\Omega_{d_{i,j}}=d(q_{j,i})=-1$, we have $q_{j,i}<0$ and hence $\frac{P_iX_i}{P_iX_j}-1<0$ and thus $P_iX_i<P_iX_j$. We then get $\neg(X_i R_D X_j)$ so there's no edge between $X_i$ and $X_j$. Hence $\Omega_{d_{i,j}}=-1$, as desired.
-  \item If $\Omega_{d_{i,j}}=d(q_{j,i})\geq0$, we then have $q_{j,i}\geq0$ and hence $\frac{P_iX_i}{P_iX_j}-1\geq0$ and thus $P_iX_i\geq P_iX_j$. Thus we have an edge between $X_i$ and $X_j$ for $i\not=j$, as $X_iR_D X_j$ by definition. We then note that $d$ is in fact a bijective function for values $\geq0$ and that since $q_{j,i}\geq0$, we have that $d(q_{j,i})=q_{j,i}$ Following definitions, we get $\Omega_{d_{i,j}}=d(q_{j,i})=q_{j,i}=\frac{P_iX_i}{P_iX_j}-1\geq0$, which are precisely the weights we wanted with the $W_d$ function defined earlier.
+  \item If $\Omega_{d_{i,j}}=d(q_{j,i})=0$, we have $q_{j,i}<1$ and hence $\frac{P_iX_i}{P_iX_j}<1$ and thus $P_iX_i<P_iX_j$. We then get $\neg(X_i R_D X_j)$ so there's no edge between $X_i$ and $X_j$. Hence $\Omega_{d_{i,j}}=-1$, as desired.
+  \item If $\Omega_{d_{i,j}}=d(q_{j,i})\geq1$, we then have $q_{j,i}\geq1$ and hence $\frac{P_iX_i}{P_iX_j}\geq1$ and thus $P_iX_i\geq P_iX_j$. Thus we have an edge between $X_i$ and $X_j$ for $i\not=j$, as $X_iR_D X_j$ by definition. We then note that $d$ is in fact a bijective function (identity function) for the subset of the domain that's $\geq1$ and that since $q_{j,i}\geq1$, we have that $d(q_{j,i})=q_{j,i}$ Following definitions, we get $\Omega_{d_{i,j}}=d(q_{j,i})=q_{j,i}=\frac{P_iX_i}{P_iX_j}\geq1$, which are precisely the weights we wanted with the $W_d$ function defined earlier.
 \end{itemize}
-Let $X_i$ and $X_j$ be two vertices (bundles) for $i,j\in\{1,\ldots,k\}$ such that $i\not=j$. If $(X_i, X_j)\in E_d \cup E_s (=E_d)$ (i.e. $X_i$ is at least directly revealed preferred to $X_j$ and that $E_s\subseteq E_d$), we then know that, for $e_d=(X_i, X_j)\in E_d$, $W(e_d)=\frac{P_iX_i}{P_iX_j}-1\geq0$. Then, we claim that $\exists c_{ij}\in[0,1]$ such that $c_{ij}\frac{P_iX_i}{P_iX_j}-1=0$. Intuitively, we say that for some bundle $i$ that we know is at least directly revealed preferred (and thus have to be SDRP, by definition) to bundle $j$, we can find some $c_{ij}$ that "shrinks" the budget of $i$ by an amount such that bundle $i$ is no longer strictly directly revealed preferred to bundle $j$ (but still directly revealed preferred). We then know that $\forall\varepsilon>0$, $(c_{ij}-\varepsilon)\frac{P_iX_i}{P_iX_j}-1<0$ and hence $(c_{ij}-\varepsilon)$ will shrink bundle $i$ to be no longer directly revealed preferred to bundle $j$ (I'm actually not sure about this claim, need to discuss with an analysis professor). Putting in graph theory context, we're shrinking the price vector by a constant before "multiplying" it to the quantity vector, therefore changing the relationship between vertices $X_i$ and $X_j$. We can see this easily by rearranging our equation with vector operation rules: $\frac{(c_{ij}P_i)X_i}{P_iX_j}-1=0$. Now we shall prove our claim of $c_{ij}$'s existence.
+Let $X_i$ and $X_j$ be two vertices (bundles) for $i,j\in\{1,\ldots,k\}$ such that $i\not=j$. If $(X_i, X_j)\in E_d$ (i.e. $X_i$ is directly revealed preferred to $X_j$), we then know that, for $e_d=(X_i, X_j)\in E_d$, $W_d(e_d)=\frac{P_iX_i}{P_iX_j}\geq1$. Then, we claim that $\exists c_{ij}\in(0,1]$ such that $c_{ij}\frac{P_iX_i}{P_iX_j}=1$. Intuitively, we say that for some bundle $i$ that we know is at least directly revealed preferred (and thus have to be SDRP, by definition) to bundle $j$, we can find some $c_{ij}$ that "shrinks" the budget of $i$ by an amount such that bundle $i$ is no longer strictly directly revealed preferred to bundle $j$ (but still directly revealed preferred). Putting in graph theory context, we're shrinking the price vector of the numerator by a constant before "multiplying" it to the quantity vector, therefore changing the relationship between vertices $X_i$ and $X_j$. We can see this easily by rearranging our equation with vector operation rules: $\frac{(c_{ij}P_i)X_i}{P_iX_j}=1$. Now we shall prove our claim of $c_{ij}$'s existence.
 
 
 
 \bigskip
 
-\textit{Lemma B:} For $i,j\in\{1,\ldots,k\}$ such that $i\not=j$, let $e_d=(X_i,X_j)\in E_d$ and $W(e_d)=\frac{P_iX_i}{P_iX_j}-1\geq0$ be the weight of $e_d$ as defined. Then $c_{ij}=\frac{1}{W(e_d)+1}$ is the constant such that $c_{ij}\frac{P_iX_i}{P_iX_j}-1=0$.
+\textit{Lemma B:} For $i,j\in\{1,\ldots,k\}$ such that $i\not=j$, let $e_d=(X_i,X_j)\in E_d$ and $W_d(e_d)=\frac{P_iX_i}{P_iX_j}\geq1$ be the weight of $e_d$ as defined. Then $c_{ij}=\frac{1}{W_d(e_d)}=\frac{P_iX_j}{P_iX_i}$ is the constant such that $c_{ij}\frac{P_iX_i}{P_iX_j}=1$.
 
-\begin{proof}
-First, note that $W(e_d)\in \mathbb{R}_{\geq0}$ and thus $c_{ij}=\frac{1}{W(e_d)+1}\in[0,1]$. Then, by assumption, we let $W(e_d)=\frac{P_iX_i}{P_iX_j}-1$. Thus: $$c_{ij}=\frac{1}{(\frac{P_iX_i}{P_iX_j}-1)+1}=\frac{1}{\frac{P_iX_i}{P_iX_j}}=\frac{P_iX_j}{P_iX_i}$$ 
-We then have: $$c_{ij}\frac{P_iX_i}{P_iX_j}-1=\frac{P_iX_j}{P_iX_i}\frac{P_iX_i}{P_iX_j}-1=1-1=0$$
-which concludes our proof.
-\end{proof}
+This is pretty self explanatory. We see that, since $W_d(e_d)\geq1$ by construction, thus $c_{ij}=\frac{1}{W_d(e_d)}\in(0,1]$. It's interesting to note that $s(c_{ij}\frac{P_iX_i}{P_iX_j})=0$ by the definition of function $s$.
 
 \textbf{What does this buy us?}
 
-Note that for all edges, $W((X_i, X_j))$ is the $(i,j)^{th}$ element of the adjacency matrix in which the edge exists. In the case, if $X_i$ and $X_j$ are the vertices that present a conflict that violates GARP, we can find $\omega_{ij}=min\{W((X_i, X_j)), W((X_j, X_i))\}$ and calculate a $c_{ij}$ such that, $\forall\varepsilon>0$, $c_{ij}-\varepsilon$ completely solves the violation. The following paragraphs will detail and prove how this process is possible.
+Note that for all edges, $W\big((X_i, X_j)\big)$ is the $(i,j)^{th}$ element of the adjacency matrix in which the edge exists. In this case, if $(X_i, X_j)$ is an edge causing a violation, we can ``solve'' the violation with a constant $c_{ij}$.
 \bigskip
 
 We now define function $\lambda:\mathbb{R}^{m\times m} \times \mathbb{R}^{m\times m} \to \mathbb{R}^{m\times m}$ as follows:
@@ -644,43 +635,43 @@ We further define a function $\lambda_t:(\mathbb{R}^{m\times m})^t\to\mathbb{R}^
 \[
   \lambda_t(Y_1,\ldots, Y_t) =
     \underbrace{\lambda(\cdots\lambda(\lambda(\lambda(}_\text{t-1 times}
-    Y_1,Y_2),Y_3),Y_4,\ldots, Y_t)
+    Y_1,Y_2),Y_3),Y_4),\ldots, Y_t)
 \]
 
 \textit{Theorem 3:} $\forall t\in \mathbb{N}_{\geq2}$,
 \[
   \lambda_t(\underbrace{\Omega_d,\ldots,\Omega_d}_\text{t times})_{i,j}=
   \begin{cases}
-  -1 & \textrm{if } X_i, X_j\textrm{ are not connected by a walk of }t \textrm{ edges} \\
+  0 & \textrm{if } X_i, X_j\textrm{ are not connected by a walk of }t \textrm{ edges} \\
   & \textrm{on }G_d \\
   \rho_{i,j} & \textrm{such that }\rho_{i,j}\textrm{ is the weight of the strongest edge } \\
   &\textrm{among the weakest edges of all walks of } t \textrm{ edges} \\
   & \textrm{from }X_i\textrm{ to }X_j \textrm{ on } G_d
   \end{cases}
 \]
-We abbreviate $\lambda_t(\Omega_d,\ldots,\Omega_d)=\lambda_t(\Omega_d)$. Then, we formally write:
+We abbreviate $\lambda_t(\Omega_d,\ldots,\Omega_d)=\lambda^t(\Omega_d)$. Then, we formally write:
 \[
-  \lambda_t(\Omega_d)_{i,j}=
+  \lambda^t(\Omega_d)_{i,j}=
   \begin{cases}
-  -1 & \textrm{if } \nexists (X^v)_{v=1}^{t-1} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
+  0 & \textrm{if } \nexists (X^v)_{v=1}^{t-1} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
   & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
   & (X^{t-1},X_j)\in E_d\\ 
   \rho_{i,j} & \textrm{if }\exists (X^{uv})_{u,v=1}^{u=U,\ v=t-1}\ (\textrm{for some }U\geq1) \\
   & \textrm{such that }\forall u,\ \forall v,\ X^{uv}\in\mathcal{X} \textrm{ and } \\
   & (X^{uv},X^{u(v+1)})\in E_d\ (\textrm{if }t>2), (X_i, X^{u1})\in E_d \textrm{ and } \\
   & (X^{u(t-1)},X_j)\in E_d, \textrm{ then: } \\
-  & \rho_{i,j}=max\Big\{min\big\{W(X_i,X^{u1}),W(X^{uv},X^{u(v+1)}), \\
-  & W(X^{u(t-1)},X_j)\ |\ v\in\{1,\ldots,t-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\} \\
+  & \rho_{i,j}=max\Big\{min\big\{W_d\big((X_i,X^{u1})\big),W_d\big((X^{uv},X^{u(v+1)})\big), \\
+  & W_d\big((X^{u(t-1)},X_j)\big)\ |\ v\in\{1,\ldots,t-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\} \\
   &\textrm{if } t>2,\ \textrm{and }\\
-  &\rho_{i,j}=max\Big\{min\big\{W(X_i,X^{u1}), W(X^{u1},X_j)\big\}\ |\ u\in\\
+  &\rho_{i,j}=max\Big\{min\big\{W_d\big((X_i,X^{u1})\big), W\big((X^{u1},X_j)\big)\big\}\ |\ u\in\\
   &\{1,\ldots,U\}\Big\} \textrm{ if } t=2\\
   \end{cases}
 \]
-Note that $\forall i,j$, $\rho_{i,j}\geq0$ since $W$ is the weight function as defined earlier such that $W:E_d \cup E_s\to\mathbb{R}_{\geq0}$. Further, intuitively, we say:
+Note that $\forall i,j$, $\rho_{i,j}\geq1$ since $W_d$ is the weight function as defined earlier such that $W:E_d \cup E_s\to\mathbb{R}_{\geq0}$. Further, intuitively, we say:
 \[
-  \lambda_t(\Omega_d)_{i,j}=
+  \lambda^t(\Omega_d)_{i,j}=
   \begin{cases}
-  -1 & \textrm{if bundles }X_i \textrm{ and }X_j\textrm{ are not connected by a} \\
+  0 & \textrm{if bundles }X_i \textrm{ and }X_j\textrm{ are not connected by a} \\
   & \textrm{preference chain of length } t\\
   \rho_{i,j} & \textrm{where }\rho_{i,j}\textrm{ is the largest weight across the weights} \\
   & \textrm{of the smallest preferences in each preference chain }\\
@@ -787,19 +778,19 @@ We approach this with proof by induction.
 \end{flalign*}
 We then consider two cases:
 
-\circled{1} If $\forall f\in\{1,\ldots,k\}$, $\Omega^d_{i,f}=-1$ or $\Omega^d_{f,j}=-1$, then $\lambda(\Omega_d,\Omega_d)_{i,j}=-1$ as $\forall i,j\in\{1,\ldots,k\}$, $\Omega^d_{i,j}\in\{-1\}\cup\mathbb{R}_{\geq0}$. Thus, if $\forall f\in\{1,\ldots,k\}$, $\Omega^d_{i,f}=-1$ or $\Omega^d_{f,j}=-1$, then $\lambda(\Omega_d,\Omega_d)_{i,j}=max\{-1,\ldots,-1\}=-1$.
+\circled{1} If $\forall f\in\{1,\ldots,k\}$, $\Omega^d_{i,f}=0$ or $\Omega^d_{f,j}=0$, then $\lambda(\Omega_d,\Omega_d)_{i,j}=0$ as $\forall i,j\in\{1,\ldots,k\}$, $\Omega^d_{i,j}\in\{0\}\cup\mathbb{R}_{\geq1}$. Thus, if $\forall f\in\{1,\ldots,k\}$, $\Omega^d_{i,f}=0$ or $\Omega^d_{f,j}=0$, then $\lambda(\Omega_d,\Omega_d)_{i,j}=max\{0,\ldots,0\}=0$.
 
-\circled{2} Suppose $\exists F\subseteq\{1,\ldots,k\}$ (where $F\not=\varnothing$) such that $\forall f\in F$, $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$. We then have $\lambda(\Omega_d,\Omega_d)_{i,j}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}, -1\ |\ f\in F\big\}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$.
+\circled{2} Suppose $\exists F\subseteq\{1,\ldots,k\}$ (where $F\not=\varnothing$) such that $\forall f\in F$, $\Omega^d_{i,f}\geq1$ and $\Omega^d_{f,j}\geq1$. We then have $\lambda(\Omega_d,\Omega_d)_{i,j}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}, 0\ |\ f\in F\big\}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$.
 
 Considering \circled{1} and \circled{2}, we have precisely the definition in our claim:
 
-For \circled{1}, if $\nexists f$ such that $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$, then we know $(X_i,X_f)\not\in E_d$ or $(X_f, X_j)\not\in E_d$ for all $f\in\{1,\ldots,k\}$. Hence, $\nexists (X^v)_{v=1}^1=X^v$ such that $X^v\in \mathcal{X}$ and $(X_i,X^v)\in E_d$ and $(X^v,X_j)\in E_d$, which is precisely our condition in the first case of the formalized version of our claim.
+For \circled{1}, if $\nexists f$ such that $\Omega^d_{i,f}\geq1$ and $\Omega^d_{f,j}\geq1$, then we know $(X_i,X_f)\not\in E_d$ or $(X_f, X_j)\not\in E_d$ for all $f\in\{1,\ldots,k\}$. Hence, $\nexists (X^v)_{v=1}^1=X^v$ such that $X^v\in \mathcal{X}$ and $(X_i,X^v)\in E_d$ and $(X^v,X_j)\in E_d$, which is precisely our condition in the first case of the formalized version of our claim.
 
-For \circled{2}, we have that $\lambda(\Omega_d,\Omega_d)_{i,j}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$, where $\varnothing\not=F\subseteq\{1,\ldots,k\}$ such that $\forall f\in F$, $\Omega^d_{i,f}\geq0$ and $\Omega^d_{f,j}\geq0$. We then know that, $\forall f\in F$, $(X_i,X_f)\in E_d$ and $(X_f,X_j)\in E_d$. Then, we know that $\exists(X^{uv})_{u,v=1}^{u=U,\ v=1}=(X^{u1})_{u=1}^{U}$ (for $U=|F|$) such that $\forall u$, $X^{u1}\in\mathcal{X}$ and $(X_i,X^{u1})\in E_d$ and $(X^{u1},X_j)\in E_d$. We then have:
+For \circled{2}, we have that $\lambda(\Omega_d,\Omega_d)_{i,j}=max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$, where $\varnothing\not=F\subseteq\{1,\ldots,k\}$ such that $\forall f\in F$, $\Omega^d_{i,f}\geq1$ and $\Omega^d_{f,j}\geq1$. We then know that, $\forall f\in F$, $(X_i,X_f)\in E_d$ and $(X_f,X_j)\in E_d$. Then, we know that $\exists(X^{uv})_{u,v=1}^{u=U,\ v=1}=(X^{u1})_{u=1}^{U}$ (for $U=|F|$) such that $\forall u$, $X^{u1}\in\mathcal{X}$ and $(X_i,X^{u1})\in E_d$ and $(X^{u1},X_j)\in E_d$. We then have:
 \begin{flalign*}
 \lambda(\Omega_d,\Omega_d)_{i,j} &= max\big\{min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\} &\\
-& = max\big\{min\{W(X_i, X_f), W(X_f,X_j)\}\ |\ f\in F\big\} &\\
-& = max\big\{min\{W(X_i, X^{u1}), W(X^{u1},X_j)\}\ |\ u\in\{1,\ldots,U\}\big\} &\\
+& = max\big\{min\{W_d\big((X_i, X_f)\big), W_d\big((X_f,X_j)\big)\}\ |\ f\in F\big\} &\\
+& = max\big\{min\{W_d\big((X_i, X^{u1})\big), W_d\big((X^{u1},X_j)\big)\}\ |\ u\in\{1,\ldots,U\}\big\} &\\
 & \textrm{ by construction of } F \textrm{ and }(X^{u1})_{u=1}^{U}
 \end{flalign*}
 Which is precisely our value in the second case of the formalized version of our claim. Combining those, our base case is complete.
@@ -814,15 +805,15 @@ For the ease of notation, we will denote the matrix $\lambda_n(\Omega_d,\ldots,\
 \[
 \lambda^n(\Omega_d)_{i,j}=
 \begin{cases}
--1 & \textrm{if } \nexists (X^v)_{v=1}^{n-1} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
+0 & \textrm{if } \nexists (X^v)_{v=1}^{n-1} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
   & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
   & (X^{n-1},X_j)\in E_d\\ 
 \rho_{i,j} & \textrm{if }\exists (X^{uv})_{u,v=1}^{u=U,\ v=n-1}\ (\textrm{for some }U\geq1) \\
   & \textrm{such that }\forall u,\ \forall v,\ X^{uv}\in\mathcal{X} \textrm{ and } \\
   & (X^{uv},X^{u(v+1)})\in E_d, (X_i, X^{u1})\in E_d \textrm{ and } \\
   & (X^{u(n-1)},X_j)\in E_d, \textrm{ then: } \\
-  & \rho_{i,j}=max\Big\{min\big\{W(X_i,X^{u1}),W(X^{uv},X^{u(v+1)}), \\
-  & W(X^{u(n-1)},X_j)\ |\ v\in\{1,\ldots,n-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\}
+  & \rho_{i,j}=max\Big\{min\big\{W_d\big((X_i,X^{u1})\big),W_d\big((X^{uv},X^{u(v+1)})\big), \\
+  & W_d\big((X^{u(n-1)},X_j)\big)\ |\ v\in\{1,\ldots,n-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\}
 \end{cases}
 \]
 Now let $t=n+1$, we then have:
@@ -843,15 +834,15 @@ Similarly, we denote $\lambda_{n+1}(\Omega_d,\ldots,\Omega_d)=\lambda^{n+1}(\Ome
 
 We then have the following 2 cases:
 
-\circled{1} If $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=-1$ or $\Omega^d_{l,j}=-1$, then $\lambda^{n+1}(\Omega_d)_{i,j}=-1$. This is because $\forall i,j\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,j},\ \Omega^d_{i,j}\in\{-1\}\cup\mathbb{R}_{\geq0}$ (since elements of $\lambda^n(\Omega_d)$ are simply drawn from elements of $\Omega_d$). Thus, if $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=-1$ or $\Omega^d_{l,j}=-1$, then $\lambda^{n+1}(\Omega_d)_{i,j}=max\{-1,\ldots,-1\}=-1$.
+\circled{1} If $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=0$ or $\Omega^d_{l,j}=0$, then $\lambda^{n+1}(\Omega_d)_{i,j}=0$. This is because $\forall i,j\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,j},\ \Omega^d_{i,j}\in\{0\}\cup\mathbb{R}_{\geq1}$ (since elements of $\lambda^n(\Omega_d)$ are simply drawn from elements of $\Omega_d$). Thus, if $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=0$ or $\Omega^d_{l,j}=0$, then $\lambda^{n+1}(\Omega_d)_{i,j}=max\{0,\ldots,0\}=0$.
 
-\circled{2} If $\exists L\in\{1,\ldots,k\}$ (where $L\not=\varnothing$) such that $\forall l\in L$, $\lambda^n(\Omega_d)_{i,l}\geq0$ and $\Omega^d_{l,j}\geq0$, then: $\lambda^{n+1}(\Omega_d)_{i,j}=max\big\{min\{\lambda^n(\Omega_d)_{i,l}, \Omega^d_{l,j},-1\}\ |\ l\in L\big\}=max\big\{min\{\lambda^n(\Omega_d)_{i,l}, \Omega^d_{l,j}\}\ |\ l\in L\big\}$
+\circled{2} If $\exists L\in\{1,\ldots,k\}$ (where $L\not=\varnothing$) such that $\forall l\in L$, $\lambda^n(\Omega_d)_{i,l}\geq1$ and $\Omega^d_{l,j}\geq1$, then: $\lambda^{n+1}(\Omega_d)_{i,j}=max\big\{min\{\lambda^n(\Omega_d)_{i,l}, \Omega^d_{l,j},0\}\ |\ l\in L\big\}=max\big\{min\{\lambda^n(\Omega_d)_{i,l}, \Omega^d_{l,j}\}\ |\ l\in L\big\}$
 
 Again, considering \circled{1} and \circled{2}, we have precisely our formalized claim:
 
-For \circled{1}, if $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=-1$ or $\Omega^d_{l,j}=-1$, then we know that, $\forall l$, $\Big[\nexists (X^v)_{v=1}^{n-1}$ such that $\forall v$, $X^v\in\mathcal{X}$ and $(X^v, X^{v+1})\in E_d$, $(X_i,X^1)\in E_d$ and $(X^{n-1},X_l)\in E_d\Big]$ or $\Big[ (X_l,X_j)\not\in E_d\Big]$. Hence, we know $\nexists (X^v)_{v=1}^{n}$ such that $\forall v$, $X^v\in \mathcal{X}$ and $(X^v, X^{v+1})\in E_d$, $(X_i, X^1)\in E_d$ and $(X^n,X_j)\in E_d$, which is precisely the condition in the first case of our formalized claim, when $\lambda^{n+1}(\Omega_d)=-1$.
+For \circled{1}, if $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=0$ or $\Omega^d_{l,j}=0$, then we know that, $\forall l$, $\Big[\nexists (X^v)_{v=1}^{n-1}$ such that $\forall v$, $X^v\in\mathcal{X}$ and $(X^v, X^{v+1})\in E_d$, $(X_i,X^1)\in E_d$ and $(X^{n-1},X_l)\in E_d\Big]$ or $\Big[ (X_l,X_j)\not\in E_d\Big]$. Hence, we know $\nexists (X^v)_{v=1}^{n}$ such that $\forall v$, $X^v\in \mathcal{X}$ and $(X^v, X^{v+1})\in E_d$, $(X_i, X^1)\in E_d$ and $(X^n,X_j)\in E_d$, which is precisely the condition in the first case of our formalized claim, then we have $\lambda^{n+1}(\Omega_d)=0$.
 
-For \circled{2}, we have that $\lambda^{n+1}(\Omega_d)_{i,j}=max\big\{min\{\lambda^n(\Omega_d)_{i,l},\Omega^d_{l,j}\}\ |\ l\in L\big\}$, where $\varnothing\not=L\subseteq\{1,\ldots,k\}$ such that $\forall l\in L$, $\lambda^n(\Omega_d)_{i,l}\geq0$ and $\Omega^d_{l,j}\geq0$. By the definition of $\lambda^n$ function, we know that if $\lambda^n(\Omega_d)_{i,l}\not=\rho_{i,l}$, then $\lambda^n(\Omega_d)_{i,l}=-1$. Taking the contrapositive, we have that if $\lambda^n(\Omega_d)_{i,l}\not=-1$, then $\lambda^n(\Omega_d)_{i,l}=\rho_{i,l}$ (as $\rho_{i,l}$ is defined in the function). Since we have $-1\not=\lambda^n(\Omega_d)_{i,l}\geq0$, we then know that $\lambda^n(\Omega_d)_{i,l}=\rho_{i,l}$. We then have that:
+For \circled{2}, we have that $\lambda^{n+1}(\Omega_d)_{i,j}=max\big\{min\{\lambda^n(\Omega_d)_{i,l},\Omega^d_{l,j}\}\ |\ l\in L\big\}$, where $\varnothing\not=L\subseteq\{1,\ldots,k\}$ such that $\forall l\in L$, $\lambda^n(\Omega_d)_{i,l}\geq1$ and $\Omega^d_{l,j}\geq1$. By the definition of $\lambda_n$ function, we know that if $\lambda^n(\Omega_d)_{i,l}\not=\rho_{i,l}$, then $\lambda^n(\Omega_d)_{i,l}=0$. Taking the contrapositive, we have that if $\lambda^n(\Omega_d)_{i,l}\not=0$, then $\lambda^n(\Omega_d)_{i,l}=\rho_{i,l}$ (as $\rho_{i,l}$ is defined in the function). Since we have $0\not=\lambda^n(\Omega_d)_{i,l}\geq1$, we then know that $\lambda^n(\Omega_d)_{i,l}=\rho_{i,l}$. We then have that:
 \begin{flalign*}
 \lambda^{n+1}(\Omega_d)_{i,j} & =max\big\{min\{\lambda^n(\Omega_d)_{i,l},\Omega^d_{l,j}\}\ |\ l\in L\big\} &\\
 & = max\big\{min\{\rho_{i,l},\Omega^d_{l,j}\}\ |\ l\in L\big\}
@@ -870,14 +861,14 @@ We then let $l_m\in L$ denote the $m^{th}$ element of $L$ such that $L=\{l_1,\ld
           \begin{aligned}
             &min\left\{
             \begin{aligned}
-            &W(X_i,X_{l_1}^{u1}), W(X_{l_1}^{uv},X_{l_1}^{u(v+1)}), \\
-            &W(X_{l_1}^{u(n-1)},X_{l_1})\ |\ v\in\{1,\ldots,n-2\}
+            &W_d\big((X_i,X_{l_1}^{u1})\big), W_d\big((X_{l_1}^{uv},X_{l_1}^{u(v+1)})\big), \\
+            &W_d\big((X_{l_1}^{u(n-1)},X_{l_1})\big)\ |\ v\in\{1,\ldots,n-2\}
             \end{aligned}
             \right\} \\
             &|\ u\in\{1,\ldots,U_1\}
           \end{aligned}
           \right\} \\
-          &, W(X_{l_1},X_j)
+          &, W_d\big((X_{l_1},X_j)\big)
       \end{aligned}
       \right\} \\
       &\vdots \\
@@ -890,14 +881,14 @@ We then let $l_m\in L$ denote the $m^{th}$ element of $L$ such that $L=\{l_1,\ld
           \begin{aligned}
             &min\left\{
             \begin{aligned}
-            &W(X_i,X_{l_{|L|}}^{u1}), W(X_{l_{|L|}}^{uv},X_{l_{|L|}}^{u(v+1)}), \\
-            &W(X_{l_{|L|}}^{u(n-1)},X_{l_{|L|}})\ |\ v\in\{1,\ldots,n-2\}
+            &W_d\big((X_i,X_{l_{|L|}}^{u1})\big), W_d\big((X_{l_{|L|}}^{uv},X_{l_{|L|}}^{u(v+1)})\big), \\
+            &W_d\big((X_{l_{|L|}}^{u(n-1)},X_{l_{|L|}})\big)\ |\ v\in\{1,\ldots,n-2\}
             \end{aligned}
             \right\} \\
             &|\ u\in\{1,\ldots,U_{|L|}\}
           \end{aligned}
           \right\} \\
-          &, W(X_{l_{|L|}},X_j)
+          &, W_d\big((X_{l_{|L|}},X_j)\big)
       \end{aligned}
       \right\} \\
   \end{aligned}
@@ -917,14 +908,14 @@ We then construct a sequence $(X^m)_{m=1}^M$ that's in bijection of the set $\{X
           \begin{aligned}
             &min\left\{
             \begin{aligned}
-            &W(X_i,X^{1(u)1}), W(X^{1uv},X^{1u(v+1)}), \\
-            &W(X^{1u(n-1)},X^1)\ |\ v\in\{1,\ldots,n-2\}
+            &W_d\big((X_i,X^{1(u)1})\big), W_d\big((X^{1uv},X^{1u(v+1)})\big), \\
+            &W_d\big((X^{1u(n-1)},X^1)\big)\ |\ v\in\{1,\ldots,n-2\}
             \end{aligned}
             \right\} \\
             &|\ u\in\{1,\ldots,U_1\}
           \end{aligned}
           \right\} \\
-          &, W(X^1,X_j)
+          &, W_d\big((X^1,X_j)\big)
       \end{aligned}
       \right\} \\
       &\vdots \\
@@ -937,14 +928,14 @@ We then construct a sequence $(X^m)_{m=1}^M$ that's in bijection of the set $\{X
           \begin{aligned}
             &min\left\{
             \begin{aligned}
-            &W(X_i,X^{Mu1}), W(X^{Muv},X^{Mu(v+1)}), \\
-            &W(X^{Mu(n-1)},X^M)\ |\ v\in\{1,\ldots,n-2\}
+            &W_d\big((X_i,X^{Mu1})\big), W_d\big((X^{Muv},X^{Mu(v+1)})\big), \\
+            &W_d\big((X^{Mu(n-1)},X^M)\big)\ |\ v\in\{1,\ldots,n-2\}
             \end{aligned}
             \right\} \\
             &|\ u\in\{1,\ldots,U_M\}
           \end{aligned}
           \right\} \\
-          &, W(X^M,X_j)
+          &, W_d\big((X^M,X_j)\big)
       \end{aligned}
       \right\} \\
   \end{aligned}
@@ -963,14 +954,14 @@ Note that the superscripts are indexed as $X^{muv}$. Now, we fix a particular $m
           \begin{aligned}
             &min\left\{
             \begin{aligned}
-            &W(X_i,X^{mu1}), W(X^{muv},X^{mu(v+1)}), \\
-            &W(X^{mu(n-1)},X^m)\ |\ v\in\{1,\ldots,n-2\}
+            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{muv},X^{mu(v+1)})\big), \\
+            &W_d\big((X^{mu(n-1)},X^m)\big)\ |\ v\in\{1,\ldots,n-2\}
             \end{aligned}
             \right\} \\
             &|\ u\in\{1,\ldots,U_m\}
           \end{aligned}
           \right\} \\
-          &, W(X^m,X_j)
+          &, W_d\big((X^m,X_j)\big)
       \end{aligned}
       \right\} \\
       &= \\
@@ -979,8 +970,8 @@ Note that the superscripts are indexed as $X^{muv}$. Now, we fix a particular $m
           \begin{aligned}
             &min\left\{
             \begin{aligned}
-            &W(X_i,X^{mu1}), W(X^{muv},X^{mu(v+1)}), \\
-            &W(X^{mu(n-1)},X^m), W(X^m,X_j)\ \\
+            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{muv},X^{mu(v+1)})\big), \\
+            &W_d\big((X^{mu(n-1)},X^m)\big), W_d\big((X^m,X_j)\big)\ \\
             &|\ v\in\{1,\ldots,n-2\}
             \end{aligned}
             \right\} \\
@@ -999,8 +990,8 @@ Fixing a particular $u\in\{1,\ldots,U_m\}$ (with the already fixed $m$), we cons
           \begin{aligned}
             &min\left\{
             \begin{aligned}
-            &W(X_i,X^{mu1}), W(X^{mug},X^{mu(g+1)}), \\
-            &W(X^{mun},X_j)\ |\ g\in\{1,\ldots,n-1\}\\
+            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{mug},X^{mu(g+1)})\big), \\
+            &W_d\big((X^{mun},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
             \end{aligned}
             \right\} \\
             &|\ u\in\{1,\ldots,U_m\}
@@ -1021,8 +1012,8 @@ Using this equality, we then have:
           \begin{aligned}
             &min\left\{
             \begin{aligned}
-            &W(X_i,X^{mu1}), W(X^{mug},X^{mu(g+1)}), \\
-            &W(X^{mun},X_j)\ |\ g\in\{1,\ldots,n-1\}\\
+            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{mug},X^{mu(g+1)})\big), \\
+            &W_d\big((X^{mun},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
             \end{aligned}
             \right\} \\
             &|\ u\in\{1,\ldots,U_m\}
@@ -1040,8 +1031,8 @@ Grouping the two maximums, we have:
   \begin{aligned}
             &min\left\{
             \begin{aligned}
-            &W(X_i,X^{mu1}), W(X^{mug},X^{mu(g+1)}), \\
-            &W(X^{mun},X_j)\ |\ g\in\{1,\ldots,n-1\}\\
+            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{mug},X^{mu(g+1)})\big), \\
+            &W_d\big((X^{mun},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
             \end{aligned}
             \right\} \\
             &|\ u\in\{1,\ldots,U_m\},\ m\in\{i,\ldots,M\}
@@ -1057,8 +1048,8 @@ Now, consider the sequence $(X^{mug})_{m,u,g=1}^{m=M,\ u=U_m,\ g=n}$. Fixing a p
   \begin{aligned}
             &min\left\{
             \begin{aligned}
-            &W(X_i,X^{z1}), W(X^{zg},X^{z(g+1)}), \\
-            &W(X^{zn},X_j)\ |\ g\in\{1,\ldots,n-1\}\\
+            &W_d\big((X_i,X^{z1})\big), W_d\big((X^{zg},X^{z(g+1)})\big), \\
+            &W_d\big((X^{zn},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
             \end{aligned}
             \right\} \\
             &|\ z\in\{1,\ldots,Z\}
@@ -1071,15 +1062,15 @@ With \circled{1} and \circled{2}, we have the following:
 \[
 \lambda^{n+1}(\Omega_d)_{i,j}=
 \begin{cases}
--1 & \textrm{if } \nexists (X^v)_{v=1}^{n} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
+0 & \textrm{if } \nexists (X^v)_{v=1}^{n} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
   & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
   & (X^{n},X_j)\in E_d\\ 
 \rho_{i,j} & \textrm{if }\exists (X^{zg})_{z,g=1}^{z=Z,\ g=n}\ (\textrm{for some }Z\geq1) \\
   & \textrm{such that }\forall z,\ \forall g,\ X^{zg}\in\mathcal{X} \textrm{ and } \\
   & (X^{zg},X^{z(g+1)})\in E_d, (X_i, X^{z1})\in E_d \textrm{ and } \\
   & (X^{zn},X_j)\in E_d, \textrm{ then: } \\
-  & \rho_{i,j}=max\Big\{min\big\{W(X_i,X^{z1}),W(X^{zg},X^{z(g+1)}), \\
-  & W(X^{zn},X_j)\ |\ g\in\{1,\ldots,n-1\}\big\}\ |\ z\in\{1,\ldots,Z\}\Big\}
+  & \rho_{i,j}=max\Big\{min\big\{W_d\big((X_i,X^{z1})\big),W_d\big((X^{zg},X^{z(g+1)})\big), \\
+  & W_d\big((X^{zn},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\big\}\ |\ z\in\{1,\ldots,Z\}\Big\}
 \end{cases}
 \]
 Hence, our inductive case is proven.
@@ -1087,19 +1078,19 @@ Hence, our inductive case is proven.
 
 We then define a $k\times k$ matrix $\Lambda$ such that $\forall i,j\in\{1,\ldots,k\}$, we have that $\Lambda_{i,j}=max\{\lambda^2(\Omega_d)_{i,j},\lambda^3(\Omega_d)_{i,j},\ldots,\lambda^{k-1}(\Omega_d)_{i,j}\}$ (i.e. $\Lambda$ is the element-wise maximization of matrices $\lambda^2(\Omega_d),\ldots,\lambda^{k-1}(\Omega_d)$). 
 
-\textit{Corollary 3.1:} $\Lambda_{i,j}=\varrho_{i,j}\geq0$, $\forall i,j\{1,\ldots,k\}$ such that $i\not=j$, represents the weight of the strongest edge among the weakest edges of all walks, no matter the number of edges in the walks, from $X_i$ to $X_j$ on $G_d$.
+\textit{Corollary 3.1:} $\Lambda_{i,j}=\varrho_{i,j}\geq1$, $\forall i,j\{1,\ldots,k\}$ such that $i\not=j$, represents the weight of the strongest edge among the weakest edges of all walks, no matter the number of edges in the walks, from $X_i$ to $X_j$ on $G_d$.
 
 This comes directly from \textit{Theorem 3}, as each $\lambda^t(\Omega_d)_{i,j}$ represents the weight of the strongest edge among the weakest edge of \textit{walks of} $t$ \textit{edges} from $X_i$ to $X_j$ on $G_d$. Taking the maximum for $t\in\{1,\ldots,k-1\}$ would cover the strongest edge among weakest edge of all walks (regardless of number of edges) as there are only $k$ total of vertices and we have $i\not=j$.
 
-\textit{Corollary 3.2:} If $\Lambda_{i,j}=-1$, then $\nexists$ any path from $X_i$ to $X_j$ on $G_d$.
+\textit{Corollary 3.2:} If $\Lambda_{i,j}=0$, then $\nexists$ any path from $X_i$ to $X_j$ on $G_d$.
 
-This also comes directly from \textit{Theorem 3}. Since we have $\Lambda_{i,j}=-1$, then $max\{\lambda^2(\Omega_d)_{i,j},\lambda^3(\Omega_d)_{i,j},\ldots,\lambda^{k-1}(\Omega_d)_{i,j}\}=-1$ and hence $\lambda^2(\Omega_d)_{i,j}=\lambda^3(\Omega_d)_{i,j}=\ldots=\lambda^{k-1}(\Omega_d)_{i,j}=-1$.
+This also comes directly from \textit{Theorem 3}. Since we have $\Lambda_{i,j}=0$, then $max\{\lambda^2(\Omega_d)_{i,j},\lambda^3(\Omega_d)_{i,j},\ldots,\lambda^{k-1}(\Omega_d)_{i,j}\}=0$ and hence $\lambda^2(\Omega_d)_{i,j}=\lambda^3(\Omega_d)_{i,j}=\ldots=\lambda^{k-1}(\Omega_d)_{i,j}=0$.
 
-\textit{Theorem 4:} If, $\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=-1$, then the dataset $(\mathcal{X},\mathcal{P})$ has no GARP violations. 
+\textit{Theorem 4:} $\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=0$ if and only if the dataset $(\mathcal{X},\mathcal{P})$ has no GARP violations. 
 
-\textit{Theorem 5:} If $\exists i\in\{1,\ldots,k\}$ such that $\lambda(\Lambda,\Omega_s)_{i,i}\geq0$, then $\lambda(\Lambda,\Omega_s)_{i,i}$ represents the weakest edge of the worst (strongest) GARP violation involving $X_i$.
+\textit{Theorem 5:} If $\exists i\in\{1,\ldots,k\}$ such that $\lambda(\Lambda,\Omega_s)_{i,i}\geq1$, then $\lambda(\Lambda,\Omega_s)_{i,i}$ represents the weakest edge of the worst (strongest) GARP violation involving $X_i$.
 
-\textit{Theorem 6:} Let $\psi = max\big\{\lambda(\Lambda,\Omega_s)_{i,i}\ |\ i\in\{1,\ldots,k\}\big\}$, then let $c=\frac{1}{\psi+1}$. We then have: $\forall \varepsilon>0$, $c-\varepsilon$ is a CCEI score related to the dataset $(\mathcal{X},\mathcal{P})$.
+\textit{Theorem 6:} Let $\psi = max\big\{\lambda(\Lambda,\Omega_s)_{i,i}\ |\ i\in\{1,\ldots,k\}\big\}$, then let $c=\frac{1}{\psi}$. The $c$ is the CCEI score related to the dataset $(\mathcal{X},\mathcal{P})$.
 \bibliographystyle{plainnat}
 \bibliography{bibliography}
 
