@@ -1088,6 +1088,22 @@ This also comes directly from \textit{Theorem 3}. Since we have $\Lambda_{i,j}=0
 
 \textit{Theorem 4:} $\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=0$ if and only if the dataset $(\mathcal{X},\mathcal{P})$ has no GARP violations. 
 
+\begin{proof}
+For all $i\in\{1,\ldots,k\}$, by the definition of the $\lambda$ function, we have that $\lambda(\Lambda,\Omega_s)_{i,i}=0 \iff max\big\{min\{\Lambda_{i,1},\Omega^s_{1,i}\},\ldots, \min\{\Lambda_{i,k},\Omega^s_{k,i}\}\big\}=0$. For notation, we say $max\big\{min\{\Lambda_{i,m},\Omega^s_{m,1}\}\ |\ m\in\{1,\ldots,k\}\big\}=0$. Using the definition of $\Lambda$, we write that $max\big\{min\{\Lambda_{i,m},\Omega^s_{m,i}\}\ |\ m\in\{1,\ldots,k\}\big\}=0 \iff max\Big\{min\big\{max\{\Omega_{d_{i,m}},\lambda^2(\Omega_d)_{i,m},\lambda^3(\Omega_d)_{i,m},\ldots,\lambda^{k-1}(\Omega_d)_{i,m}\}
+,\Omega^s_{m,i}\big\}\ |\ m\in\\ \{1,\ldots,k\} \Big\} = 0$. Note that all terms in this set are $\in\mathbb{R}_{\geq1}\cup\{0\}$ since they are all drawn from $\Omega_d$ and $\Omega_s$. We then say that: $max\Big\{min\big\{max\{\Omega_{d_{i,m}},\lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots,k-1\}\}
+,\Omega^s_{m,i}\big\}\ |\ m\in \{1,\ldots,k\} \Big\} = 0 \iff \Big[\forall m\in\{1,\ldots,k\},\ max\{\Omega_{d_{i,m}}, \\ \lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots,k-1\}\}\geq1 \implies \Omega^s_{m,i}=0\Big]$. Putting these together, we have the following for all $i\in\{1,\ldots,k\}$
+\begin{flalign*}
+\lambda(\Lambda,\Omega_s)_{i,i}=0 & \iff max\big\{min\{\Lambda_{i,m},\Omega^s_{m,1}\}\ |\ m\in\{1,\ldots,k\}\big\}=0 &\\
+& \iff max\Big\{min\big\{max\{\Omega_{d_{i,m}},\lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots,k-1\}\}
+, &\\
+& \ \ \ \ \ \ \ \ \ \Omega^s_{m,i}\big\}\ |\ m\in \{1,\ldots,k\} \Big\} = 0 &\\
+& \iff \Big[\forall m\in\{1,\ldots,k\},\ max\{\Omega_{d_{i,m}}, \lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots, &\\
+& \ \ \ \ \ \ \ \ \ k-1\}\}\geq1 \implies \Omega^s_{m,i}=0\Big]
+\end{flalign*}
+Hence, we have $\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=0 \iff \Big[\forall m\in\{1,\ldots,k\},\\max\{\Omega_{d_{i,m}}, \lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots,k-1\}\}\geq1 \implies \Omega^s_{m,i}=0\Big]$. Note then that the second condition states that $\forall m\in\{1,\ldots,k\}$, if there's a walk (of any number of edges) from $X_i$ to $X_m$ on $G_d$, then $(X_j,X_i)\not\in E_s$. This is precisely the definiton of GARP and thus our claim is proven.
+\end{proof}
+
+
 \textit{Theorem 5:} If $\exists i\in\{1,\ldots,k\}$ such that $\lambda(\Lambda,\Omega_s)_{i,i}\geq1$, then $\lambda(\Lambda,\Omega_s)_{i,i}$ represents the weakest edge of the worst (strongest) GARP violation involving $X_i$.
 
 \textit{Theorem 6:} Let $\psi = max\big\{\lambda(\Lambda,\Omega_s)_{i,i}\ |\ i\in\{1,\ldots,k\}\big\}$, then let $c=\frac{1}{\psi}$. The $c$ is the CCEI score related to the dataset $(\mathcal{X},\mathcal{P})$.
