@@ -1,0 +1,73 @@
+---
+title: "Introduction to revealedPrefsExtra"
+author: "Jeffrey Naecker"
+date: "4/5/2019"
+output: rmarkdown::html_vignette
+---
+
+```{r setup, echo = FALSE, message = FALSE}
+library(revealedPrefs)
+library(revealedPrefsExtra)
+library(dplyr)
+
+set.seed(1000)
+```
+
+The `revealedPrefsExtra` package allows users to quickly check for revealed preference axiom violations in consumer choice data.  The package relies heavily on the `revealedPrefs` package for the work under the hood, but provides an API that is intended for easy use with `dplyr`-based workflows.
+
+## Examples
+
+We need some hypothetical data to work with.
+
+```{r}
+experiment_data <- tibble(x1 = c(1:4),
+                          x2 = c(5:8),
+                          p1 = c(5:8),
+                          p2 = c(5:8))
+```
+
+Then we can check whether the given data pass any of the revealed preference axioms.  Note the functions take the data as the first argument, then the consumption amounts, then the prices, all unquoted.
+
+```{r}
+checkWarpExtra(experiment_data, x1, x2, p1, p2)
+
+checkGarpExtra(experiment_data, x1, x2, p1, p2)
+
+checkSarpExtra(experiment_data, x1, x2, p1, p2)
+```
+
+If you forget to specify columns, or give a different number of consumption and price variables, you will get an error.
+
+```{r}
+# checkWarpExtra(experiment_data)
+# checkWarpExtra(experiment_data, x1, x2, p1)
+```
+
+Note that the functions return a list that includes a logical value for whether the test was passed, and a string indicatig the type of test run.  Note that the logical `FALSE` if there is *no* violation, and `TRUE` if there is a violation.
+
+```{r}
+str(checkWarpExtra(experiment_data, x1, x2, p1, p2))
+```
+
+The `calculate_CCEI` function allows for calculated the Critical Cost Efficiency Index (also known as the Afriat index).
+
+```{r}
+# TODO: make sure this works even without specifying step argument
+calculate_CCEI(experiment_data, step = 0.01, x1, x2, p1, p2)
+```
+
+## Integration with pipe-based workflow
+
+The functions above are compatible with a pipe-based workflow, which allows for easy grouping by subject- or agent-level responses.
+
+```{r}
+experiment_data %>%
+  mutate(id = c(1, 1, 2, 2)) %>%
+  group_by(id) %>%
+  summarize(
+    fail_GARP = checkGarpExtra(., x1, x2, p1, p2)$violation,
+    CCEI      = calculate_CCEI(experiment_data, step = 0.01, x1, x2, p1, p2)
+  )
+```
+
+
