@@ -52,7 +52,6 @@ str(checkWarpExtra(experiment_data, x1, x2, p1, p2))
 The `calculate_CCEI` function allows for calculated the Critical Cost Efficiency Index (also known as the Afriat index).
 
 ```{r}
-# TODO: make sure this works even without specifying step argument
 calculate_CCEI(experiment_data, step = 0.01, x1, x2, p1, p2)
 ```
 
@@ -66,7 +65,7 @@ experiment_data %>%
   group_by(id) %>%
   summarize(
     fail_GARP = checkGarpExtra(., x1, x2, p1, p2)$violation,
-    CCEI      = calculate_CCEI(experiment_data, step = 0.01, x1, x2, p1, p2)
+    CCEI      = calculate_CCEI(., step = 0.01, x1, x2, p1, p2)
   )
 ```
 
