@@ -20,7 +20,8 @@
 
 \setlength\parindent{0pt} % sets indent to zero
 \setlength{\parskip}{10pt} 
-      
+
+\newtheorem{theorem}{Theorem} 
 \newtheorem{definition}{Definition} % this lets us create definition blocks as below
 \newtheorem{remark}{Remark}
 
@@ -45,7 +46,7 @@ We say that $X$ is \textbf{strictly directly revealed preferred (SDRP)} to $Y$ i
 
 \begin{definition}
 Consider $k$ bundles, $X_1, X_2, \ldots, X_k$. Then, for $i,j\in\{1,\ldots,k\}$ such that $i\not=j$, $X_i$ is \textbf{indirectly revealed preferred (IRP)} to $X_j$ if there exists some sequence $\{X^m_k\}_{m=1}^{M}$ such that $X^m_k$ DRP $X^{m+1}_k$, $X_i$ DRP $X^1_k$ and $X^M_k$ DRP $X_j$.
-\todo{Update to allow for chains of arbitrary length. \checkmark}
+\todo{This is still a bit confusing. Please clarify.}
 \end{definition}
 
 \begin{definition}
@@ -57,8 +58,7 @@ A set of choice data satisfies the \textbf{Weak Axiom of Revealed Preferences (W
 \end{definition}
 
 \begin{remark}
-If a consumer exhibits maximizing behavior, then their set of choice data will satisfy WARP. However, the converse isn't necessarily true when X and Y represent bundles from commodity spaces higher than two dimensions (i.e. there are more than two available goods and thus, $X$, $Y$, and $P$ are n-dimensional vectors such that $n> 2$)  See \citet{Rose1958Consistency-of-Preference:-The-Two-Commodity-Case}. 
-\todo{Move citation to bibligraphy instead of footnote. \checkmark}
+If a consumer exhibits maximizing behavior, then their set of choice data will satisfy WARP. However, the converse isn't necessarily true when X and Y represent bundles from commodity spaces higher than two dimensions (i.e. there are more than two available goods and thus, $X$, $Y$, and $P$ are n-dimensional vectors such that $n> 2$)  See \citet{Rose1958Consistency-of-Preference:-The-Two-Commodity-Case}.
 \end{remark}
 
 \begin{definition}
@@ -67,7 +67,7 @@ A set of choice data satisfies the \textbf{Strong Axiom of Revealed Preferences 
 
 \begin{remark}
 A consumer's set of choice data will satisfy SARP if and only if they exhibit maximizing behavior. See \citet{Samuelson1938A-Note-on-the-Pure-Theory-of-Consumer's-Behaviour}.
-\todo{Add citation. \checkmark}
+\todo{This citation is not showing up. Did you forget to commit the bib file?}
 \end{remark}
 
 \begin{definition}
@@ -104,8 +104,6 @@ constraint must be relaxed in order to remove all violations of GARP. Lower valu
 
 \section{Calculating the CCEI (upperbound)}
 Suppose for an individual, we have $X_{1}, X_{2}, \ldots, X_{k}$ vectors representing $k$ bundles of $n$ goods chosen at $k$ different times so that $X_{i}\in\mathbb{R}^{n}_{+}$ for all $i\in\{1,2,\ldots,k\}$. Note that the technical notation can get a bit muddy, as $X_{i}=(x_{i1}, x_{i2}, \ldots, x_{in})$ where $x_{ij}$ represents the quantity of good $j$ bought at time $i$. We also have $P_{1}, P_{2}, \dots, P_{k}$ vectors representing $k$ sets of available prices of $n$ goods at $k$ different times so that $P_{i}\in\mathbb{R}^{n}_{++}$ for all $i\in\{1,2,\ldots,k\}$. Similarly, $P_{i}=(p_{i1}, p_{i2}, \ldots, p_{in})$ where $p_{ij}$ represents the price of good $j$ at time $i$.
-\todo{Change notation here to have side-by-side subscripts instead of sub-subscripts, ie $p_{ij}$ instead of $p_{i_{j}}$. \checkmark}
-
 
 We then say $\forall i,j\in\{1,2,\ldots,k\}$ such that $i\not=j$, let:
     $$D_{ij}=\frac{P_{i}X_{j}}{P_{i}X_{i}}-1$$
@@ -113,7 +111,8 @@ Note that the above is only negative if and only if $X_{i}$ is strictly directly
 
 
 Then let
-$$d_{ij}=max\{D_{ij}, D_{ji}\}$$
+$$d_{ij}=\max\{D_{ij}, D_{ji}\}$$ 
+\todo{Note that using the command version of max (with a slash) results in properly un-italicized text for functions in math mode.  Go ahead and fix throughout.} 
 We note that $\forall i,j\in\{1,2,\ldots,k\}$ such that $i\not=j$, $d_{ij}<0$ if and only if we have a strictly directly revealed preference conflict. To see this, consider the following:
 
 \begin{itemize}
@@ -145,7 +144,7 @@ $$e^{*}=\min_{\forall i,j, i\not=j}\{e_{ij}\}$$
 $e^{*}$, as given above, would resolve all strictly directly revealed preference violations. The lowest value of $e_{ij}$ for all $i,j\in\{1,2,\ldots,k\}$ would solve the most ``egregious" cross bundle violation and would obviously solve all other remaining cross bundle violations.
 
 
-\textbf{However, this $\mathbf{e^*}$ is merely an upper bound for the CCEI} as it only resolves cross bundle violations in the dataset. Essentially, $e^*$ would only resolve violations that involve direct revealed preferences. Another value, say $e^*_{2}$, might be needed to resolve indirect revealed preferences and if $e^*_{2}\leq e^*$, then $e^*_{2}$ would be our actual CCEI as it resolve both indirect and direct revealed preference violations (and thus passing GARP).
+\textbf{However, this $\mathbf{e^*}$ is merely an upper bound for the CCEI} as it only resolves cross bundle violations in the dataset. Essentially, $e^*$ would only resolve violations that involve direct revealed preferences. Another value, say $e^*_{2}$, might be needed to resolve indirect revealed preferences and if $e^*_{2}\leq e^*$, then $e^*_{2}$ would be our actual CCEI as it resolve both indirect and direct revealed preference violations (and thus passing GARP). \todo{Give an example of this.}
 
 \section{Examples}
 
@@ -253,7 +252,6 @@ where:
 $$E_d=\{(X_i,X_j)\ |\ X_i R_D X_j,\ i.e.\ P_iX_i\geq P_iX_j,\ i\not=j\}$$
 
 $$E_s=\{(X_i,X_j)\ |\ X_i R_{SD} X_j,\ i.e.\ P_iX_i> P_iX_j,\ i\not=j\}$$
-\todo{Lets make the vertexes just the bundles, not the prices. \checkmark}
 
 We have our vertex set $\mathcal{X}$ for both graphs. Then, it's apparent that $G_d$ is the directed graph for all directly revealed preference relationships and $G_s$ is the direct graph for all \textit{strictly} directly revealed preference relationships. If there's a path / edge from $X_i$ to $X_j$, we have $X_i$ is (strictly) directly revealed preferred to $X_j$ depending on the graph. Further, we shall note that $E_s\subseteq E_d$, as obviously all strictly directly revealed preferred relationships are directly revealed preferred.
 
@@ -261,7 +259,7 @@ We have our vertex set $\mathcal{X}$ for both graphs. Then, it's apparent that $
 We can then characterize our axioms with the following simple definitions:
 
 
-\textbf{WARP:} If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_d$.
+\textbf{WARP:} If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_d$.  That is, there are no directed cycles of length 2.
 
 
 \textbf{SARP:} If $(\mathcal{X},\mathcal{P})$ passes SARP, then: $\forall X_i \in \mathcal{X}$, there exists no directed walk from $X_i$ back to itself (I believe this is called a directed cycle, not quite sure on the exact terminology in graph theory).
@@ -275,7 +273,7 @@ We can then characterize our axioms with the following simple definitions:
 
 \section{WARP/SARP with Graph Theoretical Approach}
 
-Let $A_d$ be the adjacency matrix of $G_d$. To be rigorous, we can generate $A_d$ from our data set in the following manner. First, create the following $(k\times k)$ matrix from $\mathcal{X}$ and $\mathcal{P}$:
+Let $A_d$ be the adjacency matrix \todo{Define what an adjacency matrix should look like.} of $G_d$. To be rigorous, we can generate $A_d$ from our data set in the following manner. First, create the following $(k\times k)$ matrix from $\mathcal{X}$ and $\mathcal{P}$:
 
 \[
 Exp = 
@@ -346,7 +344,7 @@ We shall briefly explain why this works intuitively:
 Now we're ready to use matrix operations on $A_d$ to easily test for WARP and SARP.
 
 
-We know that the number of directed walks from any vertex $i$ to vertex $j$ of length $k$ is given by $A^k_d$ for adjacency matrix $A_d$ (this can be proven by induction). 
+We know that the number of directed walks from any vertex $i$ to vertex $j$ of length $k$ is given by $A^k_d$ \todo{Make clear this is the $k$th power.} for adjacency matrix $A_d$ (this can be proven by induction). 
 
 
 \textbf{WARP:} We defined WARP requirements as followed: If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_d$. Note that this is true exactly when there \textit{isn't} a directed walk of length 2 from any vertex $i$ back to itself (vertex $i$). Hence we say $(\mathcal{X},\mathcal{P})$ passes WARP if and only if the main diagonal of matrix $A_d^2$ is a vector of 0, i.e.
@@ -406,8 +404,10 @@ The reasoning behind how $A_s$ works is the same as the rationale behind $A_d$ e
 
 \textbf{WGARP:} We can test for WGARP by multiplying $A_d$ and $A_s$ by matrix multiplication.
 
-
-\textit{Theorem 1:} A data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $A_d\times A_s$ is a vector of 0.
+\begin{theorem}
+\label{thm:WGARP}
+A data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $A_d \times A_s$ is a vector of 0. \todo{Note theorem environment. Please use for other theorems.  Also note label, which allows you to refer to theorems like this: Theorem \ref{thm:WGARP}.}
+\end{theorem}
 
 \begin{proof}
 Recall that: If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_s$. Which, when put in context of adjacency matrices, means that $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(i,j)^{th}$ position of $A_d$ ($A_{d_{i,j}}$) is equal to one, then the $(j,i)^{th}$ position of $A_s$ ($A_{s_{i,j}}$) cannot be equal to 1. We then consider $A_d\times A_s$ and its main diagonal. 
@@ -426,7 +426,7 @@ We then know that, $\forall i\in\{1,\ldots,k\}$, $(A_d\times A_s)_{i,i}=0$ (i.e.
 &\iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)
 \end{flalign*}
 
-Hence, $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$. Note the first statement simply means the main diagonal of $A_d\times A_s$ is the zero vector and the second statement is the condition for passing WGARP. We then have "passing WGARP" $\iff$ "main diagonal of $A_d\times A_s$ is a zero vector". Thus our claim is proven (since $A\iff B$ is the same as $B\iff A$).
+Hence, $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$. Note the first statement simply means the main diagonal of $A_d\times A_s$ is the zero vector and the second statement is the condition for passing WGARP. We then have ``passing WGARP" \todo{Note the double backticks gives quotation marks in the right direction. Fix throughout.}$\iff$ "main diagonal of $A_d\times A_s$ is a zero vector". Thus our claim is proven (since $A\iff B$ is the same as $B\iff A$).
 \end{proof}
 
 \textbf{GARP:} We can test for GARP by finding multiplying $\sum_{i=1}^{k-1}A_{d}^{i}$ with $A_s$ by matrix multiplication.
@@ -486,7 +486,7 @@ The proof of this will look very similar to the proof of WGARP, except that the 
 We want to make sure that if there's a directed walk from vertex $i$ to vertex $j$ in $G_d$, there isn't a directed edge between vertex $j$ and vertex $i$ in $G_s$. Formally, this is just our definition for GARP: If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $X_i$ to $X_j$ in $G_d$, then $(X_j,X_i)\not\in E_s$. This is similar to WGARP in the sense that we're simply replacing the directed edge in the "if" statement to a directed walk. Note then that we have $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, which captures the existence of any directed walks between any two verices. Hence if $\beta_{d_{i,j}}>0$, there exists at least 1 directed walk between vertex $i$ and vertex $j$ on graph $G_d$. We can then use our proof for WGARP and \textit{Lemma A} to construct the rest of this proof.
 
 
-In our proof of WGARP, we see that $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$. There are two changes we need to make to this statement to fit our GARP claim. 
+In our proof of WGARP, we see that $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$.\todo{Notation here is confusing. Please clarify.} There are two changes we need to make to this statement to fit our GARP claim. 
 
 First, we see that we're no longer working with $A_d$ but working with $\beta_d$, which represents directed walks instead of edges. $\beta_d$ is also no longer filled with binary elements $\in\{0,1\}$. We can tweak our statement to fit these conditions by stating: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. Now, $\beta_{d_{i,j}}>0$ simply means there exists at least one path from $i,j$ regardless of length, which is what we want.
 
@@ -503,7 +503,7 @@ The following section explores a method to use graph theory and weighted adjacen
 \textbf{Idea:} The main idea here is that we can reconsider our graphs $G_d, G_s$ to make them into weighted graphs that reflect the extent to which a bundle is (strictly) directly revealed preferred to another one. We then use the information obtained from these new graphs to calculate a CCEI score associated with our dataset $(\mathcal{X},\mathcal{P})$.
 \bigskip
 
-Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ as before. Then let us set up $G_d$ and $G_s$ but define functions: $W_d:E_d \to\mathbb{R}_{\geq1}$ and $W_s:E_s \to\mathbb{R}_{>1}$ so that $W(e_d)$ is the weight of edge $e_d$ and $W(e_s)$ is the weight of edge $e_s$. Let us rigorously define our weight functions.
+Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ as before. Then let us set up $G_d$ and $G_s$ but define functions: $W_d:E_d \to\mathbb{R}_{\geq1}$\todo{Why $\geq 1$ here? Can't $W$ be any non-negative number?} and $W_s:E_s \to\mathbb{R}_{>1}$ so that $W(e_d)$ is the weight of edge $e_d$ and $W(e_s)$ is the weight of edge $e_s$. Let us rigorously define our weight functions.
 \bigskip
 
 Let $e_d \in E_d$ and $e_s\in E_s$ Then we know that, for $i\not=j$, $e_d=(X_i, X_j)$ such that $X_i R_D X_j$, which means $P_iX_i\geq P_iX_j$. We define $W_d$ such that $W_d(e_d)=\frac{P_iX_i}{P_iX_j}$. Further, let $e_s\in E_s$, we then know that, for $i\not=j$, $e_s=(X_i, X_j)$ such that $X_i R_{SD} X_j$, which means $P_iX_i>P_iX_j$. Then $W_s(e_s)=\frac{P_iX_i}{P_iX_j}>1$.
@@ -604,7 +604,7 @@ Note that these are awfully similar to $A_d$ and $A_s$ in the previous section e
 \begin{itemize}
   \item We first see that $\Omega_{d_{i,j}}$ is in fact $d(q_{j,i})$.
   \item If $\Omega_{d_{i,j}}=d(q_{j,i})=0$, we have $q_{j,i}<1$ and hence $\frac{P_iX_i}{P_iX_j}<1$ and thus $P_iX_i<P_iX_j$. We then get $\neg(X_i R_D X_j)$ so there's no edge between $X_i$ and $X_j$. Hence $\Omega_{d_{i,j}}=-1$, as desired.
-  \item If $\Omega_{d_{i,j}}=d(q_{j,i})\geq1$, we then have $q_{j,i}\geq1$ and hence $\frac{P_iX_i}{P_iX_j}\geq1$ and thus $P_iX_i\geq P_iX_j$. Thus we have an edge between $X_i$ and $X_j$ for $i\not=j$, as $X_iR_D X_j$ by definition. We then note that $d$ is in fact a bijective function (identity function) for the subset of the domain that's $\geq1$ and that since $q_{j,i}\geq1$, we have that $d(q_{j,i})=q_{j,i}$ Following definitions, we get $\Omega_{d_{i,j}}=d(q_{j,i})=q_{j,i}=\frac{P_iX_i}{P_iX_j}\geq1$, which are precisely the weights we wanted with the $W_d$ function defined earlier.
+  \item If $\Omega_{d_{i,j}}=d(q_{j,i})\geq1$, we then have $q_{j,i}\geq1$ and hence $\frac{P_iX_i}{P_iX_j}\geq1$ and thus $P_iX_i\geq P_iX_j$. Thus we have an edge between $X_i$ and $X_j$ for $i\not=j$, as $X_iR_D X_j$ by definition. We then note that $d$ is in fact a bijective function (identity function) for the subset of the domain that's $\geq1$ and that since $q_{j,i}\geq1$, we have that $d(q_{j,i})=q_{j,i}$. Following definitions, we get $\Omega_{d_{i,j}}=d(q_{j,i})=q_{j,i}=\frac{P_iX_i}{P_iX_j}\geq1$, which are precisely the weights we wanted with the $W_d$ function defined earlier.
 \end{itemize}
 Let $X_i$ and $X_j$ be two vertices (bundles) for $i,j\in\{1,\ldots,k\}$ such that $i\not=j$. If $(X_i, X_j)\in E_d$ (i.e. $X_i$ is directly revealed preferred to $X_j$), we then know that, for $e_d=(X_i, X_j)\in E_d$, $W_d(e_d)=\frac{P_iX_i}{P_iX_j}\geq1$. Then, we claim that $\exists c_{ij}\in(0,1]$ such that $c_{ij}\frac{P_iX_i}{P_iX_j}=1$. Intuitively, we say that for some bundle $i$ that we know is at least directly revealed preferred (and thus have to be SDRP, by definition) to bundle $j$, we can find some $c_{ij}$ that "shrinks" the budget of $i$ by an amount such that bundle $i$ is no longer strictly directly revealed preferred to bundle $j$ (but still directly revealed preferred). Putting in graph theory context, we're shrinking the price vector of the numerator by a constant before "multiplying" it to the quantity vector, therefore changing the relationship between vertices $X_i$ and $X_j$. We can see this easily by rearranging our equation with vector operation rules: $\frac{(c_{ij}P_i)X_i}{P_iX_j}=1$. Now we shall prove our claim of $c_{ij}$'s existence.
 
@@ -625,7 +625,7 @@ We now define function $\lambda:\mathbb{R}^{m\times m} \times \mathbb{R}^{m\time
 
 Let $X,Y$ be $(m\times m)$ matrices and let $\lambda(X,Y)=Z$, then, $\forall i,j\in\{1,\ldots,m\}$:
 $$Z_{i,j}=max\{min\{X_{i,1}, Y_{1,j}\}, min\{X_{i,2}, Y_{2,j}\}, \ldots, min\{X_{i,m}, Y_{m,j}\}\}$$
-where $z_{i,j}$ is the $(i,j)^{th}$ element of $Z$. note that this is similar with matrix multiplication in that we consider the $i^{th}$ row of $X$ and $j^{th}$ column of $Y$, but instead of pairwise multiplication and overall summation (i.e. dot product), we take pairwise minimum and overall maximum. 
+where $z_{i,j}$ is the $(i,j)^{th}$ element of $Z$. note that this is similar with matrix multiplication in that we consider the $i^{th}$ row of $X$ and $j^{th}$ column of $Y$, but instead of pairwise multiplication and overall summation (i.e. dot product), we take pairwise minimum and overall maximum. \todo{It's really not clear to my why we are setting up this max-min stuff. Please give some more context.}
 \bigskip
 
 We further define a function $\lambda_t:(\mathbb{R}^{m\times m})^t\to\mathbb{R}^{m\times m}$ such that for $Y_1,\ldots,Y_t\in \mathbb{R}^{m\times m}$, we have:
@@ -649,6 +649,8 @@ We further define a function $\lambda_t:(\mathbb{R}^{m\times m})^t\to\mathbb{R}^
   & \textrm{from }X_i\textrm{ to }X_j \textrm{ on } G_d
   \end{cases}
 \]
+  \todo[inline]{Took me a while to figure out what strongest weakest edge meant.  Are you saying take the weakest edge of each path, then take the strongest of those? Please clarify or give an example.}
+
 We abbreviate $\lambda_t(\Omega_d,\ldots,\Omega_d)=\lambda^t(\Omega_d)$. Then, we formally write:
 \[
   \lambda^t(\Omega_d)_{i,j}=
@@ -667,6 +669,7 @@ We abbreviate $\lambda_t(\Omega_d,\ldots,\Omega_d)=\lambda^t(\Omega_d)$. Then, w
   &\{1,\ldots,U\}\Big\} \textrm{ if } t=2\\
   \end{cases}
 \]
+\todo[inline]{Very confused by the formula above. Needs to be broken down a lot.}
 Note that $\forall i,j$, $\rho_{i,j}\geq1$ since $W_d$ is the weight function as defined earlier such that $W:E_d \cup E_s\to\mathbb{R}_{\geq0}$. Further, intuitively, we say:
 \[
   \lambda^t(\Omega_d)_{i,j}=
