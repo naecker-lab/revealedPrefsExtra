@@ -503,7 +503,10 @@ The following section explores a method to use graph theory and weighted adjacen
 \textbf{Idea:} The main idea here is that we can reconsider our graphs $G_d, G_s$ to make them into weighted graphs that reflect the extent to which a bundle is (strictly) directly revealed preferred to another one. We then use the information obtained from these new graphs to calculate a CCEI score associated with our dataset $(\mathcal{X},\mathcal{P})$.
 \bigskip
 
-Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ as before. Then let us set up $G_d$ and $G_s$ but define functions: $W_d:E_d \to\mathbb{R}_{\geq1}$\todo{Why $\geq 1$ here? Can't $W$ be any non-negative number?} and $W_s:E_s \to\mathbb{R}_{>1}$ so that $W(e_d)$ is the weight of edge $e_d$ and $W(e_s)$ is the weight of edge $e_s$. Let us rigorously define our weight functions.
+Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ as before. Then let us set up $G_d$ and $G_s$ but define functions: $W_d:E_d \to\mathbb{R}_{\geq1}$ and $W_s:E_s \to\mathbb{R}_{>1}$ so that $W(e_d)$ is the weight of edge $e_d$ and $W(e_s)$ is the weight of edge $e_s$. Let us rigorously define our weight functions.
+\todo[inline]{Why $\geq 1$ here? Can't $W$ be any non-negative number? 
+
+\textbf{A:} We want our weights to be defined $\frac{P_iX_i}{P_iX_j}$. But the domain is $E_d$, and for $(X_i,X_j)\in E_d$, we need $P_iX_i\geq P_i X_j$. Hence, $\frac{P_iX_i}{P_iX_j}\geq1$, which is the codomain / range of our function. The case for $W_s$ is similar in that it is a strict inequality.}
 \bigskip
 
 Let $e_d \in E_d$ and $e_s\in E_s$ Then we know that, for $i\not=j$, $e_d=(X_i, X_j)$ such that $X_i R_D X_j$, which means $P_iX_i\geq P_iX_j$. We define $W_d$ such that $W_d(e_d)=\frac{P_iX_i}{P_iX_j}$. Further, let $e_s\in E_s$, we then know that, for $i\not=j$, $e_s=(X_i, X_j)$ such that $X_i R_{SD} X_j$, which means $P_iX_i>P_iX_j$. Then $W_s(e_s)=\frac{P_iX_i}{P_iX_j}>1$.
@@ -625,7 +628,9 @@ We now define function $\lambda:\mathbb{R}^{m\times m} \times \mathbb{R}^{m\time
 
 Let $X,Y$ be $(m\times m)$ matrices and let $\lambda(X,Y)=Z$, then, $\forall i,j\in\{1,\ldots,m\}$:
 $$Z_{i,j}=max\{min\{X_{i,1}, Y_{1,j}\}, min\{X_{i,2}, Y_{2,j}\}, \ldots, min\{X_{i,m}, Y_{m,j}\}\}$$
-where $z_{i,j}$ is the $(i,j)^{th}$ element of $Z$. note that this is similar with matrix multiplication in that we consider the $i^{th}$ row of $X$ and $j^{th}$ column of $Y$, but instead of pairwise multiplication and overall summation (i.e. dot product), we take pairwise minimum and overall maximum. \todo{It's really not clear to my why we are setting up this max-min stuff. Please give some more context.}
+where $z_{i,j}$ is the $(i,j)^{th}$ element of $Z$. note that this is similar with matrix multiplication in that we consider the $i^{th}$ row of $X$ and $j^{th}$ column of $Y$, but instead of pairwise multiplication and overall summation (i.e. dot product), we take pairwise minimum and overall maximum. \todo[inline]{It's really not clear to my why we are setting up this max-min stuff. Please give some more context.
+
+\textbf{Answer:} The idea is that we want to, for a given $X_i$, find all the other edges it's connected to via a path. If $X_i$ and $X_j$ are connected by a path, and $(X_j,X_i)\in E_s$, there's a GARP violation. The CCEI score helps us break either that path or the $(X_j,X_i)\in E_s$ to get rid of the violation. To do this, we need to look at paths of different lengths and then find the CCEI across all lengths. This is more thoroughly explain in \textit{Corollary 3.1, 3.2} and \textit{Theorem 4-6}.}
 \bigskip
 
 We further define a function $\lambda_t:(\mathbb{R}^{m\times m})^t\to\mathbb{R}^{m\times m}$ such that for $Y_1,\ldots,Y_t\in \mathbb{R}^{m\times m}$, we have:
@@ -649,7 +654,9 @@ We further define a function $\lambda_t:(\mathbb{R}^{m\times m})^t\to\mathbb{R}^
   & \textrm{from }X_i\textrm{ to }X_j \textrm{ on } G_d
   \end{cases}
 \]
-  \todo[inline]{Took me a while to figure out what strongest weakest edge meant.  Are you saying take the weakest edge of each path, then take the strongest of those? Please clarify or give an example.}
+  \todo[inline]{Took me a while to figure out what strongest weakest edge meant.  Are you saying take the weakest edge of each path, then take the strongest of those? Please clarify or give an example.
+
+  \textbf{Answer:} Yes, we essentially first look at all the paths and take their minimum edge, and then take the maximum across those minimum edges. The idea here is that if we can ``break'' the that edge, we will break the all the other minimum edges and therefore the walk wouldn't exist.}
 
 We abbreviate $\lambda_t(\Omega_d,\ldots,\Omega_d)=\lambda^t(\Omega_d)$. Then, we formally write:
 \[
@@ -669,8 +676,14 @@ We abbreviate $\lambda_t(\Omega_d,\ldots,\Omega_d)=\lambda^t(\Omega_d)$. Then, w
   &\{1,\ldots,U\}\Big\} \textrm{ if } t=2\\
   \end{cases}
 \]
-\todo[inline]{Very confused by the formula above. Needs to be broken down a lot.}
-Note that $\forall i,j$, $\rho_{i,j}\geq1$ since $W_d$ is the weight function as defined earlier such that $W:E_d \cup E_s\to\mathbb{R}_{\geq0}$. Further, intuitively, we say:
+\todo[inline]{Very confused by the formula above. Needs to be broken down a lot.
+
+\textbf{Answer:} We consider two cases:
+
+1. The function outputs 0 if there isn't a sequence of $X$'s that creates a $t$-edge path from $X_i$ to $X_j$ (naturally, the sequence will need to have $t-1$ terms). For the sequence to actually create the path, every $v+1^{th}$ term of the sequence have to be revealed preferred to the $v^{th}$ term of the sequence, $X_i$ have to be preferred to the first term, and the last term of the sequence have to be preferred to $X_j$. Thus, if any of those conditions fail, the path wouldn't exist. 
+
+2. If there is in fact at least one $t$-edge path from $X_i$ to $X_j$, we want to find the minimum weighted edge of each path and take the maximum across all paths. Since there might be multiple paths, we need a double sequence with $u$ indexing on the path number and $v$ indexing the edge number on the given path. (The formalized theorem I scanned discusses the upperbound of $U$, i.e. the highest number of paths of $t$ edges, but $U$ is essentially counting the total number of paths of $t$ edges between $X_i$ and $X_j$, and since there's at least one, $U\geq1$). Additionally, for each $u$, the sequencing $v$'s has to satisfy the conditions of a walk (as stated earlier). Then, for each $u$, we find the minimum edge across the sequenced $v$'s and the edge of $X_i$ with the first term and the edge of the last term with $X_j$. We then take the maxixmum across the $u$'s to get the desired value.}
+Note that $\forall i,j$, $\rho_{i,j}\geq1$ since $W_d$ is the weight function as defined earlier. Further, intuitively, we say:
 \[
   \lambda^t(\Omega_d)_{i,j}=
   \begin{cases}
