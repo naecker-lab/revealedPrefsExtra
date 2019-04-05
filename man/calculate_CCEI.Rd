@@ -4,19 +4,21 @@
 \alias{calculate_CCEI}
 \title{Calculate_CCEI}
 \usage{
-calculate_CCEI(df, step = 0.01)
+calculate_CCEI(df, step = 0.01, ...)
 }
 \arguments{
 \item{df}{a dataframe}
 
-\item{step}{the step does something}
+\item{step}{}
 }
 \value{
-a integer
+the CCEI score
 }
 \description{
-\code{calculate_CCEI} does something cool.
+\code{calculate_CCEI}
 }
 \examples{
-calculate_CCEI(simGarp(10, 2, afriat.par = 0.5), step = 0.001)
+set.seed(1234)
+df <- gather_data(simGarp(10, 2, afriat.par = 0.5))
+calculate_CCEI(df, step = 0.001, x1, x2, p1, p2)
 }

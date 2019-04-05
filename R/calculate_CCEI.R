@@ -1,27 +1,48 @@
 #' @title Calculate_CCEI
 #'
-#' @description \code{calculate_CCEI} does something cool.
+#' @description \code{calculate_CCEI} 
 #'
 #' @param df a dataframe
-#' @param step the step does something
+#' @param step 
 #' 
-#' @return a integer
+#' @return the CCEI score
 #'
+#' @import dplyr
 #' @import revealedPrefs
 #'
 #' @export
 #' @examples 
-#' calculate_CCEI(simGarp(10, 2, afriat.par = 0.5), step = 0.001)
+#' set.seed(1234)
+#' df <- gather_data(simGarp(10, 2, afriat.par = 0.5))
+#' calculate_CCEI(df, step = 0.001, x1, x2, p1, p2)
 
-calculate_CCEI <- function(df, step = 0.01){
-  index <- 1
-  while (index > 0) {
-    test <- checkGarp(df$x, df$p, afriat.par = index)
-    if (test$violation) {
-      index <- index - step
+
+calculate_CCEI <- function(df, step = 0.01, ...){
+  
+  if (!is.data.frame(df)) {stop("df must be a dataframe")}
+  
+  variables <- quos(...)
+  if (length(variables) == 0) {stop("enter columns for quanities and prices")}
+  if (length(variables)%%2 != 0) {warning("enter an even number of columns")}
+  
+  list <- spread_data(df, ...)
+  
+  hi = 1
+  lo = 0
+  while (lo < hi){
+    index = (lo + hi) / 2
+    
+    test <- checkGarp(list$x, list$p, afriat.par = index)
+    
+    if (test$violation){
+      if (checkGarp(list$x, list$p, afriat.par = index + step)$violation == FALSE){
+        return (index)
+      }
+      hi = index 
     } else {
-      return(index)
+      lo = index + step
     }
   }
-  return(0)
+  return(index)
 }
+
