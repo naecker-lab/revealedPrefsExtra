@@ -122,7 +122,7 @@ We note that $\forall i,j\in\{1,2,\ldots,k\}$ such that $i\not=j$, $d_{ij}<0$ if
     \item Thus we have a strictly directly revealed preference conflict if $d_{ij} < 0$.
 \end{itemize}
 
-Essentially, $d_{ij}$ perfectly captures whether there is a strictly directly revealed preference conflict between bundles $X_{i}$ and $X_{j}$. Moreover, $d_{ij}$ also captures the degree of the less ``egregious" violation. That is, if $X_{i}$ is way more strictly directly revealed preferred to $X_{j}$ than $X_{j}$ is strictly directly revealed preferred to $X_{i}$, (i.e. if $D_{ij}<<0$ and $D_{ji}<0$), the second preference that caused the violation is less severe and can be more easily "fixed". Since $d_{ij}=\max\{D_{ij}, D_{ji}\}<0$, the lesser violation $D_{ji}$ is captured instead.
+Essentially, $d_{ij}$ perfectly captures whether there is a strictly directly revealed preference conflict between bundles $X_{i}$ and $X_{j}$. Moreover, $d_{ij}$ also captures the degree of the less ``egregious'' violation. That is, if $X_{i}$ is way more strictly directly revealed preferred to $X_{j}$ than $X_{j}$ is strictly directly revealed preferred to $X_{i}$, (i.e. if $D_{ij}<<0$ and $D_{ji}<0$), the second preference that caused the violation is less severe and can be more easily ``fixed''. Since $d_{ij}=\max\{D_{ij}, D_{ji}\}<0$, the lesser violation $D_{ji}$ is captured instead.
 
 We then let:
 
@@ -135,13 +135,13 @@ e_{ij}=
 \]
 \todo{Redefine this with piecewise function instead of $\max$ \checkmark}
 
-$e_{ij}$ is called the cross cost efficiency index between bundles $X_{i}$ and $X_{j}$. Note that if $d_{ij}\geq0$, then $-d_{ij}\leq0$ and we would get $e_{ij}=(1-0)=1$. Thus, if there are no strictly directly revealed preference conflicts between $X_{i}$ and $X_{j}$, we would get $e_{ij}=1$. If we have such a violation, then $-d_{ij}>0$ and hence we would get $e_{ij}=1+d_{ij}$ (note that $0<e_{ij}<1$ since $d_{ij}<0$). We claim that, by letting $\hat{ P_iX_i}=e_{ij}\cdot P_iX_i$ and $\hat{P_jX_j}=e_{ij}\cdot P_jX_j$ and using those values to recalculate a $\hat{d_{ij}}$, we would have $\hat{d_{ij}}\geq0$ and hence there are no strictly directly revealed preference violations. This can be seen in the example section and will be proved more rigorously towards the end of this manual. For now, it suffices to note that the lower the value of $e_{ij}$, the harder it is to ``fix" the violation between $X_{i}$ and $X_{j}$.
+$e_{ij}$ is called the cross cost efficiency index between bundles $X_{i}$ and $X_{j}$. Note that if $d_{ij}\geq0$, then $-d_{ij}\leq0$ and we would get $e_{ij}=(1-0)=1$. Thus, if there are no strictly directly revealed preference conflicts between $X_{i}$ and $X_{j}$, we would get $e_{ij}=1$. If we have such a violation, then $-d_{ij}>0$ and hence we would get $e_{ij}=1+d_{ij}$ (note that $0<e_{ij}<1$ since $d_{ij}<0$). We claim that, by letting $\hat{ P_iX_i}=e_{ij}\cdot P_iX_i$ and $\hat{P_jX_j}=e_{ij}\cdot P_jX_j$ and using those values to recalculate a $\hat{d_{ij}}$, we would have $\hat{d_{ij}}\geq0$ and hence there are no strictly directly revealed preference violations. This can be seen in the example section and will be proved more rigorously towards the end of this manual. For now, it suffices to note that the lower the value of $e_{ij}$, the harder it is to ``fix'' the violation between $X_{i}$ and $X_{j}$.
 
 
 We then let:
 $$e^{*}=\min_{\forall i,j, i\not=j}\{e_{ij}\}$$
 
-$e^{*}$, as given above, would resolve all strictly directly revealed preference violations. The lowest value of $e_{ij}$ for all $i,j\in\{1,2,\ldots,k\}$ would solve the most ``egregious" cross bundle violation and would obviously solve all other remaining cross bundle violations.
+$e^{*}$, as given above, would resolve all strictly directly revealed preference violations. The lowest value of $e_{ij}$ for all $i,j\in\{1,2,\ldots,k\}$ would solve the most ``egregious'' cross bundle violation and would obviously solve all other remaining cross bundle violations.
 
 
 \textbf{However, this $\mathbf{e^*}$ is merely an upper bound for the CCEI} as it only resolves cross bundle violations in the dataset. Essentially, $e^*$ would only resolve violations that involve direct revealed preferences. Another value, say $e^*_{2}$, might be needed to resolve indirect revealed preferences and if $e^*_{2}\leq e^*$, then $e^*_{2}$ would be our actual CCEI as it resolve both indirect and direct revealed preference violations (and thus passing GARP). \todo{Give an example of this.}
@@ -273,7 +273,7 @@ We can then characterize our axioms with the following simple definitions:
 
 \section{WARP/SARP with Graph Theoretical Approach}
 
-Let $A_d$ be the adjacency matrix \todo{Define what an adjacency matrix should look like.} of $G_d$. To be rigorous, we can generate $A_d$ from our data set in the following manner. First, create the following $(k\times k)$ matrix from $\mathcal{X}$ and $\mathcal{P}$:
+Let $A_d$ be the adjacency matrix of $G_d$ such that $A_{d_{i,j}}=1$ if there exists an edge between $X_i$ and $X_j$, i.e. $X_i$ is directly revealed preferred to $X_j$. \todo{Define what an adjacency matrix should look like. \checkmark}. To be rigorous, we can generate $A_d$ from our data set in the following manner. First, create the following $(k\times k)$ matrix from $\mathcal{X}$ and $\mathcal{P}$:
 
 \[
 Exp = 
@@ -344,7 +344,7 @@ We shall briefly explain why this works intuitively:
 Now we're ready to use matrix operations on $A_d$ to easily test for WARP and SARP.
 
 
-We know that the number of directed walks from any vertex $i$ to vertex $j$ of length $k$ is given by $A^k_d$ \todo{Make clear this is the $k$th power.} for adjacency matrix $A_d$ (this can be proven by induction). 
+We know that the number of directed walks from any vertex $i$ to vertex $j$ of length $k$ is given by $A^k_d$ (the $k^{th}$ power of $A_D$) \todo{Make clear this is the $k$th power. \checkmark} for adjacency matrix $A_d$ (this can be proven by induction). 
 
 
 \textbf{WARP:} We defined WARP requirements as followed: If $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_d$. Note that this is true exactly when there \textit{isn't} a directed walk of length 2 from any vertex $i$ back to itself (vertex $i$). Hence we say $(\mathcal{X},\mathcal{P})$ passes WARP if and only if the main diagonal of matrix $A_d^2$ is a vector of 0, i.e.
@@ -406,7 +406,7 @@ The reasoning behind how $A_s$ works is the same as the rationale behind $A_d$ e
 
 \begin{theorem}
 \label{thm:WGARP}
-A data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $A_d \times A_s$ is a vector of 0. \todo{Note theorem environment. Please use for other theorems.  Also note label, which allows you to refer to theorems like this: Theorem \ref{thm:WGARP}.}
+A data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if the main diagonal of $A_d \times A_s$ is a vector of 0. \todo{Note theorem environment. Please use for other theorems.  Also note label, which allows you to refer to theorems like this: Theorem \ref{thm:WGARP}. \checkmark}
 \end{theorem}
 
 \begin{proof}
@@ -416,7 +416,7 @@ Recall that: If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\
 $\forall i\in\{1,\ldots,k\}$, let $\delta_i$ be the vector of the $i^{th}$ row of $A_d$ and $\xi_i$ be the vector of the $i^{th}$ column of $A_s$. Then we have $(A_d\times A_s)_{i,i}=\delta_i\cdot\xi_i$. Note that $\delta_{i_i}=0$ and $\xi_{i_i}=0$ since originally $A_d$ and $A_s$ have all 0's across their main diagonals.
 
 
-We then know that, $\forall i\in\{1,\ldots,k\}$, $(A_d\times A_s)_{i,i}=0$ (i.e. the main diagonal of $A_d\times A_s$ is a zero vector) if and only if $\delta_i\cdot\xi_i=0$. Further, $\delta_i\cdot\xi_i=0$ if and only if $\forall j \in\{1,\ldots,k\}$ such that $i\not=j$, $\delta_{i_j}\cdot \xi_{i_j}=0$ (since we know that $\delta_{i_i}=\xi_{i_i}=0$, they won't contributed to the overall sum, which is what we want anyways by the WGARP rules). We then know that $\delta_{i_j}\cdot \xi_{i_j}=0$ if and only if $\delta_{i_j}=0$ or $\xi_{i_j}=0$. Further, "$\delta_{i_j}=0$ or $\xi_{i_j}=0$" if and only if $\neg (\delta_{i_j}=\xi_{i_j}=1)$ (since all terms in $A_d$ and $A_s$ are either one or zero). Note that $\delta_{i_j}=A_{d_{i,j}}$ and $\xi_{i_j}=A_{s_{j,i}}$ (since $\xi_i$ is the vector of the $i^{th}$ \textit{column} of $A_s$). Hence, $\neg (\delta_{i_j}=\xi_{i_j}=1)$ if and only if $\neg (A_{d_{i,j}}=A_{s_{j,i}}=1)$, which happens if $A_{d_{i,j}}=1$, then $A_{s_{j,i}}=0\not=1$. Note that this is the exact definition of passing WGARP. Summarizing this, we have:
+We then know that, $\forall i\in\{1,\ldots,k\}$, $(A_d\times A_s)_{i,i}=0$ (i.e. the main diagonal of $A_d\times A_s$ is a zero vector) if and only if $\delta_i\cdot\xi_i=0$. Further, $\delta_i\cdot\xi_i=0$ if and only if $\forall j \in\{1,\ldots,k\}$ such that $i\not=j$, $\delta_{i_j}\cdot \xi_{i_j}=0$ (since we know that $\delta_{i_i}=\xi_{i_i}=0$, they won't contributed to the overall sum, which is what we want anyways by the WGARP rules). We then know that $\delta_{i_j}\cdot \xi_{i_j}=0$ if and only if $\delta_{i_j}=0$ or $\xi_{i_j}=0$. Further, ``$\delta_{i_j}=0$ or $\xi_{i_j}=0$'' if and only if $\neg (\delta_{i_j}=\xi_{i_j}=1)$ (since all terms in $A_d$ and $A_s$ are either one or zero). Note that $\delta_{i_j}=A_{d_{i,j}}$ and $\xi_{i_j}=A_{s_{j,i}}$ (since $\xi_i$ is the vector of the $i^{th}$ \textit{column} of $A_s$). Hence, $\neg (\delta_{i_j}=\xi_{i_j}=1)$ if and only if $\neg (A_{d_{i,j}}=A_{s_{j,i}}=1)$, which happens if $A_{d_{i,j}}=1$, then $A_{s_{j,i}}=0\not=1$. Note that this is the exact definition of passing WGARP. Summarizing this, we have:
 \begin{flalign*}
 \forall i\in\{1,\ldots,k\}, (A_d\times A_s)_{i,i}=0 &\iff \delta_i\cdot\xi_i=0 &\\
 &\iff \forall j \in\{1,\ldots,k\}\textrm{, }i\not=j,\ \delta_{i_j}\cdot \xi_{i_j}=0 &\\
@@ -426,7 +426,7 @@ We then know that, $\forall i\in\{1,\ldots,k\}$, $(A_d\times A_s)_{i,i}=0$ (i.e.
 &\iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)
 \end{flalign*}
 
-Hence, $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$. Note the first statement simply means the main diagonal of $A_d\times A_s$ is the zero vector and the second statement is the condition for passing WGARP. We then have ``passing WGARP" \todo{Note the double backticks gives quotation marks in the right direction. Fix throughout.}$\iff$ "main diagonal of $A_d\times A_s$ is a zero vector". Thus our claim is proven (since $A\iff B$ is the same as $B\iff A$).
+Hence, $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$. Note the first statement simply means the main diagonal of $A_d\times A_s$ is the zero vector and the second statement is the condition for passing WGARP. We then have ``passing WGARP'' \todo{Note the double backticks gives quotation marks in the right direction. Fix throughout. \checkmark}$\iff$ ``main diagonal of $A_d\times A_s$ is a zero vector''. Thus our claim is proven (since $A\iff B$ is the same as $B\iff A$).
 \end{proof}
 
 \textbf{GARP:} We can test for GARP by finding multiplying $\sum_{i=1}^{k-1}A_{d}^{i}$ with $A_s$ by matrix multiplication.
@@ -477,20 +477,23 @@ Then the main diagonals of $X_1\times Y$ and $X_2\times Y$ are the same (denoted
 Fix an arbitrary $i\in\{1,\ldots,m\}$. Then let $Z_1=X_1\times Y$ and $Z_2=X_2\times Y$. We want to show that $Z_{1_{i,i}}=Z_{2_{i,i}}$. Note that $Z_{1_{i,i}}=x_{i,1}y_{1,i}+x_{i,2}y_{2,i}+\ldots+x_{i,i}y_{i,i}+\ldots+x_{i,m}y_{m,i}$ and that $Z_{2_{i,i}}=x_{i,1}y_{1,i}+x_{i,2}y_{2,i}+\ldots+0y_{i,i}+\ldots+x_{i,m}y_{m,i}$. The only difference between those are that for the first equation, we have $x_{i,i}y_{i,i}$ as the $i^{th}$ term and the second equation, we have $0y_{i,i}$ as the $i^{th}$ term. However, since $y_{i,i}=0$, we have that $x_{i,i}y_{i,i}=0y_{i,i}=0$ and thus $Z_{1_{i,i}}=Z_{2_{i,i}}$.
 \end{proof}
 
-\textit{Theorem 2:} A data set $(\mathcal{X},\mathcal{P})$ passes GARP if and only if the main diagonal of $(\sum_{i=1}^{k-1}A_{d}^{i})\times A_s$ is a vector of 0.
+\begin{theorem}
+\label{thm:GARP}
+A data set $(\mathcal{X},\mathcal{P})$ passes GARP if and only if the main diagonal of $(\sum_{i=1}^{k-1}A_{d}^{i})\times A_s$ is a vector of 0.
+\end{theorem}
 
 \begin{proof}
 The proof of this will look very similar to the proof of WGARP, except that the elements in $\sum_{i=1}^{k-1}A_{d}^{i}$ will no longer be binary $(\{0,1\})$. However, they are all $\geq0$. Let $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, then $\beta_{d_{i,j}}$ would be the number of directed walks between vertex $i$ and vertex $j$ of any length up to $k-1$. Note that we chose to sum up to $k-1$ since anything past that, we would definitely have a cycle and summing past that point is redundant.
 
 
-We want to make sure that if there's a directed walk from vertex $i$ to vertex $j$ in $G_d$, there isn't a directed edge between vertex $j$ and vertex $i$ in $G_s$. Formally, this is just our definition for GARP: If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $X_i$ to $X_j$ in $G_d$, then $(X_j,X_i)\not\in E_s$. This is similar to WGARP in the sense that we're simply replacing the directed edge in the "if" statement to a directed walk. Note then that we have $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, which captures the existence of any directed walks between any two verices. Hence if $\beta_{d_{i,j}}>0$, there exists at least 1 directed walk between vertex $i$ and vertex $j$ on graph $G_d$. We can then use our proof for WGARP and \textit{Lemma A} to construct the rest of this proof.
+We want to make sure that if there's a directed walk from vertex $i$ to vertex $j$ in $G_d$, there isn't a directed edge between vertex $j$ and vertex $i$ in $G_s$. Formally, this is just our definition for GARP: If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $X_i$ to $X_j$ in $G_d$, then $(X_j,X_i)\not\in E_s$. This is similar to WGARP in the sense that we're simply replacing the directed edge in the ``if'' statement to a directed walk. Note then that we have $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, which captures the existence of any directed walks between any two verices. Hence if $\beta_{d_{i,j}}>0$, there exists at least 1 directed walk between vertex $i$ and vertex $j$ on graph $G_d$. We can then use our proof for WGARP and \textit{Lemma A} to construct the rest of this proof.
 
 
 In our proof of WGARP, we see that $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$.\todo{Notation here is confusing. Please clarify.} There are two changes we need to make to this statement to fit our GARP claim. 
 
 First, we see that we're no longer working with $A_d$ but working with $\beta_d$, which represents directed walks instead of edges. $\beta_d$ is also no longer filled with binary elements $\in\{0,1\}$. We can tweak our statement to fit these conditions by stating: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. Now, $\beta_{d_{i,j}}>0$ simply means there exists at least one path from $i,j$ regardless of length, which is what we want.
 
-Second, when we constructed our proof of WGARP, we noted that "since we know that $\delta_{i_i}=\xi_{i_i}=0$ (i.e. $A_{d_{i,i}}=0$ and $A_{s_{i,i}}=0$), they won't contributed to the overall sum, which is what we want anyways by the WGARP rules". However, this no longer holds as we could have $\beta_{d_{i,i}}\not=0$ for some $i$ if there's any directed cycles in $G_d$ (but we don't care about those in GARP, per the definition of the axiom). But we do still have $A_{s_{i,i}}=0$ for all $i$ and thus, by \textit{Lemma A}, we don't need to "clear-out" the diagonals of $\beta_d$ before multiplying. Hence, our statement above still holds. 
+Second, when we constructed our proof of WGARP, we noted that ``since we know that $\delta_{i_i}=\xi_{i_i}=0$ (i.e. $A_{d_{i,i}}=0$ and $A_{s_{i,i}}=0$), they won't contributed to the overall sum, which is what we want anyways by the WGARP rules''. However, this no longer holds as we could have $\beta_{d_{i,i}}\not=0$ for some $i$ if there's any directed cycles in $G_d$ (but we don't care about those in GARP, per the definition of the axiom). But we do still have $A_{s_{i,i}}=0$ for all $i$ and thus, by \textit{Lemma A}, we don't need to ``clear-out'' the diagonals of $\beta_d$ before multiplying. Hence, our statement above still holds. 
 
 Thus, we have: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. The first statement simply means the main diagonal of $(\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}\times A_s)$ is a zero vector and the second statement is the condition for passing GARP, hence our proof is complete (since $A\iff B$ is the same as $B\iff A$).
 \end{proof}
@@ -542,7 +545,7 @@ We then create a matrix $Q$ such that:
 Q = Exp_{diag} \varoslash Exp
 \]
 
-Since the "$\varoslash$" means division by element, and we know that both $Exp_{diag}, Exp$ are both positive matrices with no zero element (prices are clearly always positive, and all we need is that the quantity vector has at least one non-zero element in it, which we can assume), we get the following:
+Since the ``$\varoslash$'' means division by element, and we know that both $Exp_{diag}, Exp$ are both positive matrices with no zero element (prices are clearly always positive, and all we need is that the quantity vector has at least one non-zero element in it, which we can assume), we get the following:
 
 \[
 Q = 
@@ -609,7 +612,7 @@ Note that these are awfully similar to $A_d$ and $A_s$ in the previous section e
   \item If $\Omega_{d_{i,j}}=d(q_{j,i})=0$, we have $q_{j,i}<1$ and hence $\frac{P_iX_i}{P_iX_j}<1$ and thus $P_iX_i<P_iX_j$. We then get $\neg(X_i R_D X_j)$ so there's no edge between $X_i$ and $X_j$. Hence $\Omega_{d_{i,j}}=-1$, as desired.
   \item If $\Omega_{d_{i,j}}=d(q_{j,i})\geq1$, we then have $q_{j,i}\geq1$ and hence $\frac{P_iX_i}{P_iX_j}\geq1$ and thus $P_iX_i\geq P_iX_j$. Thus we have an edge between $X_i$ and $X_j$ for $i\not=j$, as $X_iR_D X_j$ by definition. We then note that $d$ is in fact a bijective function (identity function) for the subset of the domain that's $\geq1$ and that since $q_{j,i}\geq1$, we have that $d(q_{j,i})=q_{j,i}$. Following definitions, we get $\Omega_{d_{i,j}}=d(q_{j,i})=q_{j,i}=\frac{P_iX_i}{P_iX_j}\geq1$, which are precisely the weights we wanted with the $W_d$ function defined earlier.
 \end{itemize}
-Let $X_i$ and $X_j$ be two vertices (bundles) for $i,j\in\{1,\ldots,k\}$ such that $i\not=j$. If $(X_i, X_j)\in E_d$ (i.e. $X_i$ is directly revealed preferred to $X_j$), we then know that, for $e_d=(X_i, X_j)\in E_d$, $W_d(e_d)=\frac{P_iX_i}{P_iX_j}\geq1$. Then, we claim that $\exists c_{ij}\in(0,1]$ such that $c_{ij}\frac{P_iX_i}{P_iX_j}=1$. Intuitively, we say that for some bundle $i$ that we know is at least directly revealed preferred (and thus have to be SDRP, by definition) to bundle $j$, we can find some $c_{ij}$ that "shrinks" the budget of $i$ by an amount such that bundle $i$ is no longer strictly directly revealed preferred to bundle $j$ (but still directly revealed preferred). Putting in graph theory context, we're shrinking the price vector of the numerator by a constant before "multiplying" it to the quantity vector, therefore changing the relationship between vertices $X_i$ and $X_j$. We can see this easily by rearranging our equation with vector operation rules: $\frac{(c_{ij}P_i)X_i}{P_iX_j}=1$. Now we shall prove our claim of $c_{ij}$'s existence.
+Let $X_i$ and $X_j$ be two vertices (bundles) for $i,j\in\{1,\ldots,k\}$ such that $i\not=j$. If $(X_i, X_j)\in E_d$ (i.e. $X_i$ is directly revealed preferred to $X_j$), we then know that, for $e_d=(X_i, X_j)\in E_d$, $W_d(e_d)=\frac{P_iX_i}{P_iX_j}\geq1$. Then, we claim that $\exists c_{ij}\in(0,1]$ such that $c_{ij}\frac{P_iX_i}{P_iX_j}=1$. Intuitively, we say that for some bundle $i$ that we know is at least directly revealed preferred (and thus have to be SDRP, by definition) to bundle $j$, we can find some $c_{ij}$ that ``shrinks'' the budget of $i$ by an amount such that bundle $i$ is no longer strictly directly revealed preferred to bundle $j$ (but still directly revealed preferred). Putting in graph theory context, we're shrinking the price vector of the numerator by a constant before ``multiplying'' it to the quantity vector, therefore changing the relationship between vertices $X_i$ and $X_j$. We can see this easily by rearranging our equation with vector operation rules: $\frac{(c_{ij}P_i)X_i}{P_iX_j}=1$. Now we shall prove our claim of $c_{ij}$'s existence.
 
 
 
@@ -643,7 +646,9 @@ We further define a function $\lambda_t:(\mathbb{R}^{m\times m})^t\to\mathbb{R}^
     Y_1,Y_2),Y_3),Y_4),\ldots, Y_t)
 \]
 
-\textit{Theorem 3:} $\forall t\in \mathbb{N}_{\geq2}$,
+\begin{theorem}
+\label{thm:Theorem 3}
+$\forall t\in \mathbb{N}_{\geq2}$,
 \[
   \lambda_t(\underbrace{\Omega_d,\ldots,\Omega_d}_\text{t times})_{i,j}=
   \begin{cases}
@@ -694,17 +699,18 @@ Note that $\forall i,j$, $\rho_{i,j}\geq1$ since $W_d$ is the weight function as
   & \textrm{of length }t
   \end{cases}
 \]
+\end{theorem}
 
 Before we begin the proof of \textit{Theorem 3}, let's take a look at the following lemma.
 
 \textit{Lemma C:} We claim that, for any arbitrary real values of $\alpha^j_i$ and $\beta$, the following equality holds:
 \[
-min
+\min
 \left\{
   \begin{aligned}
     \max\left\{
       \begin{aligned}
-        \min\{\alpha_1^1,&\ldots,\alpha_1^J\} \\
+        \min\{\alpha_1^1,&\ldots,\alpha_1^J\}, \\
         &\vdots \\
         \min\{\alpha_I^1,&\ldots,\alpha_I^J\}
       \end{aligned}
@@ -715,7 +721,7 @@ min
 =
 \max\left\{
   \begin{aligned}
-    \min\{\alpha_1^1,&\ldots,\alpha_1^J,\beta\} \\
+    \min\{\alpha_1^1,&\ldots,\alpha_1^J,\beta\}, \\
     &\vdots \\
     \min\{\alpha_I^1,&\ldots,\alpha_I^J,\beta\} \\
   \end{aligned}
@@ -730,7 +736,7 @@ LHS=
 \beta & \textrm{if } \beta\leq
 \max\left\{
       \begin{aligned}
-        \min\{\alpha_1^1,&\ldots,\alpha_1^J\} \\
+        \min\{\alpha_1^1,&\ldots,\alpha_1^J\}, \\
         &\vdots \\
         \min\{\alpha_I^1,&\ldots,\alpha_I^J\}
       \end{aligned}
@@ -1102,7 +1108,10 @@ This comes directly from \textit{Theorem 3}, as each $\lambda^t(\Omega_d)_{i,j}$
 
 This also comes directly from \textit{Theorem 3}. Since we have $\Lambda_{i,j}=0$, then $\max\{\Omega_{d_{i,j}},\lambda^2(\Omega_d)_{i,j},\lambda^3(\Omega_d)_{i,j},\ldots,\lambda^{k-1}(\Omega_d)_{i,j}\}=0$ and hence $\Omega_{d_{i,j}}=\lambda^2(\Omega_d)_{i,j}=\lambda^3(\Omega_d)_{i,j}=\ldots=\lambda^{k-1}(\Omega_d)_{i,j}=0$.
 
-\textit{Theorem 4:} $\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=0$ if and only if the dataset $(\mathcal{X},\mathcal{P})$ has no GARP violations. 
+\begin{theorem}
+\label{thm:CCEI 1}
+$\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=0$ if and only if the dataset $(\mathcal{X},\mathcal{P})$ has no GARP violations. 
+\end{theorem}
 
 \begin{proof}
 For all $i\in\{1,\ldots,k\}$, by the definition of the $\lambda$ function, we have that $\lambda(\Lambda,\Omega_s)_{i,i}=0 \iff \max\big\{\min\{\Lambda_{i,1},\Omega^s_{1,i}\},\ldots, \min\{\Lambda_{i,k},\Omega^s_{k,i}\}\big\}=0$. For notation, we say $\max\big\{\min\{\Lambda_{i,m},\Omega^s_{m,1}\}\ |\ m\in\{1,\ldots,k\}\big\}=0$. Using the definition of $\Lambda$, we write that $\max\big\{\min\{\Lambda_{i,m},\Omega^s_{m,i}\}\ |\ m\in\{1,\ldots,k\}\big\}=0 \iff \max\Big\{\min\big\{\max\{\Omega_{d_{i,m}},\lambda^2(\Omega_d)_{i,m},\lambda^3(\Omega_d)_{i,m},\ldots,\lambda^{k-1}(\Omega_d)_{i,m}\}
@@ -1116,13 +1125,19 @@ For all $i\in\{1,\ldots,k\}$, by the definition of the $\lambda$ function, we ha
 & \iff \Big[\forall m\in\{1,\ldots,k\},\ \max\{\Omega_{d_{i,m}}, \lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots, &\\
 & \ \ \ \ \ \ \ \ \ k-1\}\}\geq1 \implies \Omega^s_{m,i}=0\Big]
 \end{flalign*}
-Hence, we have $\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=0 \iff \Big[\forall m\in\{1,\ldots,k\},\max\{\Omega_{d_{i,m}}, \lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots,k-1\}\}\geq1 \implies \Omega^s_{m,i}=0\Big]$. Note then that the second condition states that $\forall m\in\{1,\ldots,k\}$, if there's a walk (of any number of edges) from $X_i$ to $X_m$ on $G_d$, then $(X_j,X_i)\not\in E_s$. This is precisely the definiton of GARP and thus our claim is proven.
+Hence, we have $\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=0 \iff \Big[\forall m\in\{1,\ldots,k\},\max\{\Omega_{d_{i,m}},\\ \lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots,k-1\}\}\geq1 \implies \Omega^s_{m,i}=0\Big]$. Note then that the second condition states that $\forall m\in\{1,\ldots,k\}$, if there's a walk (of any number of edges) from $X_i$ to $X_m$ on $G_d$, then $(X_j,X_i)\not\in E_s$. This is precisely the definiton of GARP and thus our claim is proven.
 \end{proof}
 
+\begin{theorem}
+\label{thm:CCEI 2}
+If $\exists i\in\{1,\ldots,k\}$ such that $\lambda(\Lambda,\Omega_s)_{i,i}\geq1$, then $\lambda(\Lambda,\Omega_s)_{i,i}$ represents the weakest edge of the worst (strongest) GARP violation involving $X_i$.
+\end{theorem}
 
-\textit{Theorem 5:} If $\exists i\in\{1,\ldots,k\}$ such that $\lambda(\Lambda,\Omega_s)_{i,i}\geq1$, then $\lambda(\Lambda,\Omega_s)_{i,i}$ represents the weakest edge of the worst (strongest) GARP violation involving $X_i$.
+\begin{theorem}
+\label{thm:CCEI 3}
+Let $\psi = \max\big\{\lambda(\Lambda,\Omega_s)_{i,i}\ |\ i\in\{1,\ldots,k\}\big\}$, then let $c=\frac{1}{\psi}$. The $c$ is the CCEI score related to the dataset $(\mathcal{X},\mathcal{P})$.
+\end{theorem}
 
-\textit{Theorem 6:} Let $\psi = \max\big\{\lambda(\Lambda,\Omega_s)_{i,i}\ |\ i\in\{1,\ldots,k\}\big\}$, then let $c=\frac{1}{\psi}$. The $c$ is the CCEI score related to the dataset $(\mathcal{X},\mathcal{P})$.
 \bibliographystyle{plainnat}
 \bibliography{bibliography}
 
