@@ -40,10 +40,10 @@
 \maketitle
 
 \begin{abstract}
-Prior literature on consumer behavior and revealed preferences focus on the necessary requirements of choice data to satisfy consistency but often neglect developing algorithms to test for those requirements for large datasets. Additionally, existing efficiency indices proposed by \citet{Afriat1967The-Construction-of-Utility-Functions-from-Expenditure-Data} and \citet{Varian1990Goodness-of-fit-in-optimizing-models} requires exhausting computations. This paper proposes new algorithms to test for consumer maximization and calculate efficiency indices through a graph theoretical approach. The paper will place existing theory in a graph theoretical context and develop a new method to directly calculate efficiency indices.
+Prior literature on consumer behavior and revealed preferences focus on the necessary requirements of choice data to satisfy consistency but often neglect developing algorithms to test for those requirements for large datasets. Additionally, existing efficiency indices proposed by \citet{Afriat1967The-Construction-of-Utility-Functions-from-Expenditure-Data} and \citet{Varian1990Goodness-of-fit-in-optimizing-models} require exhausting computations. This paper proposes new algorithms to test for consumer maximization and calculate efficiency indices through a graph theoretical approach. The paper will place existing theory in a graph theoretical context and develop a new method to directly calculate efficiency indices.
 \end{abstract}
 
-\section*{Revealed Preferences as a Directed Graph}
+\section*{Existing Literature and Axioms}
 
 Suppose an individual is observed over $k$ (a finite number of) periods. Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ be the set of quantity vectors such that $\forall i\in\{1,\ldots,k\}$, $X_i=(x_{i1},\ldots,x_{in})$, where $x_{ij}$ represents the number of good $j$ bought at time $i$. Further, let $\mathcal{P}=\{P_1,\ldots,P_k\}$ be the set of price vectors constructed in similar fashion as the quantity vectors. We then define a following set of relations between elements of $\mathcal{X}$:
 
@@ -84,7 +84,7 @@ If a consumer exhibits maximizing behavior, then their set of choice data will s
 \label{rmk:Remark 3}
 The key difference between SARP and GARP requirements are that GARP allows consumers to have multiple bundles that maximizes utility under the same price levels (i.e. consumers are allowed to exhibit preferences that treat goods as perfect substitutes of each other).
 \end{remark}
-Consider the following example for Remark \ref{rmk:Remark 3}. Let good $i$ and good $j$ be perfect 1-to-1 substitutes for an individual. Additionally, let $p_i=\alpha$, $p_j=\alpha$ at time $t$ and $p_i=\beta$, $p_j=\beta$ at time $t+1$. One can see that, given the underlying preference of the individual and the price ratios, the bundle selected by the consumer is completely random. Suppose the individual purchases 1 unit of good $i$ at time $t$ with no purchases of good $j$ and chooses 1 unit of good $j$ at time $t+1$ with no purchases of good $i$. Although this behavior is completely rational for the individual given their underlying preference (perfect substitutes), a set of choice data exhibit such behavior would fail WARP and SARP as $X_{t} R_D X_{t+1}$ but $X_{t+1} R_D X_{t}$. This is because $P_tX_t=\alpha\geq\alpha=P_tX_{t+1}$ and $P_{t+1}X_{t+1}=\beta\geq\beta=P_{t+1}X_t$. However, it's clear that this set of choice data will pass WGARP and GARP. The example can be illustrated with the following diagram:
+Consider the following example for Remark \ref{rmk:Remark 3}. Let good $i$ and good $j$ be perfect 1-to-1 substitutes for an individual. Additionally, let $p_i=\alpha$, $p_j=\alpha$ at time $t$ and $p_i=\beta$, $p_j=\beta$ at time $t+1$. One can see that, given the underlying preference of the individual and the price ratios, the bundle selected by the consumer is completely random. Suppose the individual purchases 1 unit of good $i$ at time $t$ with no purchases of good $j$ and chooses 1 unit of good $j$ at time $t+1$ with no purchases of good $i$. Although this behavior is completely rational for the individual given their underlying preference (perfect substitutes), a set of choice data exhibit such behavior would fail WARP and SARP as $X_{t} R_D X_{t+1}$ but $X_{t+1} R_D X_{t}$. This is because $P_tX_t=\alpha\geq\alpha=P_tX_{t+1}$ and $P_{t+1}X_{t+1}=\beta\geq\beta=P_{t+1}X_t$. However, it's clear that this set of choice data will pass WGARP and GARP as $\alpha\not>\alpha$ and $\beta\not>\beta$. The example can be illustrated with the following diagram:
 \begin{center}
 \begin{tikzpicture}
     \begin{axis}[
@@ -92,11 +92,20 @@ Consider the following example for Remark \ref{rmk:Remark 3}. Let good $i$ and g
     xlabel = Good $i$,
     ylabel = Good $j$
 ]
+\addplot [
+    domain=0:1, 
+    samples=2, 
+    color=blue,
+    line width=3pt,
+    dashed
+]
+{1-x};
+\addlegendentry{Indifference Curve}
   \addplot [
     domain=0:1, 
     samples=2, 
     color=red,
-    line width=1pt
+    line width=1pt,
 ]
 {1-x};
 \addlegendentry{Budget Constraint}
@@ -112,7 +121,7 @@ Consider the following example for Remark \ref{rmk:Remark 3}. Let good $i$ and g
 \end{tikzpicture}
 \end{center}
 \noindent
-Note the red line represent both the indifference curves \emph{and} budget constraints at time $t$ both times. Under these conditions, any choice along the budget constraint is rational. 
+Note the straight line represent both the indifference curves \emph{and} budget constraints at time $t$ both times. Under these conditions, any choice along the budget constraint is rational. 
 
 The following table summarizes the requirements for each of the axioms:
 
@@ -128,7 +137,69 @@ GARP&$X_i \mathbf{R} X_j$&$\neg(X_j  \mathbf{R_{SD}} X_i)$
 \end{center}
 \renewcommand{\arraystretch}{1}
 
+\section*{Revealed Preferences as Directed Graphs}
 
+This section will rigorously outline a graph theoretical approach to analyzing revealed preferences and introduce algorithms to test for each of the axioms. First, define two directed graphs, $G_d$ and $G_s$, that represent non-strict and strict relations between bundles, respectively. These conditions will yield:
+$$G_d=\{\mathcal{X},E_d\}\textrm{ such that }E_d=\{(X_i,X_j)\ |\ X_i R_D X_j,\ i.e.\ P_iX_i\geq P_iX_j,\ i\not=j\}$$
+$$G_s=\{\mathcal{X},E_s\}\textrm{ such that }E_s=\{(X_i,X_j)\ |\ X_i R_{SD} X_j,\ i.e.\ P_iX_i> P_iX_j,\ i\not=j\}$$
+It is best to represent each graph with an adjacency matrix, where the $(i,j)^{th}$ element of the adjacency matrix is 1 if there's an edge from $X_i$ to $X_j$, 0 otherwise. The following paragraphs will discuss the construction of the adjacency matrices for $G_d$ and $G_s$, which will be denoted as $A_d$ and $A_s$, respectively.
+
+Suppose an individual has choice data $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$. One can then create the following $(k\times k)$ matrix from $\mathcal{X}$ and $\mathcal{P}$ (referred to as the expenditure matrix):
+\[
+Exp = 
+ \begin{pmatrix}
+  P_1X_1 & P_2X_1 & \cdots & P_kX_1 \\
+  P_1X_2 & P_2X_2 & \cdots & P_kX_2 \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  P_1X_k & P_2X_k & \cdots & P_kX_k
+ \end{pmatrix}
+\]
+Note that the $(i,j)^{th}$ entry of this matrix represents the cost of bundle $i$ at the price of time $j$ (i.e. $P_jX_i$). Then consider the following:
+\[
+Exp_{diag} = 
+ \begin{pmatrix}
+  P_1X_1 & P_2X_2 & \cdots & P_kX_k \\
+  P_1X_1 & P_2X_2 & \cdots & P_kX_k \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  P_1X_1 & P_2X_2 & \cdots & P_kX_k
+ \end{pmatrix}
+\]
+In $Exp_{diag}$, every element in column $j$ is same for all $j$ and represents the actual cost of bundle $j$ at the price vector it was bought at (price vector of time $j$). Then consider the following:
+\[
+\alpha = Exp-Exp_{diag}
+ \begin{pmatrix}
+  0 & P_2X_1-P_2X_2 & \cdots & P_kX_1-P_kX_k \\
+  P_1X_2-P_1X_1 & 0 & \cdots & P_kX_2-P_kX_k \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  P_1X_k-P_1X_1 & P_2X_k-P_2X_2 & \cdots & 0
+ \end{pmatrix}
+\]
+Define a function $f:\mathbb{R}\to\{0,1\}$ such that:
+\[ 
+f(x)=
+    \begin{cases} 
+      1 & x\leq0 \\
+      0 & x>0
+   \end{cases}
+\]
+Applying $f$ to all elements of $\alpha$ except its diagonals and take its transpose, one will obtain the adjacency matrix ($A_d$) for $G_d$:
+\[
+A_d =
+ \begin{pmatrix}
+  0 & f(\alpha_{1,2}) & \cdots & f(\alpha_{1,k}) \\
+  f(\alpha_{2,1}) & 0 & \cdots & f(\alpha_{2,k}) \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  f(\alpha_{k,1}) & f(\alpha_{k,2}) & \cdots & 0
+ \end{pmatrix} ^T
+\]
+One can see that $A_d$ is in fact the adjacency matrix by considering the following:
+\begin{itemize}
+    \item $f(\alpha_{i,j})=1$ if and only if $\alpha_{i,j}\leq0$
+    \item If $\alpha_{i,j}\leq0$, we know that $P_jX_i-P_jX_j\leq0$ and hence $P_jX_i\leq P_jX_j$
+    \item Hence, by definition, we have $X_j R_D X_i$
+    \item Thus $f(\alpha_{i,j})=1$ exactly when $X_j R_D X_i$
+    \item However, a value of $1$ in $(i,j)$ position would indicate that a directed edge from vertex $i$ to vertex $j$, but since the edges need to indicate directly revealed preferences, one would want a value of $1$ at the $(j,i)$ positions. Hence, taking the transpose would result in $A_{d_{j,i}}=f(\alpha_{i,j})=1$ if and only if $X_j R_D X_i$, which is the desired adjacency matrix.
+\end{itemize}
 
 \bibliographystyle{plainnat}
 \bibliography{bibliography}
