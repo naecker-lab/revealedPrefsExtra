@@ -53,11 +53,11 @@ Suppose an individual is observed over $k$ (a finite number of) periods. Let $\m
   \circleditem For $X_i, X_j\in\mathcal{X}$, we say $X_i$ is \textbf{strictly directly revealed preferred} to $X_j$ if $P_iX_i>P_iX_j$. We will denote this as $X_i R_{SD} X_j$.
   \circleditem For $X_i, X_j\in\mathcal{X}$, we say $X_i$ is \textbf{revealed preferred} to $X_j$ if there exists some sequence $\{X^m\}_{m=1}^{M}$ such that, $\forall m\in\{1,\ldots,M\}$, the following holds:
   \begin{itemize} 
-  	\item $X^m\in\mathcal{X}$
-  	\item $X_i R_D X^1$
-  	\item $X^m R_D X^{m+1}$
-  	\item $X^M R_D X_j$
-  \end{itemize}	
+    \item $X^m\in\mathcal{X}$
+    \item $X_i R_D X^1$
+    \item $X^m R_D X^{m+1}$
+    \item $X^M R_D X_j$
+  \end{itemize} 
   We will denote this as $X_i R X_j$.
 \end{enumerate}
 \end{definition}
@@ -65,10 +65,10 @@ This definition comes directly from \citet{Varian1982The-Nonparametric-Approach-
 
 \begin{definition} \leavevmode
 \begin{enumerate}
-	\circleditem A set of choice data satisfies the \textbf{Weak Axiom of Revealed Preferences (WARP)} if for all bundles $X_i$ and $X_j$ in $\mathcal{X}$, if $X_i$ is directly revealed preferred to $X_j$, then $X_j$ is not directly revealed preferred to $X_i$.
-	\circleditem A set of choice data satisfies the \textbf{Strong Axiom of Revealed Preferences (SARP)} if for all bundles $X_i$ and $X_j$, if $X_i$ is revealed preferred to $X_j$, then $X_j$ is not revealed preferred to $X_i$.
-	\circleditem A set of choice data satisfies the \textbf{Generalized Axiom of Revealed Preferences (GARP)} if for all bundles $X_i$ and $X_j$, if $X_i$ is revealed preferred to $X_j$, then $X_j$ is not strictly directly revealed preferred to $X_i$.
-	\circleditem A set of choice data satisfies the \textbf{Weak Generalized Axiom of Revealed Preferences (WGARP)} if for all bundles $X_i$ and $X_j$, if $X_i$ is directly revealed preferred to $X_j$, then $X_j$ is not strictly directly revealed preferred to $X_i$.
+  \circleditem A set of choice data satisfies the \textbf{Weak Axiom of Revealed Preferences (WARP)} if for all bundles $X_i$ and $X_j$ in $\mathcal{X}$, if $X_i$ is directly revealed preferred to $X_j$, then $X_j$ is not directly revealed preferred to $X_i$.
+  \circleditem A set of choice data satisfies the \textbf{Strong Axiom of Revealed Preferences (SARP)} if for all bundles $X_i$ and $X_j$, if $X_i$ is revealed preferred to $X_j$, then $X_j$ is not revealed preferred to $X_i$.
+  \circleditem A set of choice data satisfies the \textbf{Generalized Axiom of Revealed Preferences (GARP)} if for all bundles $X_i$ and $X_j$, if $X_i$ is revealed preferred to $X_j$, then $X_j$ is not strictly directly revealed preferred to $X_i$.
+  \circleditem A set of choice data satisfies the \textbf{Weak Generalized Axiom of Revealed Preferences (WGARP)} if for all bundles $X_i$ and $X_j$, if $X_i$ is directly revealed preferred to $X_j$, then $X_j$ is not strictly directly revealed preferred to $X_i$.
 \end{enumerate}
 \end{definition}
 
@@ -90,43 +90,29 @@ Consider the following example for Remark \ref{rmk:Remark 3}. Let good $i$ and g
     \begin{axis}[
     axis lines = left,
     xlabel = Good $i$,
-    ylabel = Good $j$,
-    xtick={0,1,3},
-	xticklabels={0,$\alpha$,$\beta$},
-	ytick={0,1,3},
-	yticklabels={0,$\alpha$,$\beta$}
+    ylabel = Good $j$
 ]
-	\addplot [
+  \addplot [
     domain=0:1, 
     samples=2, 
     color=red,
     line width=1pt
 ]
 {1-x};
-\addlegendentry{Time $t$}
-\addplot [
-    domain=0:3, 
-    samples=2, 
-    color=blue,
-    line width=1pt
-]
-{3-x};
-\addlegendentry{Time $t+1$}
+\addlegendentry{Budget Constraint}
 \addplot [only marks] table {
 1 0
-0  3
 };
-\addlegendentry{Chosen bundles}
+\addlegendentry{Time $t$}
 \addplot [only marks, mark=square*] table {
-.75 .25
-1 2
+0 1
 };
-\addlegendentry{Potential bundles}
+\addlegendentry{Time $t+1$}
     \end{axis}
 \end{tikzpicture}
 \end{center}
 \noindent
-Note the red and blue lines represent both the indifference curves \emph{and} budget constraints at time $t$ and $t+1$, respectively. Under these conditions, any choice along the budget constraint is rational. 
+Note the red line represent both the indifference curves \emph{and} budget constraints at time $t$ both times. Under these conditions, any choice along the budget constraint is rational. 
 
 The following table summarizes the requirements for each of the axioms:
 
