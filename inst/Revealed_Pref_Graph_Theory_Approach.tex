@@ -25,13 +25,21 @@
    \stepcounter{enumi}\item[\circled{\theenumi}]}
 
 
-
 \setlength{\parskip}{1em}
 
 \newtheorem{theorem}{Theorem} 
 \newtheorem{definition}{Definition} % this lets us create definition blocks as below
 \newtheorem{remark}{Remark}
+\newtheorem{lemma}[theorem]{Lemma}
 
+\usepackage{thmtools}
+\usepackage{thm-restate}
+
+\usepackage{hyperref}
+
+\usepackage{cleveref}
+
+\declaretheorem[name=Theorem]{thm}
 
 \title{A Graph Theoretical Approach to Revealed Preferences and Efficiency Indices}
 \author{...}
@@ -47,7 +55,7 @@ Prior literature on consumer behavior and revealed preferences focus on the nece
 
 Suppose an individual is observed over $k$ (a finite number of) periods. Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ be the set of quantity vectors such that $\forall i\in\{1,\ldots,k\}$, $X_i=(x_{i1},\ldots,x_{in})$, where $x_{ij}$ represents the number of good $j$ bought at time $i$. Further, let $\mathcal{P}=\{P_1,\ldots,P_k\}$ be the set of price vectors constructed in similar fashion as the quantity vectors. We then define a following set of relations between elements of $\mathcal{X}$:
 
-\begin{definition} \leavevmode
+\begin{definition}\label{defn:relations_1} \leavevmode
 \begin{enumerate}
   \circleditem For $X_i, X_j\in\mathcal{X}$, we say $X_i$ is \textbf{directly revealed preferred} to $X_j$ if $P_iX_i\geq P_iX_j$. We will denote this as $X_i R_D X_j$.
   \circleditem For $X_i, X_j\in\mathcal{X}$, we say $X_i$ is \textbf{strictly directly revealed preferred} to $X_j$ if $P_iX_i>P_iX_j$. We will denote this as $X_i R_{SD} X_j$.
@@ -63,10 +71,10 @@ Suppose an individual is observed over $k$ (a finite number of) periods. Let $\m
 \end{definition}
 This definition comes directly from \citet{Varian1982The-Nonparametric-Approach-to-Demand-Analysis}. Note that \circled{1} and \circled{2} simply state that $X_i$ is (strictly) directly revealed preferred to $X_j$ if $X_j$ (costs less) is available at the prices when $X_i$ was chosen. For \circled{3}, we see that $R$ is the transitive closure on $R_D$, as $X_iRX_j$ if there is some sequence $X$'s that ``connects'' $X_i$ to $X_j$ through a chain of directly revealed preferences. Using these relations, we define the following set of axioms, as shown in \citet{Varian1982The-Nonparametric-Approach-to-Demand-Analysis} and \citet{BanerjeeMurphy2015A-Caveat-for-the-Application-of-the-Critical-Cost-Efficiency-Index-in-induced-budget-experiments}:
 
-\begin{definition} \leavevmode
+\begin{definition}\label{defn:axioms_1} \leavevmode
 \begin{enumerate}
   \circleditem A set of choice data satisfies the \textbf{Weak Axiom of Revealed Preferences (WARP)} if for all bundles $X_i$ and $X_j$ in $\mathcal{X}$, if $X_i$ is directly revealed preferred to $X_j$, then $X_j$ is not directly revealed preferred to $X_i$.
-  \circleditem A set of choice data satisfies the \textbf{Strong Axiom of Revealed Preferences (SARP)} if for all bundles $X_i$ and $X_j$, if $X_i$ is revealed preferred to $X_j$, then $X_j$ is not revealed preferred to $X_i$.
+  \circleditem A set of choice data satisfies the \textbf{Strong Axiom of Revealed Preferences (SARP)} if it satisfies WARP and for all bundles $X_i$ and $X_j$, if $X_i$ is revealed preferred to $X_j$, then $X_j$ is not revealed preferred to $X_i$.
   \circleditem A set of choice data satisfies the \textbf{Generalized Axiom of Revealed Preferences (GARP)} if for all bundles $X_i$ and $X_j$, if $X_i$ is revealed preferred to $X_j$, then $X_j$ is not strictly directly revealed preferred to $X_i$.
   \circleditem A set of choice data satisfies the \textbf{Weak Generalized Axiom of Revealed Preferences (WGARP)} if for all bundles $X_i$ and $X_j$, if $X_i$ is directly revealed preferred to $X_j$, then $X_j$ is not strictly directly revealed preferred to $X_i$.
 \end{enumerate}
@@ -195,11 +203,166 @@ A_d =
 One can see that $A_d$ is in fact the adjacency matrix by considering the following:
 \begin{itemize}
     \item $f(\alpha_{i,j})=1$ if and only if $\alpha_{i,j}\leq0$
-    \item If $\alpha_{i,j}\leq0$, we know that $P_jX_i-P_jX_j\leq0$ and hence $P_jX_i\leq P_jX_j$
-    \item Hence, by definition, we have $X_j R_D X_i$
+    \item If $\alpha_{i,j}\leq0$, then $P_jX_i-P_jX_j\leq0$ and hence $P_jX_i\leq P_jX_j$
+    \item Hence, by definition, $X_j R_D X_i$
     \item Thus $f(\alpha_{i,j})=1$ exactly when $X_j R_D X_i$
     \item However, a value of $1$ in $(i,j)$ position would indicate that a directed edge from vertex $i$ to vertex $j$, but since the edges need to indicate directly revealed preferences, one would want a value of $1$ at the $(j,i)$ positions. Hence, taking the transpose would result in $A_{d_{j,i}}=f(\alpha_{i,j})=1$ if and only if $X_j R_D X_i$, which is the desired adjacency matrix.
 \end{itemize}
+To construct $A_s$, consider the function $g:\mathbb{R}\to\{0,1\}$ such that:
+\[ 
+g(x)=
+    \begin{cases} 
+      1 & x<0 \\
+      0 & x\geq0
+   \end{cases}
+\]
+Similarly, applying $g$ to all elements of $\alpha$ except its diagonals and take its transpose would generate the adjacency matrix ($A_s$) for $G_s$:
+\[
+A_s =
+ \begin{pmatrix}
+  0 & g(\alpha_{1,2}) & \cdots & g(\alpha_{1,k}) \\
+  g(\alpha_{2,1}) & 0 & \cdots & g(\alpha_{2,k}) \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  g(\alpha_{k,1}) & g(\alpha_{k,2}) & \cdots & 0
+ \end{pmatrix} ^T
+\]
+The intuition behind $A_s$ is similar to that of $A_d$ except the conditions of $g$ are set such that the relation between $X_i$ and $X_j$ need to be strict in order for $(i,j)$ to be 1.
+
+Using the graph theoretical approach, one can reframe the relations on Definition \ref{defn:relations_1} as follows:
+\begin{definition}\label{defn:relations_2} \leavevmode
+\begin{enumerate}
+  \circleditem For $X_i,X_j\in\mathcal{X}$, we say $X_i$ is \textbf{directly revealed preferred} to $X_j$ if there exists an edge from $X_i$ to $X_j$ on $G_d$, i.e. $(X_i,X_j)\in E_d$.
+  \circleditem For $X_i,X_j\in\mathcal{X}$, we say $X_i$ is \textbf{strictly directly revealed preferred} to $X_j$ if there exists an edge from $X_i$ to $X_j$ on $G_s$, i.e. $(X_i,X_j)\in E_s$.
+  \circleditem For $X_i,X_j\in\mathcal{X}$, we say $X_i$ is \textbf{revealed preferred} to $X_j$ if there's a walk (of any length) from $X_i$ to $X_j$ on $G_d$.
+\end{enumerate}
+\end{definition}
+\noindent
+Similarly, the axioms from Definition \ref{defn:axioms_1} is reframed as follows:
+
+\begin{definition}\label{axioms_2} \leavevmode
+\begin{enumerate}
+  \circleditem A set of choice data satisfies the \textbf{Weak Axiom of Revealed Preferences (WARP)} if $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_d$.
+  \circleditem A set of choice data satisfies the \textbf{Strong Axiom of Revealed Preferences (SARP)} if $\forall X_i \in \mathcal{X}$, there exists no directed walk from $X_i$ back to itself.
+  \circleditem A set of choice data satisfies the \textbf{Generalized Axiom of Revealed Preferences (GARP)} if $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $X_i$ to $X_j$ in $G_d$, then $(X_j,X_i)\not\in E_s$.
+  \circleditem A set of choice data satisfies the \textbf{Weak Generalized Axiom of Revealed Preferences (WGARP)} if $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_s$.
+\end{enumerate}
+\end{definition}
+Suppose there exists a set of choice data for an individual given by $\{\mathcal{X},\mathcal{P}\}$ where $|\mathcal{X}|=|\mathcal{P}|=k\in\mathbb{N}$. Let $A_d$ and $A_s$ be the adjacency matrices of $G_d$ and $G_s$ constructed from the data set, respectively. To test for each of the axioms, the paper proposes the following theorems.
+\begin{restatable}{thm}{WARP}
+\label{thm:WARP}
+A set of choice data, $\{\mathcal{X},\mathcal{P}\}$, satisfies WARP exactly when, $\forall i\in\{1,\ldots,k\}$, $(A_d)^2_{i,i}=0$.
+\end{restatable}
+
+WARP requirements are defined such that if $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_d$. Note that this is true exactly when there \textit{isn't} a directed walk of length 2 from any vertex $i$ back to itself (vertex $i$). Hence we say $(\mathcal{X},\mathcal{P})$ passes WARP if and only if the main diagonal of matrix $(A_d)^2$ is a vector of 0, which is exactly the statement of Theorem \ref{thm:WARP}.
+
+\begin{restatable}{thm}{SARP}
+\label{thm:SARP}
+A set of choice data, $\{\mathcal{X},\mathcal{P}\}$, satisfies SARP exactly when, $\forall i\in\{1,\ldots,k\}$, $(\sum_{n=2}^kA_d^n)_{i,i}=0$.
+\end{restatable}
+Let $B_d=(\sum_{n=2}^kA_d^n)$. Then $(B_d)_{i,j}>0$ if and only if there is a directed walk of at least length 2 from $X_i$ to $X_j$, as the cardinality of the vertex set is $k$ and adding above that index would simply be extra computation. Hence, $(B_d)$'s main diagonal is 0 if and only if no vertices has a directed walk back to itself, which is exactly the statement of Theorem \ref{thm:SARP}.
+
+\begin{restatable}{thm}{WGARP}
+\label{thm:WGARP}
+A data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if, $\forall i\in\{1,\ldots,k\}$, $(A_d \times A_s)_{i,i}=0$ (i.e. the main diagonal of $A_d \times A_s$ is a vector of 0).
+\end{restatable}
+
+\begin{restatable}{thm}{GARP}
+\label{thm:GARP}
+A data set $(\mathcal{X},\mathcal{P})$ passes GARP if and only if, $\forall i\in\{1,\ldots,k\}$, $\big((\sum_{i=1}^{k-1}A_{d}^{i})\times A_s\big)_{i,i}=0$ (i.e. the main diagonal of $(\sum_{i=1}^{k-1}A_{d}^{i})\times A_s$ is a vector of 0).
+\end{restatable}
+
+The proofs of Theorem \ref{thm:WGARP} and Theorem \ref{thm:GARP} are in the Appendix. The basic idea behind these two algorithms are similar to that of Theorem \ref{thm:WARP} and Theorem \ref{thm:SARP}, except they are adjust to include the idea of strict revealed preferences that are a part of the axioms.
+
+This section will conclude with a few examples that exhibit the functionalities of the graph theoretical approach.
+
+\section*{Appendix}
+\WGARP*
+
+\begin{proof}
+Recall that: If $(\mathcal{X},\mathcal{P})$ passes WGARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_s$. Which, when put in context of adjacency matrices, means that $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(i,j)^{th}$ position of $A_d$ ($A_{d_{i,j}}$) is equal to one, then the $(j,i)^{th}$ position of $A_s$ ($A_{s_{i,j}}$) cannot be equal to 1. We then consider $A_d\times A_s$ and its main diagonal. 
+
+
+$\forall i\in\{1,\ldots,k\}$, let $\delta_i$ be the vector of the $i^{th}$ row of $A_d$ and $\xi_i$ be the vector of the $i^{th}$ column of $A_s$. Then we have $(A_d\times A_s)_{i,i}=\delta_i\cdot\xi_i$. Note that $\delta_{i_i}=0$ and $\xi_{i_i}=0$ since originally $A_d$ and $A_s$ have all 0's across their main diagonals.
+
+
+We then know that, $\forall i\in\{1,\ldots,k\}$, $(A_d\times A_s)_{i,i}=0$ (i.e. the main diagonal of $A_d\times A_s$ is a zero vector) if and only if $\delta_i\cdot\xi_i=0$. Further, $\delta_i\cdot\xi_i=0$ if and only if $\forall j \in\{1,\ldots,k\}$ such that $i\not=j$, $\delta_{i_j}\cdot \xi_{i_j}=0$ (since we know that $\delta_{i_i}=\xi_{i_i}=0$, they won't contributed to the overall sum, which is what we want anyways by the WGARP rules). We then know that $\delta_{i_j}\cdot \xi_{i_j}=0$ if and only if $\delta_{i_j}=0$ or $\xi_{i_j}=0$. Further, ``$\delta_{i_j}=0$ or $\xi_{i_j}=0$'' if and only if $\neg (\delta_{i_j}=\xi_{i_j}=1)$ (since all terms in $A_d$ and $A_s$ are either one or zero). Note that $\delta_{i_j}=A_{d_{i,j}}$ and $\xi_{i_j}=A_{s_{j,i}}$ (since $\xi_i$ is the vector of the $i^{th}$ \textit{column} of $A_s$). Hence, $\neg (\delta_{i_j}=\xi_{i_j}=1)$ if and only if $\neg (A_{d_{i,j}}=A_{s_{j,i}}=1)$, which happens if $A_{d_{i,j}}=1$, then $A_{s_{j,i}}=0\not=1$. Note that this is the exact definition of passing WGARP. Summarizing this, we have:
+\begin{flalign*}
+\forall i\in\{1,\ldots,k\}, (A_d\times A_s)_{i,i}=0 &\iff \delta_i\cdot\xi_i=0 &\\
+&\iff \forall j \in\{1,\ldots,k\}\textrm{, }i\not=j,\ \delta_{i_j}\cdot \xi_{i_j}=0 &\\
+&\iff \delta_{i_j}=0\textrm{ or }\xi_{i_j}=0 &\\
+&\iff \neg (\delta_{i_j}=\xi_{i_j}=1) &\\
+&\iff \neg (A_{d_{i,j}}=A_{s_{j,i}}=1) &\\
+&\iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)
+\end{flalign*}
+
+Hence, $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$. Note the first statement simply means the main diagonal of $A_d\times A_s$ is the zero vector and the second statement is the condition for passing WGARP. We then have ``passing WGARP'' $\iff$ ``main diagonal of $A_d\times A_s$ is a zero vector''. Thus our claim is proven (since $A\iff B$ is the same as $B\iff A$).
+\end{proof}
+
+\GARP*
+
+Before we begin the proof, consider the following lemma:
+
+\begin{lemma}
+\label{lma:LemmaA}
+Let $X_1, X_2, Y$ be $(m\times m)$ matrices such that:
+
+\begin{minipage}{.5\linewidth}
+\[
+X_1 =
+ \begin{pmatrix}
+  x_{1,1} & x_{1,2} & \cdots & x_{1,m} \\
+  x_{2,1} & x_{2,2} & \cdots & x_{2,m} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  x_{m,1} & x_{m,2} & \cdots & x_{m,m}
+ \end{pmatrix}
+\]
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+\[
+X_2 =
+ \begin{pmatrix}
+  0 & x_{1,2} & \cdots & x_{1,m} \\
+  x_{2,1} & 0 & \cdots & x_{2,m} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  x_{m,1} & x_{m,2} & \cdots & 0
+ \end{pmatrix}
+\]
+\end{minipage}
+and 
+
+\[
+Y =
+ \begin{pmatrix}
+  0 & y_{1,2} & \cdots & y_{1,m} \\
+  y_{2,1} & 0 & \cdots & y_{2,m} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  y_{m,1} & y_{m,2} & \cdots & 0
+ \end{pmatrix}
+\]
+
+Then the main diagonals of $X_1\times Y$ and $X_2\times Y$ are the same (denoted $diag(X_1\times Y)=diag(X_2\times Y)$).
+\end{lemma}
+
+\begin{proof}
+Fix an arbitrary $i\in\{1,\ldots,m\}$. Then let $Z_1=X_1\times Y$ and $Z_2=X_2\times Y$. We want to show that $Z_{1_{i,i}}=Z_{2_{i,i}}$. Note that $Z_{1_{i,i}}=x_{i,1}y_{1,i}+x_{i,2}y_{2,i}+\ldots+x_{i,i}y_{i,i}+\ldots+x_{i,m}y_{m,i}$ and that $Z_{2_{i,i}}=x_{i,1}y_{1,i}+x_{i,2}y_{2,i}+\ldots+0y_{i,i}+\ldots+x_{i,m}y_{m,i}$. The only difference between those are that for the first equation, we have $x_{i,i}y_{i,i}$ as the $i^{th}$ term and the second equation, we have $0y_{i,i}$ as the $i^{th}$ term. However, since $y_{i,i}=0$, we have that $x_{i,i}y_{i,i}=0y_{i,i}=0$ and thus $Z_{1_{i,i}}=Z_{2_{i,i}}$.
+\end{proof}
+
+Now, consider the following proof for Theorem \ref{thm:GARP}:
+\begin{proof}
+The proof of this will look very similar to the proof of WGARP, except that the elements in $\sum_{i=1}^{k-1}A_{d}^{i}$ will no longer be binary $(\{0,1\})$. However, they are all $\geq0$. Let $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, then $\beta_{d_{i,j}}$ would be the number of directed walks between vertex $i$ and vertex $j$ of any length up to $k-1$. Note that we chose to sum up to $k-1$ since anything past that, we would definitely have a cycle and summing past that point is redundant.
+
+
+We want to make sure that if there's a directed walk from vertex $i$ to vertex $j$ in $G_d$, there isn't a directed edge between vertex $j$ and vertex $i$ in $G_s$. Formally, this is just our definition for GARP: If $(\mathcal{X},\mathcal{P})$ passes GARP, then: $\forall i,j\in\{1,\dots,k\}$, if there exists a directed walk from $X_i$ to $X_j$ in $G_d$, then $(X_j,X_i)\not\in E_s$. This is similar to WGARP in the sense that we're simply replacing the directed edge in the ``if'' statement to a directed walk. Note then that we have $\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}$, which captures the existence of any directed walks between any two verices. Hence if $\beta_{d_{i,j}}>0$, there exists at least 1 directed walk between vertex $i$ and vertex $j$ on graph $G_d$. We can then use our proof for WGARP and \textit{Lemma A} to construct the rest of this proof.
+
+
+In our proof of WGARP, we see that $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(A_d\times A_s)_{i,i}=0 \iff (A_{d_{i,j}}=1 \implies A_{s_{j,i}}=0\not=1)$. There are two changes we need to make to this statement to fit our GARP claim. 
+
+First, we see that we're no longer working with $A_d$ but working with $\beta_d$, which represents directed walks instead of edges. $\beta_d$ is also no longer filled with binary elements $\in\{0,1\}$. We can tweak our statement to fit these conditions by stating: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. Now, $\beta_{d_{i,j}}>0$ simply means there exists at least one path from $i,j$ regardless of length, which is what we want.
+
+Second, when we constructed our proof of WGARP, we noted that ``since we know that $\delta_{i_i}=\xi_{i_i}=0$ (i.e. $A_{d_{i,i}}=0$ and $A_{s_{i,i}}=0$), they won't contributed to the overall sum, which is what we want anyways by the WGARP rules''. However, this no longer holds as we could have $\beta_{d_{i,i}}\not=0$ for some $i$ if there's any directed cycles in $G_d$ (but we don't care about those in GARP, per the definition of the axiom). But we do still have $A_{s_{i,i}}=0$ for all $i$ and thus, by \textit{Lemma A}, we don't need to ``clear-out'' the diagonals of $\beta_d$ before multiplying. Hence, our statement above still holds. 
+
+Thus, we have: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. The first statement simply means the main diagonal of $(\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}\times A_s)$ is a zero vector and the second statement is the condition for passing GARP, hence our proof is complete (since $A\iff B$ is the same as $B\iff A$).
+\end{proof}
 
 \bibliographystyle{plainnat}
 \bibliography{bibliography}
