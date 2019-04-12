@@ -4,7 +4,7 @@
 \alias{calculate_CCEI}
 \title{Calculate_CCEI}
 \usage{
-calculate_CCEI(df, step = 0.01, ...)
+calculate_CCEI(df, step, ...)
 }
 \arguments{
 \item{df}{a dataframe}

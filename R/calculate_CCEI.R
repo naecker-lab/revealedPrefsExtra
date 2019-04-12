@@ -34,6 +34,11 @@ calculate_CCEI <- function(df, step, ...){
     
     test <- checkGarp(list$x, list$p, afriat.par = index)
     
+    # if passes Garp, return 1
+    if (!test$violation) {
+      return (1)
+    }
+    
     if (test$violation){
       if (checkGarp(list$x, list$p, afriat.par = index + step)$violation == FALSE){
         return (index)
