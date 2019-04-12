@@ -32,7 +32,7 @@ checkGarpExtra <- function(df, ...){
   
   variables <- quos(...)
   if (length(variables) == 0) {stop("enter columns for quanities and prices")}
-  if (length(variables)%%2 != 0) {warning("enter an even number of columns")}
+  if (length(variables)%%2 != 0) {stop("enter an even number of columns")}
   
   list <- spread_data(df, ...)
   checkGarp(list$x, list$p)

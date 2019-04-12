@@ -39,7 +39,7 @@ spread_data <- function(df, ...){
   first_price <- last_good + 1
 
   if (length(variables) == 0) {stop("enter columns for quanities and prices")}
-  if (length(variables)%%2 != 0) {warning("enter an even number of columns")}
+  if (length(variables)%%2 != 0) {stop("enter an even number of columns")}
   
   df_subset <- select(df, !!!variables)
   
