@@ -17,7 +17,7 @@
 #' calculate_CCEI(df, step = 0.001, x1, x2, p1, p2)
 
 
-calculate_CCEI <- function(df, step = 0.01, ...){
+calculate_CCEI <- function(df, step, ...){
   
   if (!is.data.frame(df)) {stop("df must be a dataframe")}
   
