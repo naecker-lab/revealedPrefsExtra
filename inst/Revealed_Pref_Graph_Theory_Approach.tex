@@ -17,7 +17,9 @@
 \usepackage{titling}
 \usepackage{pgfplots}
 \usepackage[round]{natbib} % extra functionality for citations
- 
+\usepackage{tikzscale}
+\usetikzlibrary{arrows.meta,positioning,calc,automata, arrows}
+\pgfplotsset{compat=1.16}
 
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
             \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
@@ -48,7 +50,7 @@
 \maketitle
 
 \begin{abstract}
-Prior literature on consumer behavior and revealed preferences focus on the necessary requirements of choice data to satisfy consistency but often neglect developing algorithms to test for those requirements for large datasets. Additionally, existing efficiency indices proposed by \citet{Afriat1967The-Construction-of-Utility-Functions-from-Expenditure-Data} and \citet{Varian1990Goodness-of-fit-in-optimizing-models} require exhausting computations. This paper proposes new algorithms to test for consumer maximization and calculate efficiency indices through a graph theoretical approach. The paper will place existing theory in a graph theoretical context and develop a new method to directly calculate efficiency indices.
+Prior literature on consumer behavior and revealed preferences focus on the necessary requirements of choice data to satisfy consistency but often neglect developing algorithms to test for those requirements and calculate existing efficiency indices on large datasets. This paper places existing theory in a graph theoretical context and discusses canonical algorithms to test for consistency. Additionally, this paper offers an alternative algorithm to directly calculate efficiency indices proposed by \citet{Afriat1967The-Construction-of-Utility-Functions-from-Expenditure-Data} and \citet{Varian1990Goodness-of-fit-in-optimizing-models} through the application of tropical semiring on adjacency matrices.
 \end{abstract}
 
 \section*{Existing Literature and Axioms}
@@ -174,7 +176,7 @@ Exp_{diag} =
 \]
 In $Exp_{diag}$, every element in column $j$ is same for all $j$ and represents the actual cost of bundle $j$ at the price vector it was bought at (price vector of time $j$). Then consider the following:
 \[
-\alpha = Exp-Exp_{diag}
+\alpha = Exp-Exp_{diag} =
  \begin{pmatrix}
   0 & P_2X_1-P_2X_2 & \cdots & P_kX_1-P_kX_k \\
   P_1X_2-P_1X_1 & 0 & \cdots & P_kX_2-P_kX_k \\
@@ -271,10 +273,72 @@ A data set $(\mathcal{X}, \mathcal{P})$ passes WGARP if and only if, $\forall i\
 A data set $(\mathcal{X},\mathcal{P})$ passes GARP if and only if, $\forall i\in\{1,\ldots,k\}$, $\big((\sum_{i=1}^{k-1}A_{d}^{i})\times A_s\big)_{i,i}=0$ (i.e. the main diagonal of $(\sum_{i=1}^{k-1}A_{d}^{i})\times A_s$ is a vector of 0).
 \end{restatable}
 
-The proofs of Theorem \ref{thm:WGARP} and Theorem \ref{thm:GARP} are in the Appendix. The basic idea behind these two algorithms are similar to that of Theorem \ref{thm:WARP} and Theorem \ref{thm:SARP}, except they are adjust to include the idea of strict revealed preferences that are a part of the axioms.
+The proofs of Theorem \ref{thm:WGARP} and Theorem \ref{thm:GARP} are in the Appendix. The basic idea behind these two algorithms are similar to that of Theorem \ref{thm:WARP} and Theorem \ref{thm:SARP}, except they are adjust to include the idea of strict revealed preferences that are a part of the axioms. This section will conclude with a few examples that exhibit the functionalities of the graph theoretical approach.
 
-This section will conclude with a few examples that exhibit the functionalities of the graph theoretical approach.
-
+Consider the following data for a single consumer in 3 different time periods:
+\begin{center}
+\begin{tabular}{ cccccc } 
+Choice Number & $p_{1}$ & $p_{2}$ & $x_{1}$ & $x_{2}$ \\
+1&1&2&1&2 \\
+2&2&1&2&1 \\
+3&1&1&2&2
+\end{tabular}
+\end{center}
+Then, $\forall n\in\{1,2,3\}$, calculate $P_{n}X_{n}$ and $\forall i,j\in\{1,2,3\}$ such that $i\not=j$, calculate $P_{j}X_{i}$. This will result in the following expenditure matrix:
+\[
+Exp = \begin{pmatrix}
+5&4&3 \\
+4&5&3 \\
+6&6&4
+\end{pmatrix}
+\]
+Using $Exp_{diag}$ as defined previously, calculate:
+\[\alpha=Exp-Exp_{diag}=\begin{pmatrix}
+0 &-1 &-1\\
+-1&0&-1\\
+1&1&0\\
+\end{pmatrix}
+\]
+Applying $f$ to all non-diagonal elements of $\alpha$ and taking the inverse would result in the adjacency matrix, as follows:
+\[
+A_d=\begin{pmatrix}
+0 & 1 & 0\\
+1 & 0 &0 \\
+1 & 1 & 0
+\end{pmatrix}
+\]
+Since all the inequalities are strict in this case, we have $A_s=A_d$ and hence $G_s=G_d$. Consider the following graph, representing both $G_d$ and $G_s$:
+\begin{center}
+\begin{tikzpicture}[scale = 1.5]
+\tikzset{
+    vertex/.style={circle,draw,minimum size=1.5em},
+    edge/.style={->,> = latex'}
+}
+  % vertices
+\node[vertex] (1) at  (-1,0) {$1$};
+\node[vertex] (2) at (1,0) {$2$};
+\node[vertex] (3) at (0,-1) {$3$};
+% edges
+\path[->,>=stealth]
+(1) edge[bend left=10,red,thick] (2)
+(2) edge[bend left=10,red,thick] (1)
+(3) edge (2)
+(3) edge (1)
+;
+\end{tikzpicture}
+\end{center}
+Upon first glance, one can see that the revealed preferences between $X_1$ and $X_2$ indicates violations of all axioms. Since $G_d=G_s$, the individual's data set show that $(X_1,X_2)\in E_d = E_s$ and $(X_2,X_1)\in E_d=E_s$. This ``conflict'' is represented in the graph with the red arrows, creating a walk of 2 edges from $X_1$ back to itself (similarly with $X_2$). Theorem \ref{thm:WARP} states that, if the data set were to in fact fail WARP, there will be at least one non-zero element in the main diagonal of $(A_d)^2$. Using $A_d$ exhibited by the individual, one can see Theorem \ref{thm:WARP} holds:
+\[
+(A_d)^2=\begin{pmatrix}
+0 & 1 & 0\\
+1 & 0 &0 \\
+1 & 1 & 0
+\end{pmatrix}^2 = \begin{pmatrix}
+1&0&0\\
+0&1&0\\
+1&1&0
+\end{pmatrix}\]
+Additionally, since $A_d=A_s$, $A_d\times A_s=A_d\times A_d=(A_d)^2$. Thus, the behavior exhibited by this individual fails WGARP as well.
 \section*{Appendix}
 \WGARP*
 
