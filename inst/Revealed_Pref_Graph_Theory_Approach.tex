@@ -18,6 +18,8 @@
 \usepackage{pgfplots}
 \usepackage[round]{natbib} % extra functionality for citations
 \usepackage{tikzscale}
+\usetikzlibrary{backgrounds}
+
 \usetikzlibrary{arrows.meta,positioning,calc,automata, arrows}
 \pgfplotsset{compat=1.16}
 
@@ -133,7 +135,7 @@ Consider the following example for Remark \ref{rmk:Remark 3}. Let good $i$ and g
 \noindent
 Note the straight line represent both the indifference curves \emph{and} budget constraints at time $t$ both times. Under these conditions, any choice along the budget constraint is rational. 
 
-The following table summarizes the requirements for each of the axioms:
+The following table and Venn Diagram summarizes the requirements for each of the axioms:
 
 \renewcommand{\arraystretch}{1.5}
 \begin{center}
@@ -146,6 +148,21 @@ GARP&$X_i \mathbf{R} X_j$&$\neg(X_j  \mathbf{R_{SD}} X_i)$
 \end{tabular}
 \end{center}
 \renewcommand{\arraystretch}{1}
+
+\begin{center}
+\begin{tikzpicture}
+  \begin{scope}[blend group=soft light]
+      \fill[red!30!white]   (90:2) circle (2.5);
+    \fill[white!30!white] (90:1) circle (1);
+    \fill[blue!30!white] (90:0) circle(2.5);
+     \end{scope}
+  \node at ( 90:3.2)    {WARP};
+  \node at (90:1) {SARP};
+  \node at (90:-1.2) {GARP};
+  \node at (90:5) {WGARP};
+    \draw[thick] ([shift={(-.5,-.5)}]current bounding box.south west) rectangle ([shift={(.5,.5)}]current bounding box.north east);
+\end{tikzpicture}
+\end{center}
 
 \section*{Revealed Preferences as Directed Graphs}
 
