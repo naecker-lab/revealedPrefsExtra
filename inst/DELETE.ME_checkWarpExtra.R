@@ -23,69 +23,20 @@ checkWarpExtra(experiment_data, x1, x2, p1, p2)
 experiment_data %>%
   checkWarpExtra(x1, x2, p1, p2)
 
-# not sure what this is doing since there should be two values
-# if the grouping worked properly
+# For some reason, when using summarise function, "." is passing in the ungrouped data, 
+# and so, the results are not correct. 
 experiment_data %>%
   group_by(subject) %>%
-  checkWarpExtra(x1, x2, p1, p2)
+  summarise(violates_warp = checkSarpExtra(., x1, x2, p1, p2)$violation)
 
+# however, from seaching online, I found that using do(data.frame()) works similarly
+# but the grouped data gets correctly passed in. 
 
-# this seems to be working as we would want
-# Note: checkWarp returns a list of 3 values:
-  # violation
-  # type
-  # afrait.par
-# We basically only care about violation, although having
-# the function return TRUE for violating warp seems a little
-# unintutive to me
-
+#Despite my online research, I don't really understand why "do" works with grouping
+# and "summarise" doesn't...I've been meaning to ask Professor Kabacoff, but he's not
+# been on campus for a lot of this week due to a family emergency. 
 experiment_data %>%
   group_by(subject) %>%
-  summarise(n = n(), # just checking to make sure the grouping is happening correctly
-            violates_warp = checkWarpExtra(., x1, x2, p1, p2)$violation)
+  do(data.frame(violates_warp = checkSarpExtra(., x1, x2, p1, p2)$violation))
 
-
-# if we went with writing the function this way, it would be pretty easy
-# to clean up what gets returned to make the output a bit nicer
-
-
-#-------------------------------------------------------------------------
-# With checkWarpExtra built without spread
-#-------------------------------------------------------------------------
-  # Pros: can have optional agruments passed to checkWarp
-  # Cons: can't figure out grouping
-
-checkWarpExtra2 <- function(matrix_list, ...){
-  if(!is.list(matrix_list) | is.data.frame(matrix_list))
-  {stop("matrix_list must be a list object containing x, a matrix of quantities
-        and p, a matrix of prices")}
-  
-  if(is.null(matrix_list$x) | is.null(matrix_list$p))
-  {stop("matrix_list must be a list object containing x, a matrix of quantities
-        and p, a matrix of prices")}
-  checkWarp(matrix_list$x, matrix_list$p, ...)
-  }
-
-experiment_data %>%
-  spread_data(x1, x2, p1, p2) %>%
-  checkWarpExtra2()
-
-
-experiment_data %>%
-  spread_data(x1, x2, p1, p2) %>%
-  checkWarpExtra2(afriat.par = .7)
-
-
-# this is weird to me since there should be two outputs... don't know where the
-# other value is coming from. same issue as above
-experiment_data %>%
-  group_by(subject) %>%
-  spread_data(x1, x2, p1, p2) %>%
-  checkWarpExtra2()
-
-# issue with grouping b/c input is a list and not a df
-experiment_data %>%
-  group_by(subject) %>%
-  spread_data(x1, x2, p1, p2) %>%
-  summarise(warp_violation = checkWarpExtra2())
 
