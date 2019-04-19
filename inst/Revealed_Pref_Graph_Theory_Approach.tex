@@ -18,6 +18,7 @@
 \usepackage{pgfplots}
 \usepackage[round]{natbib} % extra functionality for citations
 \usepackage{tikzscale}
+\usepackage{float}
 \usetikzlibrary{backgrounds}
 
 \usetikzlibrary{arrows.meta,positioning,calc,automata, arrows}
@@ -97,7 +98,8 @@ If a consumer exhibits maximizing behavior, then their set of choice data will s
 The key difference between SARP and GARP requirements are that GARP allows consumers to have multiple bundles that maximizes utility under the same price levels (i.e. consumers are allowed to exhibit preferences that treat goods as perfect substitutes of each other).
 \end{remark}
 Consider the following example for Remark \ref{rmk:Remark 3}. Let good $i$ and good $j$ be perfect 1-to-1 substitutes for an individual. Additionally, let $p_i=\alpha$, $p_j=\alpha$ at time $t$ and $p_i=\beta$, $p_j=\beta$ at time $t+1$. One can see that, given the underlying preference of the individual and the price ratios, the bundle selected by the consumer is completely random. Suppose the individual purchases 1 unit of good $i$ at time $t$ with no purchases of good $j$ and chooses 1 unit of good $j$ at time $t+1$ with no purchases of good $i$. Although this behavior is completely rational for the individual given their underlying preference (perfect substitutes), a set of choice data exhibit such behavior would fail WARP and SARP as $X_{t} R_D X_{t+1}$ but $X_{t+1} R_D X_{t}$. This is because $P_tX_t=\alpha\geq\alpha=P_tX_{t+1}$ and $P_{t+1}X_{t+1}=\beta\geq\beta=P_{t+1}X_t$. However, it's clear that this set of choice data will pass WGARP and GARP as $\alpha\not>\alpha$ and $\beta\not>\beta$. The example can be illustrated with the following diagram:
-\begin{center}
+\begin{figure}[H]
+\centering
 \begin{tikzpicture}
     \begin{axis}[
     axis lines = left,
@@ -131,7 +133,8 @@ Consider the following example for Remark \ref{rmk:Remark 3}. Let good $i$ and g
 \addlegendentry{Time $t+1$}
     \end{axis}
 \end{tikzpicture}
-\end{center}
+\caption{SARP vs. GARP} \label{fig:SARPvsGARP}
+\end{figure}
 \noindent
 Note the straight line represent both the indifference curves \emph{and} budget constraints at time $t$ both times. Under these conditions, any choice along the budget constraint is rational. 
 
@@ -149,7 +152,9 @@ GARP&$X_i \mathbf{R} X_j$&$\neg(X_j  \mathbf{R_{SD}} X_i)$
 \end{center}
 \renewcommand{\arraystretch}{1}
 
-\begin{center}
+
+\begin{figure}[H]
+\centering
 \begin{tikzpicture}
   \begin{scope}[blend group=soft light]
       \fill[red!30!white]   (90:2) circle (2.5);
@@ -162,7 +167,8 @@ GARP&$X_i \mathbf{R} X_j$&$\neg(X_j  \mathbf{R_{SD}} X_i)$
   \node at (90:5) {WGARP};
     \draw[thick] ([shift={(-.5,-.5)}]current bounding box.south west) rectangle ([shift={(.5,.5)}]current bounding box.north east);
 \end{tikzpicture}
-\end{center}
+\caption{Summary of Axioms} \label{fig:axioms_summary}
+\end{figure}
 
 \section*{Revealed Preferences as Directed Graphs}
 
@@ -276,9 +282,9 @@ WARP requirements are defined such that if $(\mathcal{X},\mathcal{P})$ passes WA
 
 \begin{restatable}{thm}{SARP}
 \label{thm:SARP}
-A set of choice data, $\{\mathcal{X},\mathcal{P}\}$, satisfies SARP exactly when, $\forall i\in\{1,\ldots,k\}$, $(\sum_{n=2}^kA_d^n)_{i,i}=0$.
+A set of choice data, $\{\mathcal{X},\mathcal{P}\}$, satisfies SARP exactly when, $\forall i\in\{1,\ldots,k\}$, $\big(\sum_{n=2}^k(A_d)^n\big)_{i,i}=0$.
 \end{restatable}
-Let $B_d=(\sum_{n=2}^kA_d^n)$. Then $(B_d)_{i,j}>0$ if and only if there is a directed walk of at least length 2 from $X_i$ to $X_j$, as the cardinality of the vertex set is $k$ and adding above that index would simply be extra computation. Hence, $(B_d)$'s main diagonal is 0 if and only if no vertices has a directed walk back to itself, which is exactly the statement of Theorem \ref{thm:SARP}.
+Consider for $n\geq2$, $\big((A_d)^n\big)_{i,j}$ would represent the number of directed walks of length $n$ from $X_i$ to $X_j$. Let $B_d=\big(\sum_{n=2}^k(A_d)^n\big)$. Then $(B_d)_{i,j}>0$ if and only if there is a directed walk of at least length 2 from $X_i$ to $X_j$, as the cardinality of the vertex set is $k$ and adding above that index would simply be extra computation. Hence, $(B_d)$'s main diagonal is 0 if and only if no vertices has a directed walk back to itself, which is exactly the statement of Theorem \ref{thm:SARP}.
 
 \begin{restatable}{thm}{WGARP}
 \label{thm:WGARP}
@@ -325,7 +331,8 @@ A_d=\begin{pmatrix}
 \end{pmatrix}
 \]
 Since all the inequalities are strict in this case, we have $A_s=A_d$ and hence $G_s=G_d$. Consider the following graph, representing both $G_d$ and $G_s$:
-\begin{center}
+\begin{figure}[H]
+\centering
 \begin{tikzpicture}[scale = 1.5]
 \tikzset{
     vertex/.style={circle,draw,minimum size=1.5em},
@@ -343,7 +350,8 @@ Since all the inequalities are strict in this case, we have $A_s=A_d$ and hence 
 (3) edge (1)
 ;
 \end{tikzpicture}
-\end{center}
+\caption{Illustration of $G_d$ / $G_s$} \label{fig:example1_graph}
+\end{figure}
 Upon first glance, one can see that the revealed preferences between $X_1$ and $X_2$ indicates violations of all axioms. Since $G_d=G_s$, the individual's data set show that $(X_1,X_2)\in E_d = E_s$ and $(X_2,X_1)\in E_d=E_s$. This ``conflict'' is represented in the graph with the red arrows, creating a walk of 2 edges from $X_1$ back to itself (similarly with $X_2$). Theorem \ref{thm:WARP} states that, if the data set were to in fact fail WARP, there will be at least one non-zero element in the main diagonal of $(A_d)^2$. Using $A_d$ exhibited by the individual, one can see Theorem \ref{thm:WARP} holds:
 \[
 (A_d)^2=\begin{pmatrix}
@@ -356,6 +364,98 @@ Upon first glance, one can see that the revealed preferences between $X_1$ and $
 1&1&0
 \end{pmatrix}\]
 Additionally, since $A_d=A_s$, $A_d\times A_s=A_d\times A_d=(A_d)^2$. Thus, the behavior exhibited by this individual fails WGARP as well.
+
+The following example will explicit illustrate the differences between SARP and GARP. Consider the following expenditure matrix exhibited by a different consumer:
+\[Exp = \begin{pmatrix}
+20 & 23 & 10\\
+20 & 22 & 15\\
+22 & 22 & 10
+\end{pmatrix}
+\]
+As before, one can obtain the matrix $\alpha$ as follows:
+\[
+\alpha = \begin{pmatrix}
+0 & 1 & 0 \\
+0 & 0 & 5 \\
+2 & 0 & 0 \\
+\end{pmatrix}
+\]
+In this case, $A_d\not=A_s$ as some bundles have non-strict revealed preferences to each other. Applying $f$ to obtain $A_d$ and $g$ to obtain $A_s$, one can obtain the following:
+
+\begin{minipage}{0.5\linewidth}
+\[A_d = \begin{pmatrix}
+0 & 1 & 0\\
+0 & 0 & 1 \\
+1 & 0 & 0 \\
+\end{pmatrix}
+\]
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\[A_s = \begin{pmatrix}
+0 & 0 & 0\\
+0 & 0 & 0 \\
+0 & 0 & 0 \\
+\end{pmatrix}
+\]
+\end{minipage}
+Since $G_d\not=G_s$, the data set can be represented with the following two graphs:
+\begin{minipage}{0.5\linewidth}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale = 1.5]
+\tikzset{
+    vertex/.style={circle,draw,minimum size=1.5em},
+    edge/.style={->,> = latex'}
+}
+  % vertices
+\node[vertex] (1) at  (-1,0) {$1$};
+\node[vertex] (2) at (1,0) {$2$};
+\node[vertex] (3) at (0,-1) {$3$};
+% edges
+\path[->,>=stealth]
+(1) edge[red,thick] (2)
+(2) edge[red,thick](3)
+(3) edge[red,thick](1)
+;
+\end{tikzpicture}
+\caption{Illustration of $G_d$} \label{fig:example2_graph_Gd}
+\end{figure}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale = 1.5]
+\tikzset{
+    vertex/.style={circle,draw,minimum size=1.5em},
+    edge/.style={->,> = latex'}
+}
+  % vertices
+\node[vertex] (1) at  (-1,0) {$1$};
+\node[vertex] (2) at (1,0) {$2$};
+\node[vertex] (3) at (0,-1) {$3$};
+% edges
+\end{tikzpicture}
+\caption{Illustration of $G_s$} \label{fig:example2_graph_Gd}
+\end{figure}
+\end{minipage}
+
+As highlighted by the red edges, this data set fails SARP as there is a walk from all edges back to themselves on $G_d$. This can also be seen with the following computations:
+\[\sum_{n=2}^3(A_d)^n=\begin{pmatrix}
+0 & 1 & 0\\
+0 & 0 & 1 \\
+1 & 0 & 0 \\
+\end{pmatrix}^2+
+\begin{pmatrix}
+0 & 1 & 0\\
+0 & 0 & 1 \\
+1 & 0 & 0 \\
+\end{pmatrix}^3=
+\begin{pmatrix}
+1&0&1\\
+1&1&0\\
+0&1&1
+\end{pmatrix}
+\]
 \section*{Appendix}
 \WGARP*
 
