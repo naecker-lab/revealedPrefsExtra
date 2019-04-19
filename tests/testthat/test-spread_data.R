@@ -9,7 +9,7 @@ test_that("errors generated for bad input", {
   expect_error(spread_data(y), "df must be a dataframe")
   expect_error(spread_data(z), "df must be a dataframe")
   expect_error(spread_data(mtcars), "enter columns for quanities and prices")
-  expect_warning(spread_data(mtcars, wt, mpg, cyl), "enter an even number of columns")
+  expect_error(spread_data(mtcars, wt, mpg, cyl), "enter an even number of columns")
 })
 
 test_that("output is correct", {
