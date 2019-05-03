@@ -2,9 +2,15 @@
 % Please edit documentation in R/checkWarpExtra.R
 \name{checkWarpExtra}
 \alias{checkWarpExtra}
+\alias{checkSarpExtra}
+\alias{checkGarpExtra}
 \title{Check Warp Extra}
 \usage{
 checkWarpExtra(df, ...)
+
+checkSarpExtra(df, ...)
+
+checkGarpExtra(df, ...)
 }
 \arguments{
 \item{df}{a dataframe containing columns with quantities and prices of goods}
@@ -21,6 +27,7 @@ second half of the columns provided are be assumed to be prices.}
 \code{\link[revealedPrefs]{checkWarp}} function from the \pkg{revealedPrefs} package.
 }
 \examples{
+#checkWarpExtra
 experiment_data<- tibble(subject = c(1, 1, 2, 2),
                               x1 = c(1:4),
                               x2 = c(5:8),
@@ -29,4 +36,22 @@ experiment_data<- tibble(subject = c(1, 1, 2, 2),
  
 experiment_data \%>\%
  checkWarpExtra(x1, x2, p1, p2)
+# checkSarpExtra
+experiment_data<- tibble(subject = c(1, 1, 2, 2),
+                              x1 = c(1:4),
+                              x2 = c(5:8),
+                              p1 = c(5:8),
+                              p2 = c(5:8))
+ 
+experiment_data \%>\%
+ checkSarpExtra(x1, x2, p1, p2)
+# checkSarpExtra
+experiment_data<- tibble(subject = c(1, 1, 2, 2),
+                              x1 = c(1:4),
+                              x2 = c(5:8),
+                              p1 = c(5:8),
+                              p2 = c(5:8))
+ 
+experiment_data \%>\%
+ checkSarpExtra(x1, x2, p1, p2)
 }

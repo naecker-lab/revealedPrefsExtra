@@ -1,3 +1,6 @@
+#' @name checkWarpExtra
+#' @rdname checkWarpExtra
+#' 
 #' @title Check Warp Extra
 #'
 #' @description \code{checkWarpExtra} is a wrapper function for the
@@ -9,6 +12,7 @@
 #' The first half of the columns provided are assumed to be quantities and the
 #' second half of the columns provided are be assumed to be prices.
 #' 
+#' 
 #' @return 
 #'
 #' @import dplyr
@@ -16,6 +20,7 @@
 #'
 #' @export
 #' @examples 
+#' #checkWarpExtra
 #' experiment_data<- tibble(subject = c(1, 1, 2, 2),
 #'                               x1 = c(1:4),
 #'                               x2 = c(5:8),
@@ -36,4 +41,53 @@ checkWarpExtra <- function(df, ...){
   
   list <- spread_data(df, ...)
   checkWarp(list$x, list$p)
+}
+
+#' @rdname checkWarpExtra
+#' @export
+#' @examples 
+#' # checkSarpExtra
+#' experiment_data<- tibble(subject = c(1, 1, 2, 2),
+#'                               x1 = c(1:4),
+#'                               x2 = c(5:8),
+#'                               p1 = c(5:8),
+#'                               p2 = c(5:8))
+#'  
+#'experiment_data %>%
+#'  checkSarpExtra(x1, x2, p1, p2)
+
+
+checkSarpExtra <- function(df, ...){
+  if (!is.data.frame(df)) {stop("df must be a dataframe")}
+  
+  variables <- quos(...)
+  if (length(variables) == 0) {stop("enter columns for quanities and prices")}
+  if (length(variables)%%2 != 0) {stop("enter an even number of columns")}
+  
+  list <- spread_data(df, ...)
+  checkSarp(list$x, list$p)
+}
+
+#' @rdname checkWarpExtra
+#' @export
+#' @examples 
+#' # checkSarpExtra
+#' experiment_data<- tibble(subject = c(1, 1, 2, 2),
+#'                               x1 = c(1:4),
+#'                               x2 = c(5:8),
+#'                               p1 = c(5:8),
+#'                               p2 = c(5:8))
+#'  
+#'experiment_data %>%
+#'  checkSarpExtra(x1, x2, p1, p2)
+
+checkGarpExtra <- function(df, ...){
+  if (!is.data.frame(df)) {stop("df must be a dataframe")}
+  
+  variables <- quos(...)
+  if (length(variables) == 0) {stop("enter columns for quanities and prices")}
+  if (length(variables)%%2 != 0) {stop("enter an even number of columns")}
+  
+  list <- spread_data(df, ...)
+  checkGarp(list$x, list$p)
 }
