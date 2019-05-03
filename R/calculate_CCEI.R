@@ -27,17 +27,21 @@ calculate_CCEI <- function(df, step, ...){
   
   list <- spread_data(df, ...)
   
+  
+  test <- checkGarp(list$x, list$p)
+  # print(test$violation)
+  if (!test$violation) {
+    return (1)
+  }
+  
   hi = 1
   lo = 0
+  
   while (lo < hi){
     index = (lo + hi) / 2
     
     test <- checkGarp(list$x, list$p, afriat.par = index)
-    
-    # if passes Garp, return 1
-    if (!test$violation) {
-      return (1)
-    }
+
     
     if (test$violation){
       if (checkGarp(list$x, list$p, afriat.par = index + step)$violation == FALSE){
