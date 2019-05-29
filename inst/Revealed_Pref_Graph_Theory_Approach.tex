@@ -60,7 +60,7 @@
 Prior literature on consumer behavior and revealed preferences focus on the necessary requirements of choice data to satisfy consistency but often neglect developing algorithms to test for those requirements and calculate existing efficiency indices on large datasets. This paper places existing theory in a graph theoretical context and discusses canonical algorithms to test for consistency. Additionally, this paper offers an alternative algorithm to directly calculate efficiency indices proposed by \citet{Afriat1967The-Construction-of-Utility-Functions-from-Expenditure-Data} and \citet{Varian1990Goodness-of-fit-in-optimizing-models} through the application of tropical semiring on adjacency matrices.
 \end{abstract}
 
-\section*{Existing Literature and Axioms}
+\section{Existing Literature and Axioms}
 
 Suppose an individual is observed over $k$ (a finite number of) periods. Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ be the set of quantity vectors such that $\forall i\in\{1,\ldots,k\}$, $X_i=(x_{i1},\ldots,x_{in})$, where $x_{ij}$ represents the number of good $j$ bought at time $i$. Further, let $\mathcal{P}=\{P_1,\ldots,P_k\}$ be the set of price vectors constructed in similar fashion as the quantity vectors. We then define a following set of relations between elements of $\mathcal{X}$:
 
@@ -174,7 +174,7 @@ GARP&$X_i \mathbf{R} X_j$&$\neg(X_j  \mathbf{R_{SD}} X_i)$
 \caption{Summary of Axioms} \label{fig:axioms_summary}
 \end{figure}
 
-\section*{Revealed Preferences as Directed Graphs}
+\section{Revealed Preferences as Directed Graphs}
 
 This section will rigorously outline a graph theoretical approach to analyzing revealed preferences and introduce algorithms to test for each of the axioms. First, define two directed graphs, $G_d$ and $G_s$, that represent non-strict and strict relations between bundles, respectively. These conditions will yield:
 $$G_d=\{\mathcal{X},E_d\}\textrm{ such that }E_d=\{(X_i,X_j)\ |\ X_i R_D X_j,\ i.e.\ P_iX_i\geq P_iX_j,\ i\not=j\}$$
@@ -467,7 +467,7 @@ As highlighted by the red edges, this data set fails SARP as there is a walk fro
 Note that $(\sum_{n=2}^3(A_d)^n)_{i,i}=1$ for all $i\in\{1,2,3\}$, thus the data set violates SARP by Theorem \ref{thm:SARP}. Further, it's clear that $\big( (\sum_{i=1}^{2}A_d^i)\times A_s \big)$ is the zero matrix as $A_s$ is the zero matrix, and hence the diagonal elements would all equal zero. This indicates that the data set passes GARP by Theorem \ref{thm:GARP}.
 \end{example}
 
-\section*{Afriat's CCEI}
+\section{Afriat's CCEI}
 
 The purpose of this section is to develop a new algorithm, through a series of theorems, to compute Afriat's CCEI directly without a guess-and-check method\footnote{Note that this algorithm is more complex than existing guess-and-check methods. See \citet{CherchyeEtAl2014Goodness-of-Fit-Measures-for-Revealed-Preference-Tests:-Complexity-Results-and-Algorithms}}. First, the paper presents the precise definition of Afriat's CCEI with the following set of definitions. Let $\mathcal{X}$ and $\mathcal{P}$ be the set of quantity and price vectors, as defined previously and let $e\in[0.1]$, then:
 \begin{definition}\label{defn:drp_e}
@@ -487,14 +487,15 @@ We define $R_e$ be the transitive closure of $R_{D(e)}$. More specifically, for 
 \begin{definition}\label{defn:GARPe}
 Let $R_e$ be the transitive closure of $R_{D(e)}$. A set of choice data satisfies $GARP_e$ if for all bundles $X_i$ and $X_j$, if $X_i R_e X_j$, then $\neg (X_j R_{SD(e)} X_i)$. In other words, we say if $X_i R_e X_j$, then $eP_jX_j \leq P_iX_i$ (i.e. $eP_jX_j \not> P_iX_i$).
 \end{definition}
-Definition \ref{defn:drp_e} is simply the definition of direct revealed preference but parameterized by $e\in[0,1]$. Note that for $e=1$, this is precisely the definition of direct revealed preference (as stated in Definition \ref{defn:relations_1}). Additionally, from Definition \ref{defn:GARPe}, one can see that if $e=0$, then any data set would pass GARP\textsubscript{e} since no bundle would even be revealed prefered to any other bundles! Thus, one can see that $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\in[0,1]\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\}=\varnothing$ as $0\in\mathcal{E}$ for every possible dataset $(\mathcal{X},\mathcal{P})$. We then obtain the following definition:
+Definition \ref{defn:drp_e} is simply the definition of direct revealed preference but parameterized by $e\in[0,1]$. Note that for $e=1$, this is precisely the definition of direct revealed preference (as stated in Definition \ref{defn:relations_1}). Definition \ref{defn:GARPe} is simply a ``relaxation'' of the standard GARP requirements. Additionally, one can see that by letting $e=0$, then any data set would pass GARP\textsubscript{e} since no bundle would even be revealed prefered to any other bundles! Thus, one can see that $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\in[0,1]\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\}=\varnothing$ as $0\in\mathcal{E}$ for every possible dataset $(\mathcal{X},\mathcal{P})$. We then obtain the following definition:
 
 \begin{definition}\label{defn:Afriat_CCEI}
-For data set $(\mathcal{X},\mathcal{P})$, \textbf{Afriat's CCEI} is the \emph{largest} value $e\in[0,1]$ such that $(\mathcal{X},\mathcal{P})$ passes $GARP_e$.
+For data set $(\mathcal{X},\mathcal{P})$, \textbf{Afriat's CCEI} is the \emph{largest} value $e^*\in[0,1]$ such that $(\mathcal{X},\mathcal{P})$ passes $GARP_{e^*}$.
 \end{definition}
-As we will soon illustrate with examples, Afriat's CCEI doesn't exist most of the time and we often simply compute $e^*=\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ (where $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\in[0,1]\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\}$) for data set $(\mathcal{X},\mathcal{P})$, which fails GARP\textsubscript{$e^*$} but for any $\epsilon>0$, passes GARP\textsubscript{$e^*-\epsilon$} (since $e^*-\epsilon\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}$).
+As we will soon illustrate with examples, Afriat's CCEI doesn't exist most of the time and we often simply compute $e^*=\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ (where $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\in[0,1]\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\}$) for data set $(\mathcal{X},\mathcal{P})$, which fails GARP\textsubscript{$e^*$} but for any $\epsilon>0$, passes GARP\textsubscript{$e^*-\epsilon$} (since $(e^*-\epsilon)\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}$).
 
-\section*{Appendix}
+This section's main interest is to develop an algorithm to directly find Afriat's CCEI for a data set that does not pass the standard GARP requirements (since if $(\mathcal{X},\mathcal{P})$ passes GARP, its Afriat's CCEI would clearly be 1). Now define $G_d$ and $G_s$ as in Section 2 and suppose $(\mathcal{X},\mathcal{P})$ fails GARP, then there are $X_i,X_j\in\mathcal{X}$ where there's a directed walk from $X_i$ to $X_j$ in $G_d$ \emph{and} $(X_j,X_i)\in E_s$. The role of $e^*$ would be to ``relax'' those edges so that either the directed walk no longer exists or $(X_j,X_i)\not\in E_s$.
+\section{Appendix}
 \WGARP*
 
 \begin{proof}
