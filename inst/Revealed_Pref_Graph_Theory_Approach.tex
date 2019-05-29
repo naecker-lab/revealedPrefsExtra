@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{indentfirst}
+\usepackage{enumitem}
 
 
 \usepackage{amsmath, % this adds functions for formatting equations nicely
@@ -36,6 +37,9 @@
 \newtheorem{definition}{Definition} % this lets us create definition blocks as below
 \newtheorem{remark}{Remark}
 \newtheorem{lemma}[theorem]{Lemma}
+\newtheoremstyle{example}{}{}{}{}{\bfseries}{\smallskip}{\newline}{}
+\theoremstyle{example}
+\newtheorem{example}{Example}
 
 \usepackage{thmtools}
 \usepackage{thm-restate}
@@ -272,17 +276,17 @@ Similarly, the axioms from Definition \ref{defn:axioms_1} is reframed as follows
   \circleditem A set of choice data satisfies the \textbf{Weak Generalized Axiom of Revealed Preferences (WGARP)} if $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_s$.
 \end{enumerate}
 \end{definition}
-Suppose there exists a set of choice data for an individual given by $\{\mathcal{X},\mathcal{P}\}$ where $|\mathcal{X}|=|\mathcal{P}|=k\in\mathbb{N}$. Let $A_d$ and $A_s$ be the adjacency matrices of $G_d$ and $G_s$ constructed from the data set, respectively. To test for each of the axioms, the paper proposes the following theorems.
+Suppose there exists a set of choice data for an individual given by $(\mathcal{X},\mathcal{P})$ where $|\mathcal{X}|=|\mathcal{P}|=k\in\mathbb{N}$. Let $A_d$ and $A_s$ be the adjacency matrices of $G_d$ and $G_s$ constructed from the data set, respectively. To test for each of the axioms, the paper proposes the following theorems.
 \begin{restatable}{thm}{WARP}
 \label{thm:WARP}
-A set of choice data, $\{\mathcal{X},\mathcal{P}\}$, satisfies WARP exactly when, $\forall i\in\{1,\ldots,k\}$, $(A_d)^2_{i,i}=0$.
+A set of choice data, $(\mathcal{X},\mathcal{P})$, satisfies WARP exactly when, $\forall i\in\{1,\ldots,k\}$, $(A_d)^2_{i,i}=0$.
 \end{restatable}
 
 WARP requirements are defined such that if $(\mathcal{X},\mathcal{P})$ passes WARP, then: $\forall i,j\in\{1,\dots,k\}$ where $i\not=j$, if $(X_i,X_j)\in E_d$, then $(X_j, X_i)\not\in E_d$. Note that this is true exactly when there \textit{isn't} a directed walk of length 2 from any vertex $i$ back to itself (vertex $i$). Hence we say $(\mathcal{X},\mathcal{P})$ passes WARP if and only if the main diagonal of matrix $(A_d)^2$ is a vector of 0, which is exactly the statement of Theorem \ref{thm:WARP}.
 
 \begin{restatable}{thm}{SARP}
 \label{thm:SARP}
-A set of choice data, $\{\mathcal{X},\mathcal{P}\}$, satisfies SARP exactly when, $\forall i\in\{1,\ldots,k\}$, $\big(\sum_{n=2}^k(A_d)^n\big)_{i,i}=0$.
+A set of choice data, $(\mathcal{X},\mathcal{P})$, satisfies SARP exactly when, $\forall i\in\{1,\ldots,k\}$, $\big(\sum_{n=2}^k(A_d)^n\big)_{i,i}=0$.
 \end{restatable}
 Consider for $n\geq2$, $\big((A_d)^n\big)_{i,j}$ would represent the number of directed walks of length $n$ from $X_i$ to $X_j$. Let $B_d=\big(\sum_{n=2}^k(A_d)^n\big)$. Then $(B_d)_{i,j}>0$ if and only if there is a directed walk of at least length 2 from $X_i$ to $X_j$, as the cardinality of the vertex set is $k$ and adding above that index would simply be extra computation. Hence, $(B_d)$'s main diagonal is 0 if and only if no vertices has a directed walk back to itself, which is exactly the statement of Theorem \ref{thm:SARP}.
 
@@ -297,6 +301,8 @@ A data set $(\mathcal{X},\mathcal{P})$ passes GARP if and only if, $\forall i\in
 \end{restatable}
 
 The proofs of Theorem \ref{thm:WGARP} and Theorem \ref{thm:GARP} are in the Appendix. The basic idea behind these two algorithms are similar to that of Theorem \ref{thm:WARP} and Theorem \ref{thm:SARP}, except they are adjust to include the idea of strict revealed preferences that are a part of the axioms. This section will conclude with a few examples that exhibit the functionalities of the graph theoretical approach.
+
+\begin{example}\label{ex1}
 
 Consider the following data for a single consumer in 3 different time periods:
 \begin{center}
@@ -364,20 +370,22 @@ Upon first glance, one can see that the revealed preferences between $X_1$ and $
 1&1&0
 \end{pmatrix}\]
 Additionally, since $A_d=A_s$, $A_d\times A_s=A_d\times A_d=(A_d)^2$. Thus, the behavior exhibited by this individual fails WGARP as well.
+\end{example}
 
+\begin{example}\label{ex2}
 The following example will explicit illustrate the differences between SARP and GARP. Consider the following expenditure matrix exhibited by a different consumer:
 \[Exp = \begin{pmatrix}
-20 & 23 & 10\\
-20 & 22 & 15\\
-22 & 22 & 10
+236 & 232 & 176\\
+236 & 222 & 186\\
+250 & 222 & 176
 \end{pmatrix}
 \]
 As before, one can obtain the matrix $\alpha$ as follows:
 \[
 \alpha = \begin{pmatrix}
-0 & 1 & 0 \\
-0 & 0 & 5 \\
-2 & 0 & 0 \\
+0 & 10 & 0 \\
+0 & 0 & 10 \\
+14 & 0 & 0 \\
 \end{pmatrix}
 \]
 In this case, $A_d\not=A_s$ as some bundles have non-strict revealed preferences to each other. Applying $f$ to obtain $A_d$ and $g$ to obtain $A_s$, one can obtain the following:
@@ -456,6 +464,36 @@ As highlighted by the red edges, this data set fails SARP as there is a walk fro
 0&1&1
 \end{pmatrix}
 \]
+Note that $(\sum_{n=2}^3(A_d)^n)_{i,i}=1$ for all $i\in\{1,2,3\}$, thus the data set violates SARP by Theorem \ref{thm:SARP}. Further, it's clear that $\big( (\sum_{i=1}^{2}A_d^i)\times A_s \big)$ is the zero matrix as $A_s$ is the zero matrix, and hence the diagonal elements would all equal zero. This indicates that the data set passes GARP by Theorem \ref{thm:GARP}.
+\end{example}
+
+\section*{Afriat's CCEI}
+
+The purpose of this section is to develop a new algorithm, through a series of theorems, to compute Afriat's CCEI directly without a guess-and-check method\footnote{Note that this algorithm is more complex than existing guess-and-check methods. See \citet{CherchyeEtAl2014Goodness-of-Fit-Measures-for-Revealed-Preference-Tests:-Complexity-Results-and-Algorithms}}. First, the paper presents the precise definition of Afriat's CCEI with the following set of definitions. Let $\mathcal{X}$ and $\mathcal{P}$ be the set of quantity and price vectors, as defined previously and let $e\in[0.1]$, then:
+\begin{definition}\label{defn:drp_e}
+For $X_i,X_j\in\mathcal{X}$, we say $X_i$ is \textbf{e-directly revealed preferred} if $eP_iX_i\geq P_iX_j$. We will denote this as $X_i R_{D(e)}X_j$. Similarly, if $eP_iX_i > P_iX_j$, we say $X_i R_{SD(e)} X_j$.
+\end{definition}
+
+\begin{definition}\label{defn:rp_e}\leavevmode
+We define $R_e$ be the transitive closure of $R_{D(e)}$. More specifically, for $X_i,X_j\in\mathcal{X}$, $X_iR_eX_j$ if there exists some sequence $\{X^m\}_{m=1}^M$ such that, $\forall m\in\{1,\ldots,M\}$, the following holds:
+\begin{itemize}[topsep=0pt]
+  \item $X^m\in\mathcal{X}$
+  \item $X_i R_{D(e)} X^1$ i.e. $eP_iX_i\geq P_i X^1$
+  \item $X^m R_{D(e)} X^{m+1}$ i.e. $e P^m X^m \geq P^m X^{m+1}$
+  \item $X^M R_{D(e)}X_j$ i.e. $e P^M X^M\geq P^M X_j$
+\end{itemize}  
+\end{definition}
+
+\begin{definition}\label{defn:GARPe}
+Let $R_e$ be the transitive closure of $R_{D(e)}$. A set of choice data satisfies $GARP_e$ if for all bundles $X_i$ and $X_j$, if $X_i R_e X_j$, then $\neg (X_j R_{SD(e)} X_i)$. In other words, we say if $X_i R_e X_j$, then $eP_jX_j \leq P_iX_i$ (i.e. $eP_jX_j \not> P_iX_i$).
+\end{definition}
+Definition \ref{defn:drp_e} is simply the definition of direct revealed preference but parameterized by $e\in[0,1]$. Note that for $e=1$, this is precisely the definition of direct revealed preference (as stated in Definition \ref{defn:relations_1}). Additionally, from Definition \ref{defn:GARPe}, one can see that if $e=0$, then any data set would pass GARP\textsubscript{e} since no bundle would even be revealed prefered to any other bundles! Thus, one can see that $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\in[0,1]\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\}=\varnothing$ as $0\in\mathcal{E}$ for every possible dataset $(\mathcal{X},\mathcal{P})$. We then obtain the following definition:
+
+\begin{definition}\label{defn:Afriat_CCEI}
+For data set $(\mathcal{X},\mathcal{P})$, \textbf{Afriat's CCEI} is the \emph{largest} value $e\in[0,1]$ such that $(\mathcal{X},\mathcal{P})$ passes $GARP_e$.
+\end{definition}
+As we will soon illustrate with examples, Afriat's CCEI doesn't exist most of the time and we often simply compute $e^*=\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ (where $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\in[0,1]\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\}$) for data set $(\mathcal{X},\mathcal{P})$, which fails GARP\textsubscript{$e^*$} but for any $\epsilon>0$, passes GARP\textsubscript{$e^*-\epsilon$} (since $e^*-\epsilon\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}$).
+
 \section*{Appendix}
 \WGARP*
 
