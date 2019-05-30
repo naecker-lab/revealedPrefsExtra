@@ -530,13 +530,13 @@ eP_1X_1 & eP_2X_2 & \cdots & eP_kX_k \\
 eP_1X_1 & eP_2X_2 & \cdots & eP_kX_k 
 \end{pmatrix}
 \]
-Let $\alpha_e=Exp_e-Exp_{diag(e)}$ and $i\not=j$ and one can see that $X_i R_{D(e)} X_j$ if and only if $(\alpha_e)_{j,i}=P_iX_j-eP_iX_i\leq0$ (as $P_iX_j-eP_iX_i\leq0 \iff eP_iX_i\geq P_iX_j$). Then, defining $f:\mathbf{R}\to\{0,1\}$ such that:
+Let $\alpha_e=Exp_e-Exp_{diag(e)}$ and $i\not=j$ and one can see that $X_i R_{D(e)} X_j$ if and only if $(\alpha_e)_{j,i}=P_iX_j-eP_iX_i\leq0$ (as $P_iX_j-eP_iX_i\leq0 \iff eP_iX_i\geq P_iX_j$). Then, defining $f:\mathbb{R}\to\{0,1\}$ such that:
 \[f(x)=\begin{cases}
 1 & x\leq 0\\
 0 & x>0
 \end{cases}
 \]
-and $g:\mathbf{R}\to\{0,1\}$ such that:
+and $g:\mathbb{R}\to\{0,1\}$ such that:
 \[g(x)=\begin{cases}
 1 & x<0\\
 0 & x\geq0
@@ -546,7 +546,97 @@ one can easily following the steps in Section \ref{sec:rev_pref_as_digraph} to c
 
 If $(\mathcal{X},\mathcal{P})$ fails GARP, then there must exist at least one pair $X_i,X_j\in\mathcal{X}$ where there's a directed walk from $X_i$ to $X_j$, say $\mathcal{L}$, in $G_d$ \emph{and} $(X_j,X_i)\in E_s$ \footnote{where $\mathcal{L}=(l_1,l_2, \ldots, l_t)$ for $l_i\in E_d$ for all $i\in\{1,\ldots,t\}$, i.e. $\mathcal{L}$ is a sequence of edges in $E_d$ and thus is a directed walk}. To remove such violation, one must either remove the edges that form such directed walk \emph{or} remove the final edge $(X_j,X_i)\in E_s$. Noting that $\mathcal{L}$ is a sequence on $E_d$ and letting $l\in\mathcal{L}$ be such that $l=(X_u,X_v)\in E_d$, one can deduce that $P_uX_u\geq P_uX_v$. Further, since $(X_j,X_i)\in E_s$, one can deduce $P_jX_j>P_jX_i$. By letting $e_l=\frac{P_u X_v}{P_uX_u}\in[0,1]$, it's clear that $(X_u,X_v)\not\in E_{d(e_1-\epsilon)}$ for any $\epsilon>0$ as $e_lP_uX_u= P_uX_v$ and hence $(e_l-\epsilon) P_uX_u< P_uX_v$. Similarly, one can see that by letting $e_2=\frac{P_jX_i}{P_jX_j}\in[0,1]$, $(X_j,X_i)\not\in E_{s(e_2)}$ as $e_2 P_jX_j= (\not>) P_jX_i$. Thus, by setting $e_3 = \max\{e_l,e_2\}\in[0,1]$, one can see that either the directed walk in $G_d$ or $(X_j,X_i)\in E_s$ will disappear in the graphs $G_{d(e_3-\epsilon)}$ and $G_{s(e_3-\epsilon)}$. However, note that $l\in\mathcal{L}$ was arbitrarily chosen, thus $e_l$ might not be the largest value that can still remove the directed walk. More specifically, say $\exists k\in\mathcal{L}$ where $e_k$ is the value associated with removing the edge and that $e_k > e_l$. Then, if $e_l \geq e_2$, it's clear that $e_3 < e_k$ and $e_3$ fails to be an upperbound on $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ and thus is not the Afriat's CCEI for data set $(\mathcal{X},\mathcal{P})$. Thus, one must find the easiest edge to remove in $\mathcal{L}$, say $e_{l^*}$ and then take $e' = \max\{e_{l^*},e_2\}$ for the largest value of $e$ where, $\forall \epsilon>0$, either the directed walk in $G_d$ or $(X_j,X_i)\in E_s$ will disappear in the graphs $G_{d(e_{l^*}-\epsilon)}$ and $G_{s(e_{l^*}-\epsilon)}$. 
 
-However, the abstract method outlined in the previous paragraphs only considered a single, arbitrarily chosen pair of $X_i,X_j$ that violates the GARP requirements. Thus, a more comprehensive method is needed. In order to directly calculate Afriat's CCEI from a given data set $(\mathcal{X},\mathcal{P})$, one must reconstruct graphs $G_d$ and $G_s$ as weighted digraphs. 
+However, the abstract method outlined in the previous paragraphs only considered a single, arbitrarily chosen pair of $X_i,X_j$ that violates the GARP requirements. Thus, a more comprehensive method is needed. In order to directly calculate Afriat's CCEI from a given data set $(\mathcal{X},\mathcal{P})$, one must reconstruct graphs $G_d$ and $G_s$ as weighted digraphs. Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ and set up $G_d$ and $G_s$ as in Section \ref{sec:rev_pref_as_digraph}. Define functions $W_d:E_d\to\mathbb{R}_{\geq1}$ and and $W_s:E_s \to\mathbb{R}_{>1}$ so that $W_d(\varepsilon_d)$ is the weight of edge $\varepsilon_d\in E_d$ and $W_d(\varepsilon_s)$ is the weight of edge $\varepsilon_s\in E_s$. Let $\varepsilon_d =(X_i, X_j)\in E_d$ where $i\not=j$. Thus, by definition, $X_i R_D X_j$ and $P_iX_i\geq P_iX_j$. We define $W_d$ such that $W_d(\varepsilon_d)=\frac{P_iX_i}{P_iX_j}\geq 1$. Further, let $\varepsilon_s=(X_i, X_j)\in E_s$ for $i\not=j$. We then know that $X_i R_{SD} X_j$ and thus $P_iX_i>P_iX_j$. Then define $W_s(\varepsilon_s)=\frac{P_iX_i}{P_iX_j}>1$.
+
+Now we create the weighted adjacency matrices (for $G_d$ and $G_s$) from our dataset. Let's consider our expenditure matrix, as given in the previous section:
+\[
+Exp = 
+ \begin{pmatrix}
+  P_1X_1 & P_2X_1 & \cdots & P_kX_1 \\
+  P_1X_2 & P_2X_2 & \cdots & P_kX_2 \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  P_1X_k & P_2X_k & \cdots & P_kX_k
+ \end{pmatrix}
+\]
+Similarly, one could also retrieve a second matrix, $Exp_{diag}$, from it:
+\[
+Exp_{diag} = 
+ \begin{pmatrix}
+  P_1X_1 & P_2X_2 & \cdots & P_kX_k \\
+  P_1X_1 & P_2X_2 & \cdots & P_kX_k \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  P_1X_1 & P_2X_2 & \cdots & P_kX_k
+ \end{pmatrix}
+\]
+We then create a matrix $Q$ such that:
+\[
+Q = Exp_{diag} \varoslash Exp
+\]
+where $\varoslash$ indicates division by element. Note that $Exp_{diag}$ and $Exp$ are both positive matrices with no zero element (under the weak assumption that the quantity vector has at least one non-zero element in it as prices are clearly always positive). More specifically, we have the following:
+\[
+Q = 
+ \begin{pmatrix}
+  1 & q_{1,2} & \cdots & q_{1,k} \\
+  q_{2,1} & 1 & \cdots & q_{2,k} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  q_{k,1} & q_{k,2} & \cdots & 1
+ \end{pmatrix} =
+ \begin{pmatrix}
+ 1 & \frac{P_2X_2}{P_2X_1} & \cdots & \frac{P_kX_k}{P_kX_1} \\[6pt]
+ \frac{P_1X_1}{P_1X_2} & 1 & \cdots & \frac{P_kX_k}{P_kX_2} \\[6pt]
+ \vdots & \vdots & \ddots & \vdots \\[6pt]
+ \frac{P_1X_1}{P_1X_k} & \frac{P_2X_2}{P_2X_k} & \cdots & 1
+ \end{pmatrix}
+\]
+Then we define two functions, $d:\mathbb{R}_{+}\to\mathbb{R}_{\geq1}\cup\{0\}$ and $s:\mathbb{R}_{+}\to\mathbb{R}_{>1}\cup\{0\}$, as follows:
+
+\begin{minipage}{.5\linewidth}
+\[ 
+d(x)=
+ \begin{cases} 
+   x & x\geq1 \\
+    0 & x<1
+ \end{cases}
+\]
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+\[
+s(x)=
+    \begin{cases} 
+      x & x>1 \\
+      0 & x\leq1
+   \end{cases}
+\]
+\end{minipage}
+
+Note that $d$ and $s$ are functions that will be applied to $Q$ for it to reflect the extent of either direct and strictly direct revealed preferences, with 0 being non-(strictly) directly revealed preferred. We then can define our adjacency matrices, $\Omega_d$ and $\Omega_s$ as follows (by applying $d,s$ to each element excpept the diagonals and setting the diagonals to 0, as there are no loops in our graph):
+\[
+\Omega_d =
+  \begin{pmatrix}
+  0 & d(q_{1,2}) & \cdots & d(q_{1,k}) \\
+    d(q_{2,1}) & 0 & \cdots & d(q_{2,k}) \\
+    \vdots & \vdots & \ddots & \vdots \\
+    d(q_{k,1}) & d(q_{k,2}) & \cdots & 0
+  \end{pmatrix}^T
+\]
+
+\[
+\Omega_s =
+  \begin{pmatrix}
+  0 & s(q_{1,2}) & \cdots & s(q_{1,k}) \\
+    s(q_{2,1}) & 0 & \cdots & s(q_{2,k}) \\
+    \vdots & \vdots & \ddots & \vdots \\
+    s(q_{k,1}) & s(q_{k,2}) & \cdots & 0
+  \end{pmatrix} ^T
+\]
+Note that these are similar to $A_d$ and $A_s$ in Section \ref{sec:rev_pref_as_digraph} except that the matrix is no longer filled with binary elements but actually capture the extent of each preference. We shall briefly go over the reasoning behind why $\Omega_d$ is in fact the weighted adjacency matrix. The reader should follow similar logic to understand $\Omega_s$ as well. Let $i\not=j$ for simplicity and:
+\begin{itemize}
+  \item First note that $\Omega_{d_{i,j}}$ is in fact $d(q_{j,i})$.
+  \item If $\Omega_{d_{i,j}}=d(q_{j,i})=0$, then $q_{j,i}<1$ and hence $\frac{P_iX_i}{P_iX_j}<1$ and thus $P_iX_i<P_iX_j$. We then get $\neg(X_i R_D X_j)$ so there's no edge between $X_i$ and $X_j$. Hence $\Omega_{d_{i,j}}=0$, as desired.
+  \item If $\Omega_{d_{i,j}}=d(q_{j,i})\geq1$, then $q_{j,i}\geq1$ and hence $\frac{P_iX_i}{P_iX_j}\geq1$ and thus $P_iX_i\geq P_iX_j$. Thus we have an edge between $X_i$ and $X_j$ for $i\not=j$, as $X_iR_D X_j$, by definition. Then note that $d$ is in fact a bijective function (identity function) on the subset of the domain $[1,\infty)$ and that since $q_{j,i}\geq1$, by definition of $d$ we have $d(q_{j,i})=q_{j,i}$. Following definitions, we get $\Omega_{d_{i,j}}=d(q_{j,i})=q_{j,i}=\frac{P_iX_i}{P_iX_j}\geq1$, which is precisely the weight defined by $W_d$ earlier.
+\end{itemize}
+
+
 \section{Appendix}
 \WGARP*
 
