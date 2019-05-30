@@ -32,14 +32,23 @@
 
 
 \setlength{\parskip}{1em}
+\setlength{\parindent}{0pt}
 
+
+\newtheoremstyle{style1}
+  {\topsep} % Space above
+  {1pt} % Space below
+  {} % Body font
+  {} % Indent amount
+  {\bfseries} % Theorem head font
+  {.} % Punctuation after theorem head
+  {.5em} % Space after theorem head
+  {} % Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{style1}
 \newtheorem{theorem}{Theorem} 
 \newtheorem{definition}{Definition} % this lets us create definition blocks as below
 \newtheorem{remark}{Remark}
 \newtheorem{lemma}[theorem]{Lemma}
-\newtheoremstyle{example}{}{}{}{}{\bfseries}{\smallskip}{\newline}{}
-\theoremstyle{example}
-\newtheorem{example}{Example}
 
 \usepackage{thmtools}
 \usepackage{thm-restate}
@@ -49,6 +58,10 @@
 \usepackage{cleveref}
 
 \declaretheorem[name=Theorem]{thm}
+
+\newtheoremstyle{example}{}{}{}{}{\bfseries}{\smallskip}{\newline}{}
+\theoremstyle{example}
+\newtheorem{example}{Example}
 
 \title{A Graph Theoretical Approach to Revealed Preferences and Efficiency Indices}
 \author{...}
@@ -174,7 +187,7 @@ GARP&$X_i \mathbf{R} X_j$&$\neg(X_j  \mathbf{R_{SD}} X_i)$
 \caption{Summary of Axioms} \label{fig:axioms_summary}
 \end{figure}
 
-\section{Revealed Preferences as Directed Graphs}
+\section{Revealed Preferences as Directed Graphs}\label{sec:rev_pref_as_digraph}
 
 This section will rigorously outline a graph theoretical approach to analyzing revealed preferences and introduce algorithms to test for each of the axioms. First, define two directed graphs, $G_d$ and $G_s$, that represent non-strict and strict relations between bundles, respectively. These conditions will yield:
 $$G_d=\{\mathcal{X},E_d\}\textrm{ such that }E_d=\{(X_i,X_j)\ |\ X_i R_D X_j,\ i.e.\ P_iX_i\geq P_iX_j,\ i\not=j\}$$
@@ -492,9 +505,48 @@ Definition \ref{defn:drp_e} is simply the definition of direct revealed preferen
 \begin{definition}\label{defn:Afriat_CCEI}
 For data set $(\mathcal{X},\mathcal{P})$, \textbf{Afriat's CCEI} is the \emph{largest} value $e^*\in[0,1]$ such that $(\mathcal{X},\mathcal{P})$ passes $GARP_{e^*}$.
 \end{definition}
-As we will soon illustrate with examples, Afriat's CCEI doesn't exist most of the time and we often simply compute $e^*=\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ (where $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\in[0,1]\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\}$) for data set $(\mathcal{X},\mathcal{P})$, which fails GARP\textsubscript{$e^*$} but for any $\epsilon>0$, passes GARP\textsubscript{$e^*-\epsilon$} (since $(e^*-\epsilon)\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}$).
+As we will soon illustrate with examples, Afriat's CCEI doesn't exist most of the time, specifically when $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ is not a closed set\footnote{Say $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=[0,a)$ for some $a\in(0,1]$, then $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ does not have a largest element.} and thus does not have a ``largest'' value $e^*\in\mathcal{E}_{(\mathcal{X},\mathcal{P})}$. We often simply compute $e^*=\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ for data set $(\mathcal{X},\mathcal{P})$, which fails GARP\textsubscript{$e^*$} but for any $\epsilon>0$, passes GARP\textsubscript{$e^*-\epsilon$} (since $(e^*-\epsilon)\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}$).
 
-This section's main interest is to develop an algorithm to directly find Afriat's CCEI for a data set that does not pass the standard GARP requirements (since if $(\mathcal{X},\mathcal{P})$ passes GARP, its Afriat's CCEI would clearly be 1). Now define $G_d$ and $G_s$ as in Section 2 and suppose $(\mathcal{X},\mathcal{P})$ fails GARP, then there are $X_i,X_j\in\mathcal{X}$ where there's a directed walk from $X_i$ to $X_j$ in $G_d$ \emph{and} $(X_j,X_i)\in E_s$. The role of $e^*$ would be to ``relax'' those edges so that either the directed walk no longer exists or $(X_j,X_i)\not\in E_s$.
+This section's main interest is to develop an algorithm to directly find Afriat's CCEI for a data set that does not pass the standard GARP requirements (since if $(\mathcal{X},\mathcal{P})$ passes GARP, its Afriat's CCEI would clearly be 1). Now define $G_d$ and $G_s$ as in Section \ref{sec:rev_pref_as_digraph} and suppose $(\mathcal{X},\mathcal{P})$ fails GARP, then there are $X_i,X_j\in\mathcal{X}$ where there's a directed walk from $X_i$ to $X_j$ in $G_d$ \emph{and} $(X_j,X_i)\in E_s$. The role of $e^*$ would be to ``relax'' those edges so that either the directed walk no longer exists or $(X_j,X_i)\not\in E_s$. More rigorously, one can create separate pairs of graphs for each $e\in[0,1]$: $G_{d(e)}=\{\mathcal{X},E_{d(e)}\}$ and $G_{s(e)}=\{\mathcal{X},E_{s(e)}\}$ where:
+$$E_{d(e)}=\{(X_i,X_j)\ |\ X_iR_{D(e)}X_j\textrm{ i.e. } eP_iX_i\geq P_iX_j,\ i\not=j\}$$
+$$E_{s(e)}=\{(X_i,X_j)\ |\ X_iR_{SD(e)}X_j\textrm{ i.e. } eP_iX_i> P_iX_j,\ i\not=j\}$$
+To create an adjacency matrices for $G_{d(e)}$ and $G_{s(e)}$, one must adjust the expenditure matrix as follows:
+\[
+Exp_e=
+\begin{pmatrix}
+eP_1X_1 & P_2X_1 & \cdots & P_kX_1\\
+P_1X_2 & eP_2X_2 & \cdots & P_kX_2\\
+\vdots & \vdots & \ddots & \vdots \\
+P_1X_k & P_2X_k & \cdots & eP_kX_k 
+\end{pmatrix}
+\]
+and thus:
+\[
+Exp_{diag(e)}=
+\begin{pmatrix}
+eP_1X_1 & eP_2X_2 & \cdots & eP_kX_k \\
+eP_1X_1 & eP_2X_2 & \cdots & eP_kX_k \\
+\vdots & \vdots & \ddots & \vdots \\
+eP_1X_1 & eP_2X_2 & \cdots & eP_kX_k 
+\end{pmatrix}
+\]
+Let $\alpha_e=Exp_e-Exp_{diag(e)}$ and $i\not=j$ and one can see that $X_i R_{D(e)} X_j$ if and only if $(\alpha_e)_{j,i}=P_iX_j-eP_iX_i\leq0$ (as $P_iX_j-eP_iX_i\leq0 \iff eP_iX_i\geq P_iX_j$). Then, defining $f:\mathbf{R}\to\{0,1\}$ such that:
+\[f(x)=\begin{cases}
+1 & x\leq 0\\
+0 & x>0
+\end{cases}
+\]
+and $g:\mathbf{R}\to\{0,1\}$ such that:
+\[g(x)=\begin{cases}
+1 & x<0\\
+0 & x\geq0
+\end{cases}
+\]
+one can easily following the steps in Section \ref{sec:rev_pref_as_digraph} to construct $A_{d(e)}$ and $A_{s(e)}$ from $\alpha_e$ and $f, g$. Thus, given any $e\in[0,1]$, one can test whether $(\mathcal{X},\mathcal{P})$ passes GARP\textsubscript{e} with those adjacency matrices and the methods described in Section \ref{sec:rev_pref_as_digraph}.
+
+If $(\mathcal{X},\mathcal{P})$ fails GARP, then there must exist at least one pair $X_i,X_j\in\mathcal{X}$ where there's a directed walk from $X_i$ to $X_j$, say $\mathcal{L}$, in $G_d$ \emph{and} $(X_j,X_i)\in E_s$ \footnote{where $\mathcal{L}=(l_1,l_2, \ldots, l_t)$ for $l_i\in E_d$ for all $i\in\{1,\ldots,t\}$, i.e. $\mathcal{L}$ is a sequence of edges in $E_d$ and thus is a directed walk}. To remove such violation, one must either remove the edges that form such directed walk \emph{or} remove the final edge $(X_j,X_i)\in E_s$. Noting that $\mathcal{L}$ is a sequence on $E_d$ and letting $l\in\mathcal{L}$ be such that $l=(X_u,X_v)\in E_d$, one can deduce that $P_uX_u\geq P_uX_v$. Further, since $(X_j,X_i)\in E_s$, one can deduce $P_jX_j>P_jX_i$. By letting $e_l=\frac{P_u X_v}{P_uX_u}\in[0,1]$, it's clear that $(X_u,X_v)\not\in E_{d(e_1-\epsilon)}$ for any $\epsilon>0$ as $e_lP_uX_u= P_uX_v$ and hence $(e_l-\epsilon) P_uX_u< P_uX_v$. Similarly, one can see that by letting $e_2=\frac{P_jX_i}{P_jX_j}\in[0,1]$, $(X_j,X_i)\not\in E_{s(e_2)}$ as $e_2 P_jX_j= (\not>) P_jX_i$. Thus, by setting $e_3 = \max\{e_l,e_2\}\in[0,1]$, one can see that either the directed walk in $G_d$ or $(X_j,X_i)\in E_s$ will disappear in the graphs $G_{d(e_3-\epsilon)}$ and $G_{s(e_3-\epsilon)}$. However, note that $l\in\mathcal{L}$ was arbitrarily chosen, thus $e_l$ might not be the largest value that can still remove the directed walk. More specifically, say $\exists k\in\mathcal{L}$ where $e_k$ is the value associated with removing the edge and that $e_k > e_l$. Then, if $e_l \geq e_2$, it's clear that $e_3 < e_k$ and $e_3$ fails to be an upperbound on $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ and thus is not the Afriat's CCEI for data set $(\mathcal{X},\mathcal{P})$. Thus, one must find the easiest edge to remove in $\mathcal{L}$, say $e_{l^*}$ and then take $e' = \max\{e_{l^*},e_2\}$ for the largest value of $e$ where, $\forall \epsilon>0$, either the directed walk in $G_d$ or $(X_j,X_i)\in E_s$ will disappear in the graphs $G_{d(e_{l^*}-\epsilon)}$ and $G_{s(e_{l^*}-\epsilon)}$. 
+
+However, the abstract method outlined in the previous paragraphs only considered a single, arbitrarily chosen pair of $X_i,X_j$ that violates the GARP requirements. Thus, a more comprehensive method is needed. In order to directly calculate Afriat's CCEI from a given data set $(\mathcal{X},\mathcal{P})$, one must reconstruct graphs $G_d$ and $G_s$ as weighted digraphs. 
 \section{Appendix}
 \WGARP*
 
