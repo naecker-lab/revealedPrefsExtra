@@ -187,6 +187,40 @@ GARP&$X_i \mathbf{R} X_j$&$\neg(X_j  \mathbf{R_{SD}} X_i)$
 \caption{Summary of Axioms} \label{fig:axioms_summary}
 \end{figure}
 
+The following graph further illustrates the relationships between each axiom:
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+    \begin{axis}[
+    axis lines = left,
+    xlabel = If ...,
+    ylabel = Then (not) ...,
+    xmin=0,
+    xmax=3.5,
+    ymin=0,
+    ymax=3.5,
+    xtick = {0,1,2,3},
+    ytick = {0,1,2,3},
+    xticklabels = { ,$R_{SD}$, $R_D$, $R$},
+    yticklabels = { ,$R_{SD}$, $R_D$, $R$},
+]
+\draw [dashed, color=red, line width=1pt] (2,0) -- (2,1);
+\draw [dashed, color=red, line width=1pt] (2,1) -- (0,1);
+\draw [dotted, color=blue, line width=1pt] (2,0) -- (2,2);
+\draw [dotted, color=blue, line width=1pt] (2,2) -- (0,2);
+\draw [dashed, color=green, line width=1pt] (3,0) -- (3,1);
+\draw [dashed, color=green, line width=1pt] (3,1) -- (0,1);
+\draw [dotted, color=black, line width=1pt] (3,0) -- (3,3);
+\draw [dotted, color=black, line width=1pt] (3,3) -- (0,3);
+\node[label={200:{WGARP}}, circle, fill, inner sep=2pt, color=red] at (axis cs:2,1) {};
+\node[label={200:{WARP}}, circle, fill, inner sep=2pt, color=blue] at (axis cs:2,2) {};
+\node[label={200:{GARP}}, circle, fill, inner sep=2pt, color=green] at (axis cs:3,1) {};
+\node[label={200:{SARP}}, circle, fill, inner sep=2pt, color=black] at (axis cs:3,3) {};
+    \end{axis}
+\end{tikzpicture}
+\caption{Axioms as Partial Orders} \label{fig:PartialOrder1}
+\end{figure}
+
 \section{Revealed Preferences as Directed Graphs}\label{sec:rev_pref_as_digraph}
 
 This section will rigorously outline a graph theoretical approach to analyzing revealed preferences and introduce algorithms to test for each of the axioms. First, define two directed graphs, $G_d$ and $G_s$, that represent non-strict and strict relations between bundles, respectively. These conditions will yield:
@@ -508,12 +542,12 @@ For data set $(\mathcal{X},\mathcal{P})$, \textbf{Afriat's CCEI} is the \emph{la
 
 THe following theorem and later examples will show that Afriat's CCEI doesn't exist if a data set fails GARP, as $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ is not a closed set\footnote{Say $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=[0,a)$ for some $a\in(0,1]$, then $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ does not have a largest element.} and thus does not have a ``largest'' value $e^*\in\mathcal{E}_{(\mathcal{X},\mathcal{P})}$. We often simply compute $e^*=\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ for data set $(\mathcal{X},\mathcal{P})$, which fails GARP\textsubscript{$e^*$} but for any $\epsilon>0$, passes GARP\textsubscript{$e^*-\epsilon$} (since $(e^*-\epsilon)\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}$). Consider the following two theorems regarding the nature of $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$:
 
-\begin{restatable}{thm}{AfriatNonCompact}\label{thm:Afriat_NonCompact}
-Let $(\mathcal{X},\mathcal{P})$ be a data set that fails GARP and define the set $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\textrm{ and } e\in[0,1]\}$ to be the collection of $e\in[0,1]$ such that $(\mathcal{X},\mathcal{P})$ passes GARP\textsubscript{e}. Then, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\subseteq[0,1]$ is not a closed set.
-\end{restatable}
-
 \begin{restatable}{thm}{AfriatConnected}\label{thm:Afriat_Connected}
 Let $(\mathcal{X},\mathcal{P})$ be any data set (not contingent on passing / failing GARP) and define the set $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\textrm{ and } e\in[0,1]\}$ to be the collection of $e\in[0,1]$ such that $(\mathcal{X},\mathcal{P})$ passes GARP\textsubscript{e}. Then, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\subseteq[0,1]$ is a connected set.
+\end{restatable}
+
+\begin{restatable}{thm}{AfriatNonCompact}\label{thm:Afriat_NonCompact}
+Let $(\mathcal{X},\mathcal{P})$ be a data set that fails GARP and define the set $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\textrm{ and } e\in[0,1]\}$ to be the collection of $e\in[0,1]$ such that $(\mathcal{X},\mathcal{P})$ passes GARP\textsubscript{e}. Then, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\subseteq[0,1]$ is not a closed set.
 \end{restatable}
 
 Together, Theorem \ref{thm:Afriat_NonCompact} and Theorem \ref{thm:Afriat_Connected} implies that, for any data set $(\mathcal{X},\mathcal{P})$ that fails GARP, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ is of the form $[0,e^*)$ where $e^*\in(0,1]$ is Afriat's CCEI for the $(\mathcal{X},\mathcal{P})$. The proof of both theorems are in the Appendix. Theorem \ref{thm:Afriat_NonCompact}'s result isn't immediately clear. Theorem \ref{thm:Afriat_Connected}, however, can be easily seen by once one realizes that if $(\mathcal{X},\mathcal{P})$ passes GARP\textsubscript{$e'$} for some $e'\in[0,1]$, then it will also pass GARP\textsubscript{$e$} for all $e\in[0,e']$.
@@ -738,8 +772,6 @@ Second, when we constructed our proof of WGARP, we noted that ``since we know th
 Thus, we have: $\forall i, j\in\{1,\ldots,k\}$ such that $i\not=j$, $(\beta_d\times A_s)_{i,i}=0 \iff (\beta_{d_{i,j}}>0 \implies A_{s_{j,i}}=0)$. The first statement simply means the main diagonal of $(\beta_d=\sum_{i=1}^{k-1}A_{d}^{i}\times A_s)$ is a zero vector and the second statement is the condition for passing GARP, hence our proof is complete (since $A\iff B$ is the same as $B\iff A$).
 \end{proof}
 
-\AfriatNonCompact*
-
 \AfriatConnected*
 Before we prove Theorem \ref{thm:Afriat_Connected}, consider the following lemma:
 
@@ -753,6 +785,19 @@ Suppose $(\mathcal{X},\mathcal{P})$ passes GARP\textsubscript{$e'$} for some $e'
 Now we begin the proof of Theorem \ref{thm:Afriat_Connected}.
 \begin{proof}
 Let $(\mathcal{X},\mathcal{P})$ be a data set and define $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\\ \textrm{and } e\in[0,1]\}$. Suppose towards a contradiction that $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ is not connected and that two disjoint open sets, $U_1$ and $U_2$, form a separation of $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$. That is, by definition, $\exists U_1,U_2$ (open sets) such that $U_1\cap U_2=\varnothing$, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_1\not=\varnothing$, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2\not=\varnothing$, and $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=(\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_1)\cup (\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2)$. Without loss of generality, assume that for all $u_2\in U_2, u_1\in U_1$, $u_2>u_1$ (which is possible as $U_1\cap U_2\not=\varnothing$). Further, since $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\subseteq [0,1]$ and $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_i\not=\varnothing$ for $i=1,2$, we know $\exists x\in[0,1]$ such that $u_1<x<u_2$ for all $u_1,u_2$ (otherwise the separation between $U_1$ and $U_2$ would occur outside $[0,1]$ and for some $i=1,2$, we would get $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_i=\varnothing$). Thus, $x\not\in U_1$ and $x\not\in U_2$ and, as $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=(\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_1)\cup (\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2)$, we would get $x\not\in\mathcal{E}_{(\mathcal{X},\mathcal{P})}$. However, as $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2\not=\varnothing$, $\exists u_2'\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2$ such that $u_2'\in  \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ and $u_2'>x$ (since $u_2'\in U_2$ and, $\forall u_2\in U_2$, $u_2>x$). By Lemma \ref{Lemma:Connectedness}, $x\in\mathcal{E}_{(\mathcal{X},\mathcal{P})}$, which is a contradiction.
+\end{proof}
+
+\AfriatNonCompact*
+\begin{proof}
+For a data set $(\mathcal{X},\mathcal{P})$ that fails GARP, define a \emph{conflict} as a pair $(X_i,X_j)$ such that $X_i R X_j$ and $X_j R_{SD} X_i$. 
+
+\textbf{Claim:} We will prove that, given $(\mathcal{X},\mathcal{P})$ that fails GARP, for any pair of $(X_i,X_j)$ such that $X_i R X_j$ and $X_j R_{SD} X_i$, the set of values $\mathcal{E}_{(\mathcal{X},\mathcal{P})}'\subseteq \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ that solves the conflict is not a closed set. 
+
+Then, since the pair $(X_i,X_j)$ (of conflict) is arbitrarily chosen, the final set $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ will also not be closed since it will be used to solve all the conflicts in the data set $(\mathcal{X},\mathcal{P})$. More specifically, note that $$\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\cap_{i=1}^n \mathcal{E}^i_{(\mathcal{X},\mathcal{P})}$$ where $i$ indexes over the number of conflicts. If the claim and Theorem \ref{thm:Afriat_Connected} holds, then for all $i$, $\mathcal{E}^i_{(\mathcal{X},\mathcal{P})}$ is of the form $[0,e_i)$ for some $e_i\in(0,1)$.\footnote{Under the weak assumption that the consumer has at least one purchase per observation. Further, an extension of Theorem \ref{thm:Afriat_Connected} implies that $\mathcal{E}^i_{(\mathcal{X},\mathcal{P})}$ is an interval for all $i$.} Thus, let $j\in\{1,\ldots,n\}$ be such that $\mathcal{E}^j_{(\mathcal{X},\mathcal{P})}\subseteq \mathcal{E}^i_{(\mathcal{X},\mathcal{P})}$ for all $i$, then $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\mathcal{E}^j_{(\mathcal{X},\mathcal{P})}$ and thus is not a closed set by our claim. Hence, an argument for the above claim is sufficient in proving the theorem.
+
+\textbf{Proof of Claim:} Let $(\mathcal{X},\mathcal{P})$ be a data set that fails GARP. Thus, there must exist at least one conflict, say $(X_i,X_j)$. By a graph theoretical approach, there's a directed walk from $X_i$ to $X_j$ in $G_d$ and $(X_j,X_i)\in E_s$. Thus, $\exists (X^m)_{m=1}^M$ such that $X^m\in\mathcal{X}$ for all $m$ and $$(X_i,X^1),(X^1,X^2),\ldots, (X^{M-1},X^M), (X^M, X_j)\in E_d$$ such that there's a sequence of edges in $E_d$ that connect $X_i$ to $X_j$ on $G_d$. Now, let 
+$$e_1=\max\Bigg\{\max\left\{\frac{P_iX^1}{P_iX_i},\frac{P^mX^{m+1}}{P^mX^m},\frac{P^MX_j}{P^MX^M}\ |\ m\in\{1,\ldots, M-1\}\right\}, \frac{P_jX_j}{P_jX_i}\Bigg\}$$
+Note then that $\max\left\{\frac{P_iX^1}{P_iX_i},\frac{P^mX^{m+1}}{P^mX^m},\frac{P^MX_j}{P^MX^M}\ |\ m\in\{1,\ldots, M-1\}\right\}\in(0,1]$ and $\frac{P_jX_j}{P_jX_i}\in(0,1)$ by the existence of the sequence of edges in $E_d$ and the fact that $(X_j,X_i)\in E_s$. Let $\alpha=\max\left\{\frac{P_iX^1}{P_iX_i},\frac{P^mX^{m+1}}{P^mX^m},\frac{P^MX_j}{P^MX^M}\ |\ m\in\{1,\ldots, M-1\}\right\}$ for notation purposes and thus $e_1=\max\left\{\alpha, \frac{P_jX_j}{P_jX_i}\right\}$. We then have two cases: $e_1=\alpha$ or $e_1=\frac{P_jX_j}{P_jX_i}$.
 \end{proof}
 
 \bibliographystyle{plainnat}
