@@ -24,7 +24,7 @@ median_fct <- function(c) {
   }
 }
 
-calculate_CCEI <- function(df){
+calculate_CCEI_2 <- function(df, ...){
   #browser()
   if (!is.data.frame(df)) {stop("df must be a dataframe")}
   
@@ -54,5 +54,22 @@ calculate_CCEI <- function(df){
       median = median_fct(set) # setting new median
     }
   }
-  return(max(set))
+  x1 = min(set)
+  x2 = max(set)
+  epsilon = 0.01
+  if (checkGarp(x,p,x1)$violation==F & checkGarp(x,p,x2)$violation==F){ # first cond
+    if (checkGarp(x,p,x2+epsilon)$violation==F){
+      return(1)
+    }
+    else{return(x2)}
+  }
+  if (checkGarp(x,p,x1)$violation==T & checkGarp(x,p,x2)$violation==T) { # second cond
+    return(x1)
+  }
+  if (checkGarp(x,p,x1)$violation==F & checkGarp(x,p,x2)$violation==T){ # third cond
+    if (checkGarp(x,p,x1+epsilon)$violation==F){
+      return(x2)
+    }
+    else{return (x1)}
+  }
 }
