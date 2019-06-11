@@ -43,33 +43,33 @@ calculate_CCEI_2 <- function(df, ...){
   
   Exp <- p %*% t(x) / matrix(diag(p %*% t(x)), byrow = F, ncol = nrow(x), nrow = nrow(x))
   set <- Exp[(upper.tri(Exp) | lower.tri(Exp)) & Exp<=1]
-  median = median_fct(set)
+  median <- median_fct(set)
   while (length(set)>2) {
-    if (checkGarp(x,p,median)$violation==T) {
-      set = set [set<=median] # get rid of everything above it as "median" has a violation, so everything \geq median must have  
-      median = median_fct(set) # setting new median
+    if (checkGarp(x,p,median)$violation) {
+      set <- set [set<=median] # get rid of everything above it as "median" has a violation, so everything \geq median must have  
+      median <- median_fct(set) # setting new median
     }
     else {
-      set = set [set>=median] # median works, so every under it works and thus its an over estimate of irrationality
-      median = median_fct(set) # setting new median
+      set <- set [set>=median] # median works, so every under it works and thus its an over estimate of irrationality
+      median <-  median_fct(set) # setting new median
     }
   }
-  x1 = min(set)
-  x2 = max(set)
-  epsilon = 0.01
-  if (checkGarp(x,p,x1)$violation==F & checkGarp(x,p,x2)$violation==F){ # first cond
-    if (checkGarp(x,p,x2+epsilon)$violation==F){
+  lo <- min(set)
+  hi <- max(set)
+  epsilon <- abs(hi-lo)/2
+  if (!checkGarp(x,p,lo)$violation & !checkGarp(x,p,hi)$violation){ # first cond
+    if (checkGarp(x,p,hi+epsilon)$violation==F){
       return(1)
     }
-    else{return(x2)}
+    else{return(hi)}
   }
-  if (checkGarp(x,p,x1)$violation==T & checkGarp(x,p,x2)$violation==T) { # second cond
-    return(x1)
+  if (checkGarp(x,p,lo)$violation & checkGarp(x,p,hi)$violation) { # second cond
+    return(lo)
   }
-  if (checkGarp(x,p,x1)$violation==F & checkGarp(x,p,x2)$violation==T){ # third cond
-    if (checkGarp(x,p,x1+epsilon)$violation==F){
-      return(x2)
+  if (!checkGarp(x,p,lo)$violation & checkGarp(x,p,hi)$violation){ # third cond
+    if (!checkGarp(x,p,lo+epsilon)$violation){
+      return(hi)
     }
-    else{return (x1)}
+    else{return (lo)}
   }
 }
