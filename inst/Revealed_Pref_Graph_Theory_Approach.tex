@@ -4,7 +4,8 @@
 \usepackage[english]{babel}
 \usepackage{indentfirst}
 \usepackage{enumitem}
-
+\usepackage{xcolor}
+\definecolor{dark_green}{HTML}{008000}
 
 \usepackage{amsmath, % this adds functions for formatting equations nicely
       amssymb,
@@ -144,11 +145,11 @@ Consider the following example for Remark \ref{rmk:Remark 3}. Let good $i$ and g
 \addplot [only marks] table {
 1 0
 };
-\addlegendentry{Time $t$}
+\addlegendentry{Observation $t$}
 \addplot [only marks, mark=square*] table {
 0 1
 };
-\addlegendentry{Time $t+1$}
+\addlegendentry{Observation $t+1$}
     \end{axis}
 \end{tikzpicture}
 \caption{SARP vs. GARP} \label{fig:SARPvsGARP}
@@ -541,18 +542,13 @@ Definition \ref{defn:drp_e} is simply the definition of direct revealed preferen
 For data set $(\mathcal{X},\mathcal{P})$, \textbf{Afriat's CCEI} is the \emph{largest} value $e^*\in[0,1]$ such that $(\mathcal{X},\mathcal{P})$ passes $GARP_{e^*}$.
 \end{definition}
 
-THe following theorem and later examples will show that Afriat's CCEI doesn't exist if a data set fails GARP, as $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ is not a closed set\footnote{Say $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=[0,a)$ for some $a\in(0,1]$, then $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ does not have a largest element.} and thus does not have a ``largest'' value $e^*\in\mathcal{E}_{(\mathcal{X},\mathcal{P})}$. We often simply compute $e^*=\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ for data set $(\mathcal{X},\mathcal{P})$, which fails GARP\textsubscript{$e^*$} but for any $\epsilon>0$, passes GARP\textsubscript{$e^*-\epsilon$} (since $(e^*-\epsilon)\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}$). Consider the following two theorems regarding the nature of $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$:
+Later examples will show that Afriat's CCEI often doesn't exist, as $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ may not be a closed set\footnote{Say $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=[0,a)$ for some $a\in(0,1]$, then $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ does not have a largest element.} and thus does not have a ``largest'' value $e^*\in\mathcal{E}_{(\mathcal{X},\mathcal{P})}$. We then simply compute $e^*=\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ for data set $(\mathcal{X},\mathcal{P})$, which fails GARP\textsubscript{$e^*$} but for any $\epsilon>0$, passes GARP\textsubscript{$e^*-\epsilon$} (since $(e^*-\epsilon)\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}$). Consider the following theorem regarding the nature of $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$:
 
 \begin{restatable}{thm}{AfriatConnected}\label{thm:Afriat_Connected}
 Let $(\mathcal{X},\mathcal{P})$ be any data set (not contingent on passing / failing GARP) and define the set $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\textrm{ and } e\in[0,1]\}$ to be the collection of $e\in[0,1]$ such that $(\mathcal{X},\mathcal{P})$ passes GARP\textsubscript{e}. Then, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\subseteq[0,1]$ is a connected set.
 \end{restatable}
 
-\begin{restatable}{thm}{AfriatNonCompact}\label{thm:Afriat_NonCompact}
-Let $(\mathcal{X},\mathcal{P})$ be a data set that fails GARP and define the set $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\textrm{ and } e\in[0,1]\}$ to be the collection of $e\in[0,1]$ such that $(\mathcal{X},\mathcal{P})$ passes GARP\textsubscript{e}. Then, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\subseteq[0,1]$ is not a closed set.
-\end{restatable}
-
-Together, Theorem \ref{thm:Afriat_NonCompact} and Theorem \ref{thm:Afriat_Connected} implies that, for any data set $(\mathcal{X},\mathcal{P})$ that fails GARP, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ is of the form $[0,e^*)$ where $e^*\in(0,1]$ is Afriat's CCEI for the $(\mathcal{X},\mathcal{P})$. The proof of both theorems are in the Appendix. Theorem \ref{thm:Afriat_NonCompact}'s result isn't immediately clear. Theorem \ref{thm:Afriat_Connected}, however, can be easily seen by once one realizes that if $(\mathcal{X},\mathcal{P})$ passes GARP\textsubscript{$e'$} for some $e'\in[0,1]$, then it will also pass GARP\textsubscript{$e$} for all $e\in[0,e']$.
-
+Theorem \ref{thm:Afriat_Connected} ensures the existence of $e^*=\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ for all data sets $(\mathcal{X},\mathcal{P})$. The proof of the theorem is in the Appendix, althought its result can be easily seen by once one realizes that if $(\mathcal{X},\mathcal{P})$ passes GARP\textsubscript{$e'$} for some $e'\in[0,1]$, then it will also pass GARP\textsubscript{$e$} for all $e\in[0,e']$.
 
 This section's main interest is to develop an algorithm to directly find Afriat's CCEI for a data set that does not pass the standard GARP requirements (since if $(\mathcal{X},\mathcal{P})$ passes GARP, its Afriat's CCEI would clearly be 1). Now define $G_d$ and $G_s$ as in Section \ref{sec:rev_pref_as_digraph} and suppose $(\mathcal{X},\mathcal{P})$ fails GARP, then there are $X_i,X_j\in\mathcal{X}$ where there's a directed walk from $X_i$ to $X_j$ in $G_d$ \emph{and} $(X_j,X_i)\in E_s$. The role of $e^*$ would be to ``relax'' those edges so that either the directed walk no longer exists or $(X_j,X_i)\not\in E_s$. More rigorously, one can create separate pairs of graphs for each $e\in[0,1]$: $G_{d(e)}=\{\mathcal{X},E_{d(e)}\}$ and $G_{s(e)}=\{\mathcal{X},E_{s(e)}\}$ where:
 $$E_{d(e)}=\{(X_i,X_j)\ |\ X_iR_{D(e)}X_j\textrm{ i.e. } eP_iX_i\geq P_iX_j,\ i\not=j\}$$
@@ -591,9 +587,7 @@ and $g:\mathbb{R}\to\{0,1\}$ such that:
 \]
 one can easily following the steps in Section \ref{sec:rev_pref_as_digraph} to construct $A_{d(e)}$ and $A_{s(e)}$ from $\alpha_e$ and $f, g$. Thus, given any $e\in[0,1]$, one can test whether $(\mathcal{X},\mathcal{P})$ passes GARP\textsubscript{e} with those adjacency matrices and the methods described in Section \ref{sec:rev_pref_as_digraph}.
 
-If $(\mathcal{X},\mathcal{P})$ fails GARP, then there must exist at least one pair $X_i,X_j\in\mathcal{X}$ where there's a directed walk from $X_i$ to $X_j$, say $\mathcal{L}$, in $G_d$ \emph{and} $(X_j,X_i)\in E_s$ \footnote{where $\mathcal{L}=(l_1,l_2, \ldots, l_t)$ for $l_i\in E_d$ for all $i\in\{1,\ldots,t\}$, i.e. $\mathcal{L}$ is a sequence of edges in $E_d$ and thus is a directed walk}. To remove such violation, one must either remove the edges that form such directed walk \emph{or} remove the final edge $(X_j,X_i)\in E_s$. Noting that $\mathcal{L}$ is a sequence on $E_d$ and letting $l\in\mathcal{L}$ be such that $l=(X_u,X_v)\in E_d$, one can deduce that $P_uX_u\geq P_uX_v$. Further, since $(X_j,X_i)\in E_s$, one can deduce $P_jX_j>P_jX_i$. By letting $e_l=\frac{P_u X_v}{P_uX_u}\in[0,1]$, it's clear that $(X_u,X_v)\not\in E_{d(e_1-\epsilon)}$ for any $\epsilon>0$ as $e_lP_uX_u= P_uX_v$ and hence $(e_l-\epsilon) P_uX_u< P_uX_v$. Similarly, one can see that by letting $e_2=\frac{P_jX_i}{P_jX_j}\in[0,1]$, $(X_j,X_i)\not\in E_{s(e_2)}$ as $e_2 P_jX_j= (\not>) P_jX_i$. Thus, by setting $e_3 = \max\{e_l,e_2\}\in[0,1]$, one can see that either the directed walk in $G_d$ or $(X_j,X_i)\in E_s$ will disappear in the graphs $G_{d(e_3-\epsilon)}$ and $G_{s(e_3-\epsilon)}$. However, note that $l\in\mathcal{L}$ was arbitrarily chosen, thus $e_l$ might not be the largest value that can still remove the directed walk. More specifically, say $\exists k\in\mathcal{L}$ where $e_k$ is the value associated with removing the edge and that $e_k > e_l$. Then, if $e_l \geq e_2$, it's clear that $e_3 < e_k$ and $e_3$ fails to be an upperbound on $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ and thus is not the Afriat's CCEI for data set $(\mathcal{X},\mathcal{P})$. Thus, one must find the easiest edge to remove in $\mathcal{L}$, say $e_{l^*}$ and then take $e' = \max\{e_{l^*},e_2\}$ for the largest value of $e$ where, $\forall \epsilon>0$, either the directed walk in $G_d$ or $(X_j,X_i)\in E_s$ will disappear in the graphs $G_{d(e_{l^*}-\epsilon)}$ and $G_{s(e_{l^*}-\epsilon)}$. 
-
-However, the abstract method outlined in the previous paragraphs only considered a single, arbitrarily chosen pair of $X_i,X_j$ that violates the GARP requirements. Thus, a more comprehensive method is needed. In order to directly calculate Afriat's CCEI from a given data set $(\mathcal{X},\mathcal{P})$, one must reconstruct graphs $G_d$ and $G_s$ as weighted digraphs, which is a simply a directed graph with a weight function that assigns a real-valued weight to every edge. Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ and set up $G_d$ and $G_s$ as in Section \ref{sec:rev_pref_as_digraph}. Define functions $W_d:E_d\to\mathbb{R}_{\geq1}$ and and $W_s:E_s \to\mathbb{R}_{>1}$ so that $W_d(\varepsilon_d)$ is the weight of edge $\varepsilon_d\in E_d$ and $W_d(\varepsilon_s)$ is the weight of edge $\varepsilon_s\in E_s$. Let $\varepsilon_d =(X_i, X_j)\in E_d$ where $i\not=j$. Thus, by definition, $X_i R_D X_j$ and $P_iX_i\geq P_iX_j$. We define $W_d$ such that $W_d(\varepsilon_d)=\frac{P_iX_i}{P_iX_j}\geq 1$. Further, let $\varepsilon_s=(X_i, X_j)\in E_s$ for $i\not=j$. We then know that $X_i R_{SD} X_j$ and thus $P_iX_i>P_iX_j$. Then define $W_s(\varepsilon_s)=\frac{P_iX_i}{P_iX_j}>1$.
+In order to directly calculate Afriat's CCEI from a given data set $(\mathcal{X},\mathcal{P})$, one must reconstruct graphs $G_d$ and $G_s$ as weighted digraphs, which is a simply a directed graph with a weight function that assigns a real-valued weight to every edge. Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ and $\mathcal{P}=\{P_1,\ldots,P_k\}$ and set up $G_d$ and $G_s$ as in Section \ref{sec:rev_pref_as_digraph}. Define functions $W_d:E_d\to\mathbb{R}_{\geq1}$ and and $W_s:E_s \to\mathbb{R}_{>1}$ so that $W_d(\varepsilon_d)$ is the weight of edge $\varepsilon_d\in E_d$ and $W_d(\varepsilon_s)$ is the weight of edge $\varepsilon_s\in E_s$. Let $\varepsilon_d =(X_i, X_j)\in E_d$ where $i\not=j$. Thus, by definition, $X_i R_D X_j$ and $P_iX_i\geq P_iX_j$. We define $W_d$ such that $W_d(\varepsilon_d)=\frac{P_iX_i}{P_iX_j}\geq 1$. Further, let $\varepsilon_s=(X_i, X_j)\in E_s$ for $i\not=j$. We then know that $X_i R_{SD} X_j$ and thus $P_iX_i>P_iX_j$. Then define $W_s(\varepsilon_s)=\frac{P_iX_i}{P_iX_j}>1$.
 
 Now we create the weighted adjacency matrices (for $G_d$ and $G_s$) from our dataset. Let's consider our expenditure matrix, as given in the previous section:
 \[
@@ -683,6 +677,105 @@ Note that these are similar to $A_d$ and $A_s$ in Section \ref{sec:rev_pref_as_d
   \item If $\Omega_{d_{i,j}}=d(q_{j,i})\geq1$, then $q_{j,i}\geq1$ and hence $\frac{P_iX_i}{P_iX_j}\geq1$ and thus $P_iX_i\geq P_iX_j$. Thus we have an edge between $X_i$ and $X_j$ for $i\not=j$, as $X_iR_D X_j$, by definition. Then note that $d$ is in fact a bijective function (identity function) on the subset of the domain $[1,\infty)$ and that since $q_{j,i}\geq1$, by definition of $d$ we have $d(q_{j,i})=q_{j,i}$. Following definitions, we get $\Omega_{d_{i,j}}=d(q_{j,i})=q_{j,i}=\frac{P_iX_i}{P_iX_j}\geq1$, which is precisely the weight defined by $W_d$ earlier.
 \end{itemize}
 
+Before introducing a couple of theorems that pave way to the algorithm that allows for direct calculation of Afriat's CCEI, we provide a brief overview of the main idea behind the reasoning of algorithm. First, define a \emph{violating cycle} between $G_{d}$ and $G_{s}$ as a sequence $(X^k)_{k=1}^K$, where $X^k\in\mathcal{X}$ for all $k$ and there's a walk between $X^1$ and $X^K$ in $G_d$ and $(X^K,X^1)\in E_s$. Further, to avoid repetition and ensure finiteness of the number of total violating cycles, we also require $X^j\not=X^k$ for all $j,k\in\{1,\ldots,K\}$ where $j\not=k$ (that is, no edge is revisited during the walk).\footnote{This very last requirement is necessary as ilustrated by the following example. Consider $G_d=G_s$ where $\mathcal{X}=\{X_1,X_2\}$ and $E_s=E_d=\{(X_1,X_2),(X_2,X_1)\}$. Then, it's clear that $X_1 R X_2$ and $X_2 R_{SD} X_1$, therefore creating a violating cycle $(X^k)_{k=1}^2=(X_1,X_2)$. However, one can also argue that $(X^n)_{n=1}^4= (X_1,X_2,X_1,X_2)$ is also a violating cycle without the final requirement. However, the limited definition creates redundancies as the value of $e$ that removes the cycle $(X^k)_{k=1}^2$ would also remove $(X^n)_{n=1}^4$.} Let $\mathcal{V}$ denote the finite set of all violating cycles. Fixing $V\in\mathcal{V}$, we say that some $e\in[0,1]$ \emph{solves the violating cycle} if $V$ no longer exists on $G_{d(e)}$ and $G_{s(e)}$. More specifically, either the walk from $X^1$ to $X^K$ is no longer present in $G_{d(e)}$ or $(X^K,X^1)\not\in E_{s(e)}$. Consider the set
+$$\mathcal{E}^V_{(\mathcal{X},\mathcal{P})} = \{e\in[0,1]\ |\ V\textrm{ is no longer present in } G_{d(e)}\textrm{ and } G_{s(e)} \}$$
+It's clear that $0\in \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}$ (the minimumal element) for all $V\in\mathcal{V}$ as $E_{s(0)}=\varnothing$. Further, $V\in\mathcal{V}$, $\mathcal{E}^V_{(\mathcal{X},\mathcal{P})}$ is a connected set and thus takes the form of either $[0,a)$ or $[0,a]$ for some $a\in(0,1]$. Naturally, if $e\in\mathcal{E}_{(\mathcal{X},\mathcal{P})}$, then it should solve all the violating cycles of $(\mathcal{X},\mathcal{P})$:
+$$\mathcal{E}_{(\mathcal{X},\mathcal{P})} = \bigcap_{V\in\mathcal{V}}\mathcal{E}^V_{(\mathcal{X},\mathcal{P})} = \mathcal{E}^{V^*}_{(\mathcal{X},\mathcal{P})}$$
+where $V^*\in\mathcal{V}$ is such that $\mathcal{E}^{V^*}_{(\mathcal{X},\mathcal{P})}\subseteq \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}$ for all $V\in\mathcal{V}$. The above equality indicates that, to calculate the least upperbound of $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$, one simply has to calculate the least upperbound of each $\mathcal{E}^V_{(\mathcal{X},\mathcal{P})}$ and take the minimum across $V\in\mathcal{V}$:
+$$\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})} = \min\left\{\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\ |\ V\in\mathcal{V}\right\}$$
+On the other hand, this is the same as analyzing all violating cycles $V\in\mathcal{V}$, finding the easiest edge to remove in each violating cycle (equivalent to finding least upperbound of each violating cycle), and determining the hardest cycle to remove based on their easiest edges (equivalent to taking the minimum across all violating cycles).
+
+To connect the above results to our approach with weighted digraphs, consider the following:
+\begin{align*}\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})} &= \left(\frac{1}{\min\left\{\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\ |\ V\in\mathcal{V}\right\}}\right)^{-1} \\ &= \left(\max\left\{\inf
+\left(\frac{1}{\mathcal{E}^V_{(\mathcal{X},\mathcal{P})}}\right)\ |\ V\in\mathcal{V}\right\}\right)^{-1}
+\end{align*}
+Note then that, $\forall V\in\mathcal{V}$, we have $\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})} = \frac{P_iX_j}{P_iX_i}$ for some $i,j\in\{1,\ldots,k\}$ where $i\not=j$ since either $\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}$ is supposed to remove an edge on $G_s$ or, $\forall \epsilon>0$, $\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})} - \epsilon$ is supposed to remove a walk (by removing some edge along it) on $G_d$. Hence, $\forall V\in\mathcal{V}$, $\left(\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\right)^{-1}$ is an element of $\Omega_d$ or $\Omega_s$ since it's of the form $\frac{P_iX_i}{P_iX_j}$. Now we begin to construct the algorithm for Afriat's CCEI.
+
+First, define function $\lambda:\mathbb{R}^{m\times m} \times \mathbb{R}^{m\times m} \to \mathbb{R}^{m\times m}$ as follows:
+
+Let $X,Y$ be $(m\times m)$ matrices and let $\lambda(X,Y)=Z$, then, $\forall i,j\in\{1,\ldots,m\}$:
+$$Z_{i,j}=\max\{\min\{X_{i,1}, Y_{1,j}\}, \min\{X_{i,2}, Y_{2,j}\}, \ldots, \min\{X_{i,m}, Y_{m,j}\}\}$$
+where $z_{i,j}$ is the $(i,j)^{th}$ element of $Z$. note that this is similar with matrix multiplication in that we consider the $i^{th}$ row of $X$ and $j^{th}$ column of $Y$, but instead of pairwise multiplication and overall summation (i.e. dot product), we take pairwise minimum and overall maximum.
+
+We further define a function $\lambda_t:(\mathbb{R}^{m\times m})^t\to\mathbb{R}^{m\times m}$ such that for $Y_1,\ldots,Y_t\in \mathbb{R}^{m\times m}$, we have:
+\[
+  \lambda_t(Y_1,\ldots, Y_t) =
+    \underbrace{\lambda(\cdots\lambda(\lambda(\lambda(}_\text{t-1 times}
+    Y_1,Y_2),Y_3),Y_4),\ldots, Y_t)
+\]
+Consider the following set of theorems:
+\begin{restatable}{thm}{CCEImain}
+\label{thm:CCEI_main}
+$\forall t\in \mathbb{N}_{\geq2}$,
+\[
+  \lambda_t(\underbrace{\Omega_d,\ldots,\Omega_d}_\text{t times})_{i,j}=
+  \begin{cases}
+  0 & \textrm{if } X_i, X_j\textrm{ are not connected by a walk of }t \textrm{ edges} \\
+  & \textrm{on }G_d \\
+  \rho_{i,j} & \textrm{such that }\rho_{i,j}\textrm{ is the weight of the strongest edge } \\
+  &\textrm{among the weakest edges of all walks of } t \textrm{ edges} \\
+  & \textrm{from }X_i\textrm{ to }X_j \textrm{ on } G_d
+  \end{cases}
+\]
+We abbreviate $\lambda_t(\Omega_d,\ldots,\Omega_d)=\lambda^t(\Omega_d)$. Then, we formally write:
+\[
+  \lambda^t(\Omega_d)_{i,j}=
+  \begin{cases}
+  0 & \textrm{if } \nexists (X^v)_{v=1}^{t-1} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
+  & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
+  & (X^{t-1},X_j)\in E_d\\ 
+  \rho_{i,j} & \textrm{if }\exists (X^{uv})_{u,v=1}^{u=U,\ v=t-1}\ (\textrm{for some }U\geq1) \\
+  & \textrm{such that }\forall u,\ \forall v,\ X^{uv}\in\mathcal{X} \textrm{ and } \\
+  & (X^{uv},X^{u(v+1)})\in E_d\ (\textrm{if }t>2), (X_i, X^{u1})\in E_d \textrm{ and } \\
+  & (X^{u(t-1)},X_j)\in E_d, \textrm{ then: } \\
+  & \rho_{i,j}=\max\Big\{\min\big\{W_d\big((X_i,X^{u1})\big),W_d\big((X^{uv},X^{u(v+1)})\big), \\
+  & W_d\big((X^{u(t-1)},X_j)\big)\ |\ v\in\{1,\ldots,t-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\} \\
+  &\textrm{if } t>2,\ \textrm{and }\\
+  &\rho_{i,j}=\max\Big\{\min\big\{W_d\big((X_i,X^{u1})\big), W\big((X^{u1},X_j)\big)\big\}\ |\ u\in\\
+  &\{1,\ldots,U\}\Big\} \textrm{ if } t=2\\
+  \end{cases}
+\]
+Note that $\forall i,j$, $\rho_{i,j}\geq1$ since $W_d$ is the weight function as defined earlier. Further, intuitively, we say:
+\[
+  \lambda^t(\Omega_d)_{i,j}=
+  \begin{cases}
+  0 & \textrm{if bundles }X_i \textrm{ and }X_j\textrm{ are not connected by a} \\
+  & \textrm{preference chain with } t { number of edges}\\
+  \rho_{i,j} & \textrm{where }\rho_{i,j}\textrm{ is the largest ratio across the smallest ratios} \\
+  & \textrm{in each preference chain that connects } X_i\textrm{ to } X_j \\ 
+  & \textrm{with }t\textrm{ number of edges }
+  \end{cases}
+\]
+\end{restatable}
+The claim of Theorem \ref{thm:CCEI_main} can be better explained with the following illustration. Let $t=3$ and uppose that for $X_i,X_j\in\mathcal{X}$, the only walks that connect $X_i$ to $X_j$ with 3 edges are as follows:
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale = 1.5]
+\tikzset{
+    vertex/.style={circle,draw,minimum size=1.5em},
+    edge/.style={->,> = latex'}
+}
+  % vertices
+\node[vertex] (1) at  (-3,0) {$X_i$};
+\node[vertex] (3) at (1,1) {};
+\node[vertex] (4) at (3,0) {$X_j$};
+\node[vertex] (5) at (-1,0) {};
+\node[vertex] (6) at (1,0) {};
+\node[vertex] (7) at (-1,-1) {};
+\node[vertex] (8) at (1,-1) {};
+% edges
+\draw[edge, color=blue] (3) -- (4) node[midway, above] {$2.2$};
+\draw[edge, color=blue] (5) -- (3) node[midway, above] {$1.7$};
+\draw[edge, color=purple] (1) -- (5) node[midway, above] {$3$};
+\draw[edge, color=red] (5) -- (6) node[midway, above] {$1$};
+\draw[edge, color=red] (6) -- (4) node[midway, above] {$1.3$};
+\draw[edge, color=dark_green] (1) -- (7) node[midway, above] {$5$};
+\draw[edge, color=dark_green] (7) -- (8) node[midway, above] {$1.2$};
+\draw[edge, color=dark_green] (8) -- (4) node[midway, above] {$1.5$};
+\end{tikzpicture}
+\caption{Illustration of Theorem \ref{thm:CCEI_main}} \label{fig:example1_graph}
+\end{figure}
+One can see there are three distinct walks from $X_i$ to $X_j$, as colored with blue, red, and green (note that the edge from $X_i$ to the vertex just right of it, labelled with 3, belongs to both the blue and red walks). Then, Theorem \ref{thm:CCEI_main} claims that $\lambda^3(\Omega_d) = 1.7$ with $\Omega_d$ as the adjacency matrix for the weighted digraph that contains the illustrated paths. This can be seen as the smallest ratio of the blue preference chain is 1.7; the smallest ratio of the red preference chain is 1; and the smallest ratio of the green preference chain is 1.2, thus the maximum across those values is 1.7. The full proof of Theorem \ref{thm:CCEI_main} is quite complicated and presented in the Appendix.
 
 \section{Appendix}
 \WGARP*
@@ -785,28 +878,410 @@ Suppose $(\mathcal{X},\mathcal{P})$ passes GARP\textsubscript{$e'$} for some $e'
 
 Now we begin the proof of Theorem \ref{thm:Afriat_Connected}.
 \begin{proof}
-Let $(\mathcal{X},\mathcal{P})$ be a data set and define $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\\ \textrm{and } e\in[0,1]\}$. Suppose towards a contradiction that $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ is not connected and that two disjoint open sets, $U_1$ and $U_2$, form a separation of $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$. That is, by definition, $\exists U_1,U_2$ (open sets) such that $U_1\cap U_2=\varnothing$, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_1\not=\varnothing$, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2\not=\varnothing$, and $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=(\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_1)\cup (\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2)$. Without loss of generality, assume that for all $u_2\in U_2, u_1\in U_1$, $u_2>u_1$ (which is possible as $U_1\cap U_2\not=\varnothing$). Further, since $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\subseteq [0,1]$ and $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_i\not=\varnothing$ for $i=1,2$, we know $\exists x\in[0,1]$ such that $u_1<x<u_2$ for all $u_1,u_2$ (otherwise the separation between $U_1$ and $U_2$ would occur outside $[0,1]$ and for some $i=1,2$, we would get $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_i=\varnothing$). Thus, $x\not\in U_1$ and $x\not\in U_2$ and, as $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=(\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_1)\cup (\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2)$, we would get $x\not\in\mathcal{E}_{(\mathcal{X},\mathcal{P})}$. However, as $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2\not=\varnothing$, $\exists u_2'\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2$ such that $u_2'\in  \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ and $u_2'>x$ (since $u_2'\in U_2$ and, $\forall u_2\in U_2$, $u_2>x$). By Lemma \ref{Lemma:Connectedness}, $x\in\mathcal{E}_{(\mathcal{X},\mathcal{P})}$, which is a contradiction.
+Let $(\mathcal{X},\mathcal{P})$ be a data set and define $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=\{e\ |\ (\mathcal{X},\mathcal{P})\textrm{ passes GARP\textsubscript{e}}\\ \textrm{and } e\in[0,1]\}$. Suppose towards a contradiction that $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$ is not connected and that two disjoint open sets, $U_1$ and $U_2$, form a separation of $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$. That is, by definition, $\exists U_1,U_2$ (open sets) such that $U_1\cap U_2=\varnothing$, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_1\not=\varnothing$, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2\not=\varnothing$, and $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=(\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_1)\cup (\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2)$. Without loss of generality, assume that for all $u_2\in U_2, u_1\in U_1$, $u_2>u_1$ (which is possible as $U_1\cap U_2=\varnothing$). Further, since $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\subseteq [0,1]$ and $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_i\not=\varnothing$ for $i=1,2$, we know $\exists x\in[0,1]$ such that $u_1<x<u_2$ for all $u_1,u_2$ (otherwise the separation between $U_1$ and $U_2$ would occur outside $[0,1]$ and for some $i=1,2$, we would get $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_i=\varnothing$). Thus, $x\not\in U_1$ and $x\not\in U_2$ and, as $\mathcal{E}_{(\mathcal{X},\mathcal{P})}=(\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_1)\cup (\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2)$, we would get $x\not\in\mathcal{E}_{(\mathcal{X},\mathcal{P})}$. However, as $\mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2\not=\varnothing$, $\exists u_2'\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}\cap U_2$ such that $u_2'\in  \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ and $u_2'>x$ (since $u_2'\in U_2$ and, $\forall u_2\in U_2$, $u_2>x$). By Lemma \ref{Lemma:Connectedness}, $x\in\mathcal{E}_{(\mathcal{X},\mathcal{P})}$, which is a contradiction.
 \end{proof}
 
-\AfriatNonCompact*
-\begin{proof}
-For a data set $(\mathcal{X},\mathcal{P})$ that fails GARP, define a \textbf{conflict} as a pair $(X_i,X_j)$ such that $X_i R X_j$ and $X_j R_{SD} X_i$. We say that a particular $e$ \textbf{``solves the conflict''} $X_i,X_j)$ if the conflict is no longer present in the graphs $G_{d(e)}$ and $G_{s(e)}$. That is, either the walk from $X_i$ to $X_j$ is no longer present in $G_{d(e)}$ or $(X_j,X_i)\not\in E_{s(e)}$. Lastly, we define a \textbf{violating cycle} between $G_{d}$ and $G_{s}$ as a sequence $(X^k)_{k=1}^K$, where $X^k\in\mathcal{X}$ for all $k$ and there's a walk between $X^1$ and $X^{K-1}$ in $G_d$ and $(X^{K-1},X^K)\in E_s$. Then, it's pretty clear that if data set $(\mathcal{X},\mathcal{P})$ that fails GARP, there must exist at least one violating cycle between graphs $G_d$ and $G_s$ created by the data set.
 
-Similar to cycles in a single graph, the starting point in the violating cycle could be arbitrary. For example, using the previous set-up, there might also be a walk between $X^2$ to $X^K$ in $G_d$ and $(X^K, X^1)\in E_s$ as the two graphs $G_d$ and $G_s$ differ only on strict vs. non-strict inequality requirements in their edge sets. Thus, we further define a \textbf{unique violating cycle (UVC)} and say $(X^k)_{k=1}^K$ and $(X^j)_{j=1}^J$ are unique violating cycles if they are both violating cycles and $\left\{\textrm{unique terms in }(X^k)_{k=1}^K\right\}\not=\left\{\textrm{unique terms in }(X^j)_{j=1}^J\right\}$. In other words, two violating cycles are unique if either their initial walks on $G_d$ goes over different vertices or their final edges on $E_s$ is different. Then consider the following lemma, which is simply an extension of Lemma \ref{Lemma:Connectedness}:
 
-\begin{lemma}\label{lemma:Connectedness2}
-Suppose $(\mathcal{X},\mathcal{P})$ fails GARP and has $n$ (finite) unique violating cycles. Let $i\in\{1,\ldots,n\}$ be an arbitrary unique violating cycle (UVC) and define 
-$$\mathcal{E}_{(\mathcal{X},\mathcal{P})}^i = \{e\in[0,1]\ |\ \textrm{UVC }i\textrm{ is no longer present in } G_{d(e)}\textrm{ and } G_{s(e)} \}$$
-Then, $\forall i$, if $e'\in\mathcal{E}_{(\mathcal{X},\mathcal{P})}^i$, then $e\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}^i$ for all $e\leq e'$.
+\CCEImain*
+
+Before we begin the proof of Theorem \ref{thm:CCEI_main}, consider the following lemma.
+
+\begin{lemma}\label{lemma:minmax_dist}
+For all $\alpha^j_i\in\mathbb{R}$ and $\beta\in\mathbb{R}$, the following equality holds:
+\[
+\min
+\left\{
+  \begin{aligned}
+    \max\left\{
+      \begin{aligned}
+        \min\{\alpha_1^1,&\ldots,\alpha_1^J\}, \\
+        &\vdots \\
+        \min\{\alpha_I^1,&\ldots,\alpha_I^J\}
+      \end{aligned}
+    \right\}
+  \end{aligned}
+  , \beta
+\right\}
+=
+\max\left\{
+  \begin{aligned}
+    \min\{\alpha_1^1,&\ldots,\alpha_1^J,\beta\}, \\
+    &\vdots \\
+    \min\{\alpha_I^1,&\ldots,\alpha_I^J,\beta\} \\
+  \end{aligned}
+\right\}
+\]
 \end{lemma}
 
-The reasoning is similar to that of Lemma \ref{lemma:Connectedness2} so the proof is omitted here. Further, a similar line of logic as Theorem \ref{thm:Afriat_Connected} suggests the following:
+\begin{proof}
+Considering the LHS, we have that:
+\[
+LHS=
+\begin{cases}
+\beta & \textrm{if } \beta\leq
+\max\left\{
+      \begin{aligned}
+        \min\{\alpha_1^1,&\ldots,\alpha_1^J\}, \\
+        &\vdots \\
+        \min\{\alpha_I^1,&\ldots,\alpha_I^J\}
+      \end{aligned}
+    \right\} \\
+    \\
+\alpha_x^y\not=\beta &\textrm {if } \alpha_x^y\leq\alpha_x^1,\ldots,\alpha_x^J \textrm{ and} \\
+& \alpha_x^y\geq \min\{\alpha_1^1,\ldots,\alpha_1^J\},\ldots,\min\{\alpha_I^1,\ldots,\alpha_I^J\} \textrm { and}\\
+& \alpha_x^y\leq \beta
+\end{cases}
+\]
+We can further write this as:
+\[
+LHS=
+\begin{cases}
+\beta & \textrm{if }\exists\ i_1\in\{1,\ldots,I\} \textrm{ such that }\forall j\in\{1,\ldots,J\}, \beta\leq\alpha_{i_1}^j \\
+\alpha_x^y\not=\beta & \textrm{if } \alpha_x^y\leq\alpha_x^j,\ \forall j\in\{1,\ldots,J\} \textrm{ and} \\
+& \forall i\in\{1,\ldots,I\},\ \exists\ j\in\{1,\ldots,J\} \textrm{ such that } \alpha_x^y\geq\alpha_i^j \textrm{ and } \\
+& \alpha_x^y\leq \beta
+\end{cases}
+\]
+Now consider the RHS, we have:
+\[
+RHS = 
+\begin{cases}
+\beta & \textrm{if }\exists\ i_1\in\{1,\ldots,I\} \textrm{ such that }\forall j\in\{1,\ldots,J\}, \beta\leq\alpha_{i_1}^j\ (*) \\
+& \textrm{i.e. } \beta\geq\alpha_{i_1}^1,\ldots,\alpha_{i_1}^J\\
+\alpha_x^y\not=\beta &\textrm{if }\alpha_x^y\leq\beta\ (***) \textrm{ and}\\
+& \alpha_x^y\leq\alpha_x^1,\ldots,\alpha_x^J \textrm{ and}\\
+& \alpha_x^y\geq \min\{\alpha_1^1,\ldots,\alpha_1^J,\beta\},\ldots,\min\{\alpha_I^1,\ldots,\alpha_I^J,\beta\}\ (**)
+\end{cases}
+\]
+Looking at $(*)$, the condition ``$\exists\ i_1\in\{1,\ldots,I\} \textrm{ such that }\forall j\in\{1,\ldots,J\}, \beta\leq\alpha_{i_1}^j$'' suffices because under such condition, $RHS=\max\{\beta, \alpha_{i_2}\ |\ i_2\in I_2\}$ where $I_2\subseteq I$ is the set of $i\in I$ such that $\forall i_2\in I_2$, $\min\{\alpha_{i_2}^1,\ldots,\alpha_{i_2}^J,\beta\}=\alpha_{i_2}\not=\beta$. By the definition of the minimum, we then have: $\alpha_{i_2}\leq\beta$ and hence, $RHS=\max\{\beta, \alpha_{i_2}\leq\beta\ |\ i_2\in I_2\}=\beta$, as desired.
 
-\begin{corr}\label{Corr:Connectedness}
-Following the set up of Lemma \ref{lemma:Connectedness2}, $\forall i\in\{1,\ldots,n\}$, $\mathcal{E}_{(\mathcal{X},\mathcal{P})}^i$ is a connected set and $0\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}^i$.
-\end{corr}
+We then look at $(**)$: $\alpha_x^y\geq \min\{\alpha_1^1,\ldots,\alpha_1^J,\beta\},\ldots,\min\{\alpha_I^1,\ldots,\alpha_I^J,\beta\}$. We can rewrite this condition as: $\alpha_x^y\geq \min\big\{\min\{\alpha_1^1,\ldots,\alpha_1^J\},\beta\big\},\ldots,\min\big\{\min\{\alpha_I^1,\\\ldots,\alpha_I^J\},\beta\big\}$. We then claim that, given the conditions of $(***)$, it suffices to write: $\alpha_x^y\geq \min\big\{\min\{\alpha_1^1,\ldots,\alpha_1^J\}\big\},\ldots,\min\big\{\min\{\alpha_I^1,\ldots,\alpha_I^J\}\big\}$ and hence $\alpha_x^y\geq \min\{\alpha_1^1,\ldots,\alpha_1^J\},\ldots,\min\{\alpha_I^1,\ldots,\alpha_I^J\}$. The following is a brief proof:
 
-Note that $0\in \mathcal{E}_{(\mathcal{X},\mathcal{P})}^i$ can be easily seen from the fact that $E_{s(0)}=\varnothing$ for all data sets $(\mathcal{X},\mathcal{P})$ as one cannot possibly observe negative prices / quantity purhcased.
+Suppose towards a contradiction that the condition written above does not suffice and the entire condition, $\alpha_x^y\geq \min\big\{\min\{\alpha_1^1,\ldots,\alpha_1^J\},\beta\big\},\ldots,\min\big\{\min\{\alpha_I^1,\\\ldots,\alpha_I^J\},\beta\big\}$, is required. Then, we know that $\exists i\in\{1,\ldots,I\}$ such that $\min\big\{\min\{\alpha_i^1,\ldots,\alpha_i^J\},\beta\big\}=\beta$. We then have that $\alpha_x^y\geq\beta$, but by $(***)$, we also have $\alpha_x^y\leq\beta$, hence we have $\alpha_x^y=\beta$, which is a direct contradiction to the initial condition of $\alpha_x^y\not=\beta$. Hence, we know that it suffices to write $\alpha_x^y\geq \min\{\alpha_1^1,\ldots,\alpha_1^J,\beta\},\ldots,\min\{\alpha_I^1,\ldots,\alpha_I^J,\beta\}$ as $\alpha_x^y\geq \min\{\alpha_1^1,\ldots,\alpha_1^J\},\ldots,\min\{\\ \alpha_I^1,\ldots,\alpha_I^J\}$, given $(***)$.
+
+Putting this all together, we have the following for the $RHS$:
+\[
+RHS=
+\begin{cases}
+\beta & \textrm{if }\exists\ i_1\in\{1,\ldots,I\} \textrm{ such that }\forall j\in\{1,\ldots,J\}, \beta\leq\alpha_{i_1}^j \\
+\alpha_x^y\not=\beta & \textrm{if } \alpha\leq\beta \textrm{ and}\\
+& \forall i\in\{1,\ldots,I\}, \exists\ j\in\{1,\ldots,J\}, \textrm{ such that } \alpha_x^y\geq\alpha_i^j \textrm{, and}\\
+& \alpha_x^y\leq\alpha_x^j,\ \forall j\in\{1,\ldots,J\}
+\end{cases}
+\]
+
+Note then that $LHS=RHS$ and hence our lemma is proven.
+\end{proof}
+
+Now we shall prove Theorem \ref{thm:CCEI_main}.
+
+\begin{proof}
+We approach this with proof by induction.
+
+\textbf{Base Case:} Let $t=2$, we then have $\lambda_2(\Omega_d,\Omega_d)=\lambda(\Omega_d,\Omega_d)$. Set arbitrary $i,j\in\{1,\ldots,k\}$ and consider:
+\begin{flalign*}
+\lambda(\Omega_d,\Omega_d)_{i,j} &=\max\big\{\min\{\Omega^d_{i,1},\Omega^d_{1,j}\},\ldots,\min\{\Omega^d_{i,k},\Omega^d_{k,j}\}\big\} &\\
+& =\max\big\{\min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in\{1,\ldots,k\}\big\}
+\end{flalign*}
+We then consider two cases:
+
+\circled{1} If $\forall f\in\{1,\ldots,k\}$, $\Omega^d_{i,f}=0$ or $\Omega^d_{f,j}=0$, then $\lambda(\Omega_d,\Omega_d)_{i,j}=0$ as $\forall i,j\in\{1,\ldots,k\}$, $\Omega^d_{i,j}\in\{0\}\cup\mathbb{R}_{\geq1}$. Thus, if $\forall f\in\{1,\ldots,k\}$, $\Omega^d_{i,f}=0$ or $\Omega^d_{f,j}=0$, then $\lambda(\Omega_d,\Omega_d)_{i,j}=\max\{0,\ldots,0\}=0$.
+
+\circled{2} Suppose $\exists F\subseteq\{1,\ldots,k\}$ (where $F\not=\varnothing$) such that $\forall f\in F$, $\Omega^d_{i,f}\geq1$ and $\Omega^d_{f,j}\geq1$. We then have $\lambda(\Omega_d,\Omega_d)_{i,j}=\max\big\{\min\{\Omega^d_{i,f},\Omega^d_{f,j}\}, 0\ |\ f\in F\big\}=\max\big\{\min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$.
+
+Considering \circled{1} and \circled{2}, we have precisely the definition in our claim:
+
+For \circled{1}, if $\nexists f$ such that $\Omega^d_{i,f}\geq1$ and $\Omega^d_{f,j}\geq1$, then we know $(X_i,X_f)\not\in E_d$ or $(X_f, X_j)\not\in E_d$ for all $f\in\{1,\ldots,k\}$. Hence, $\nexists (X^v)_{v=1}^1=X^v$ such that $X^v\in \mathcal{X}$ and $(X_i,X^v)\in E_d$ and $(X^v,X_j)\in E_d$, which is precisely our condition in the first case of the formalized version of our claim.
+
+For \circled{2}, we have that $\lambda(\Omega_d,\Omega_d)_{i,j}=\max\big\{\min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$, where $\varnothing\not=F\subseteq\{1,\ldots,k\}$ such that $\forall f\in F$, $\Omega^d_{i,f}\geq1$ and $\Omega^d_{f,j}\geq1$. We then know that, $\forall f\in F$, $(X_i,X_f)\in E_d$ and $(X_f,X_j)\in E_d$. Then, we know that $\exists(X^{uv})_{u,v=1}^{u=U,\ v=1}=(X^{u1})_{u=1}^{U}$ (for $U=|F|$) such that $\forall u$, $X^{u1}\in\mathcal{X}$ and $(X_i,X^{u1})\in E_d$ and $(X^{u1},X_j)\in E_d$. We then have:
+\begin{flalign*}
+\lambda(\Omega_d,\Omega_d)_{i,j} &= \max\big\{\min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\} &\\
+& = \max\big\{\min\{W_d\big((X_i, X_f)\big), W_d\big((X_f,X_j)\big)\}\ |\ f\in F\big\} &\\
+& = \max\big\{\min\{W_d\big((X_i, X^{u1})\big), W_d\big((X^{u1},X_j)\big)\}\ |\ u\in\{1,\ldots,U\}\big\} &\\
+& \textrm{ by construction of } F \textrm{ and }(X^{u1})_{u=1}^{U}
+\end{flalign*}
+Which is precisely our value in the second case of the formalized version of our claim. Combining those, our base case is complete.
+
+\textbf{Inductive Case:} Let $t=n>2$, we then have: 
+\[
+\lambda_n(\underbrace{\Omega_d,\ldots,\Omega_d}_\text{n times})=\underbrace{\lambda(\cdots\lambda(\lambda(\lambda(}_\text{n-1 times}
+    \Omega_d,\Omega_d),\Omega_d),\Omega_d,\ldots, \Omega_d)
+\]
+
+For the ease of notation, we will denote the matrix $\lambda_n(\Omega_d,\ldots,\Omega_d)=\lambda^n(\Omega_d)$. We then assume the following:
+\[
+\lambda^n(\Omega_d)_{i,j}=
+\begin{cases}
+0 & \textrm{if } \nexists (X^v)_{v=1}^{n-1} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
+  & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
+  & (X^{n-1},X_j)\in E_d\\ 
+\rho_{i,j} & \textrm{if }\exists (X^{uv})_{u,v=1}^{u=U,\ v=n-1}\ (\textrm{for some }U\geq1) \\
+  & \textrm{such that }\forall u,\ \forall v,\ X^{uv}\in\mathcal{X} \textrm{ and } \\
+  & (X^{uv},X^{u(v+1)})\in E_d, (X_i, X^{u1})\in E_d \textrm{ and } \\
+  & (X^{u(n-1)},X_j)\in E_d, \textrm{ then: } \\
+  & \rho_{i,j}=\max\Big\{\min\big\{W_d\big((X_i,X^{u1})\big),W_d\big((X^{uv},X^{u(v+1)})\big), \\
+  & W_d\big((X^{u(n-1)},X_j)\big)\ |\ v\in\{1,\ldots,n-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\}
+\end{cases}
+\]
+Now let $t=n+1$, we then have:
+\begin{flalign*}
+\lambda_{n+1}(\underbrace{\Omega_d,\ldots,\Omega_d}_\text{n+1 times}) &=\underbrace{\lambda\bigl(\cdots\lambda(\lambda(\lambda(}_\text{n times}
+    \Omega_d,\Omega_d),\Omega_d),\Omega_d,\ldots, \Omega_d \bigr) &\\
+& =\lambda\bigl(\underbrace{\lambda(\cdots\lambda(\lambda(\lambda(}_\text{n-1 times}
+    \Omega_d,\Omega_d),\Omega_d),\Omega_d,\ldots, \Omega_d),\Omega_d\bigr) &\\
+& =\lambda\bigl(\lambda_n(\underbrace{\Omega_d,\ldots,\Omega_d}_\text{n times}),\Omega_d\bigr) &\\
+& =\lambda\bigl(\lambda^n(\Omega_d),\Omega_d\bigr)
+\end{flalign*}
+
+Similarly, we denote $\lambda_{n+1}(\Omega_d,\ldots,\Omega_d)=\lambda^{n+1}(\Omega_d)$. We then have:
+\begin{flalign*}
+\lambda^{n+1}(\Omega_d)_{i,j} &=\lambda\bigl(\lambda^n(\Omega_d),\Omega_d\bigr)_{i,j} &\\
+& =\max\bigl\{\min\{\lambda^n(\Omega_d)_{i,l},\Omega^d_{l,j}\}\ |\ l\in\{1,\ldots,k\}\bigr\} 
+\end{flalign*}
+
+We then have the following 2 cases:
+
+\circled{1} If $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=0$ or $\Omega^d_{l,j}=0$, then $\lambda^{n+1}(\Omega_d)_{i,j}=0$. This is because $\forall i,j\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,j},\ \Omega^d_{i,j}\in\{0\}\cup\mathbb{R}_{\geq1}$ (since elements of $\lambda^n(\Omega_d)$ are simply drawn from elements of $\Omega_d$). Thus, if $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=0$ or $\Omega^d_{l,j}=0$, then $\lambda^{n+1}(\Omega_d)_{i,j}=\max\{0,\ldots,0\}=0$.
+
+\circled{2} If $\exists L\in\{1,\ldots,k\}$ (where $L\not=\varnothing$) such that $\forall l\in L$, $\lambda^n(\Omega_d)_{i,l}\geq1$ and $\Omega^d_{l,j}\geq1$, then: $\lambda^{n+1}(\Omega_d)_{i,j}=\max\big\{\min\{\lambda^n(\Omega_d)_{i,l}, \Omega^d_{l,j},0\}\ |\ l\in L\big\}=\max\big\{\min\{\lambda^n(\Omega_d)_{i,l}, \Omega^d_{l,j}\}\ |\ l\in L\big\}$
+
+Again, considering \circled{1} and \circled{2}, we have precisely our formalized claim:
+
+For \circled{1}, if $\forall l\in\{1,\ldots,k\}$, $\lambda^n(\Omega_d)_{i,l}=0$ or $\Omega^d_{l,j}=0$, then we know that, $\forall l$, $\Big[\nexists (X^v)_{v=1}^{n-1}$ such that $\forall v$, $X^v\in\mathcal{X}$ and $(X^v, X^{v+1})\in E_d$, $(X_i,X^1)\in E_d$ and $(X^{n-1},X_l)\in E_d\Big]$ or $\Big[ (X_l,X_j)\not\in E_d\Big]$. Hence, we know $\nexists (X^v)_{v=1}^{n}$ such that $\forall v$, $X^v\in \mathcal{X}$ and $(X^v, X^{v+1})\in E_d$, $(X_i, X^1)\in E_d$ and $(X^n,X_j)\in E_d$, which is precisely the condition in the first case of our formalized claim, then we have $\lambda^{n+1}(\Omega_d)=0$.
+
+For \circled{2}, we have that $\lambda^{n+1}(\Omega_d)_{i,j}=\max\big\{\min\{\lambda^n(\Omega_d)_{i,l},\Omega^d_{l,j}\}\ |\ l\in L\big\}$, where $\varnothing\not=L\subseteq\{1,\ldots,k\}$ such that $\forall l\in L$, $\lambda^n(\Omega_d)_{i,l}\geq1$ and $\Omega^d_{l,j}\geq1$. By the definition of $\lambda_n$ function, we know that if $\lambda^n(\Omega_d)_{i,l}\not=\rho_{i,l}$, then $\lambda^n(\Omega_d)_{i,l}=0$. Taking the contrapositive, we have that if $\lambda^n(\Omega_d)_{i,l}\not=0$, then $\lambda^n(\Omega_d)_{i,l}=\rho_{i,l}$ (as $\rho_{i,l}$ is defined in the function). Since we have $0\not=\lambda^n(\Omega_d)_{i,l}\geq1$, we then know that $\lambda^n(\Omega_d)_{i,l}=\rho_{i,l}$. We then have that:
+\begin{flalign*}
+\lambda^{n+1}(\Omega_d)_{i,j} & =\max\big\{\min\{\lambda^n(\Omega_d)_{i,l},\Omega^d_{l,j}\}\ |\ l\in L\big\} &\\
+& = \max\big\{\min\{\rho_{i,l},\Omega^d_{l,j}\}\ |\ l\in L\big\}
+\end{flalign*}
+We then let $l_m\in L$ denote the $m^{th}$ element of $L$ such that $L=\{l_1,\ldots,l_{|L|}\}$. Then, $\forall l_m\in L$, by definition, $\exists (X_{l_m}^{uv})_{u,v=1}^{v=n-1,\ u=U_m}$ such that $\forall u,\ \forall v$, $X_{l_m}^{uv}\in\mathcal{X}$ and $(X_{l_m}^{uv},X_{l_i}^{u(v+1)})\in E_d$, and $(X_i,X_{l_m}^{u1})\in E_d$ and $(X_{l_m}^{u(n-1)},X_{l_m})\in E_d$. Then applying the definitions of $\rho_{i,l}$ and $\Omega_{i,j}^d$, we have:
+
+\[
+\lambda^{n+1}(\Omega_d)_{i,j} =\max
+\left\{
+  \begin{aligned}
+    &\min
+      \left\{
+      \begin{aligned}
+        &\max
+          \left\{
+          \begin{aligned}
+            &\min\left\{
+            \begin{aligned}
+            &W_d\big((X_i,X_{l_1}^{u1})\big), W_d\big((X_{l_1}^{uv},X_{l_1}^{u(v+1)})\big), \\
+            &W_d\big((X_{l_1}^{u(n-1)},X_{l_1})\big)\ |\ v\in\{1,\ldots,n-2\}
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_1\}
+          \end{aligned}
+          \right\} \\
+          &, W_d\big((X_{l_1},X_j)\big)
+      \end{aligned}
+      \right\} \\
+      &\vdots \\
+      &\vdots \\
+    &min
+      \left\{
+      \begin{aligned}
+        &\max
+          \left\{
+          \begin{aligned}
+            &\min\left\{
+            \begin{aligned}
+            &W_d\big((X_i,X_{l_{|L|}}^{u1})\big), W_d\big((X_{l_{|L|}}^{uv},X_{l_{|L|}}^{u(v+1)})\big), \\
+            &W_d\big((X_{l_{|L|}}^{u(n-1)},X_{l_{|L|}})\big)\ |\ v\in\{1,\ldots,n-2\}
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_{|L|}\}
+          \end{aligned}
+          \right\} \\
+          &, W_d\big((X_{l_{|L|}},X_j)\big)
+      \end{aligned}
+      \right\} \\
+  \end{aligned}
+\right\}
+\]
+
+We then construct a sequence $(X^m)_{m=1}^M$ that's in bijection of the set $\{X_l\ |\ l\in L\}=\big\{X_{l_m}\ |\ m\in\{1,\ldots,|L|\}\big\}$. We then would have $M=|L|$, by construction. Using this notation, we have:
+\[
+\lambda^{n+1}(\Omega_d)_{i,j} =\max
+\left\{
+  \begin{aligned}
+    &\min
+      \left\{
+      \begin{aligned}
+        &\max
+          \left\{
+          \begin{aligned}
+            &\min\left\{
+            \begin{aligned}
+            &W_d\big((X_i,X^{1(u)1})\big), W_d\big((X^{1uv},X^{1u(v+1)})\big), \\
+            &W_d\big((X^{1u(n-1)},X^1)\big)\ |\ v\in\{1,\ldots,n-2\}
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_1\}
+          \end{aligned}
+          \right\} \\
+          &, W_d\big((X^1,X_j)\big)
+      \end{aligned}
+      \right\} \\
+      &\vdots \\
+      &\vdots \\
+    &min
+      \left\{
+      \begin{aligned}
+        &\max
+          \left\{
+          \begin{aligned}
+            &\min\left\{
+            \begin{aligned}
+            &W_d\big((X_i,X^{Mu1})\big), W_d\big((X^{Muv},X^{Mu(v+1)})\big), \\
+            &W_d\big((X^{Mu(n-1)},X^M)\big)\ |\ v\in\{1,\ldots,n-2\}
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_M\}
+          \end{aligned}
+          \right\} \\
+          &, W_d\big((X^M,X_j)\big)
+      \end{aligned}
+      \right\} \\
+  \end{aligned}
+\right\}
+\]
+
+Note that the superscripts are indexed as $X^{muv}$. Now, we fix a particular $m$ and apply Lemma \ref{lemma:minmax_dist}, as follows:
+
+\[
+\begin{aligned}
+&\min
+      \left\{
+      \begin{aligned}
+        &\max
+          \left\{
+          \begin{aligned}
+            &\min\left\{
+            \begin{aligned}
+            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{muv},X^{mu(v+1)})\big), \\
+            &W_d\big((X^{mu(n-1)},X^m)\big)\ |\ v\in\{1,\ldots,n-2\}
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_m\}
+          \end{aligned}
+          \right\} \\
+          &, W_d\big((X^m,X_j)\big)
+      \end{aligned}
+      \right\} \\
+      &= \\
+&\max
+          \left\{
+          \begin{aligned}
+            &\min\left\{
+            \begin{aligned}
+            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{muv},X^{mu(v+1)})\big), \\
+            &W_d\big((X^{mu(n-1)},X^m)\big), W_d\big((X^m,X_j)\big)\ \\
+            &|\ v\in\{1,\ldots,n-2\}
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_m\}
+          \end{aligned}
+          \right\}
+\end{aligned}
+\]
+
+Fixing a particular $u\in\{1,\ldots,U_m\}$ (with the already fixed $m$), we construct a sequence $(X^{mug})_{g=1}^{g=n}$ such that $(X^{mug})_{g=1}^n=((X^{muv})_{v=1}^{n-1}),X^m)$. Hence, we have that $X^{mun}=X^m$ We then can write, for a fixed $m$, the following:
+
+\[
+\begin{aligned}
+&\max
+          \left\{
+          \begin{aligned}
+            &\min\left\{
+            \begin{aligned}
+            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{mug},X^{mu(g+1)})\big), \\
+            &W_d\big((X^{mun},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_m\}
+          \end{aligned}
+          \right\}
+\end{aligned}
+\]
+
+
+
+Using this equality, we then have:
+\[
+\lambda^{n+1}(\Omega_d)_{i,j} =\max
+\left\{
+  \begin{aligned}
+  &\max
+          \left\{
+          \begin{aligned}
+            &\min\left\{
+            \begin{aligned}
+            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{mug},X^{mu(g+1)})\big), \\
+            &W_d\big((X^{mun},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_m\}
+          \end{aligned}
+          \right\} \\
+  & m\in\{i,\ldots,M\}
+  \end{aligned}
+\right\}
+\]
+
+Grouping the two maximums, we have:
+\[
+\lambda^{n+1}(\Omega_d)_{i,j} =\max
+\left\{
+  \begin{aligned}
+            &\min\left\{
+            \begin{aligned}
+            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{mug},X^{mu(g+1)})\big), \\
+            &W_d\big((X^{mun},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
+            \end{aligned}
+            \right\} \\
+            &|\ u\in\{1,\ldots,U_m\},\ m\in\{i,\ldots,M\}
+  \end{aligned}
+\right\}
+\]
+
+Now, consider the sequence $(X^{mug})_{m,u,g=1}^{m=M,\ u=U_m,\ g=n}$. Fixing a particular $g$, we have $(X^{mu})_{m,u=1}^{m=M,\ u=U_m}$. Then construct a sequence $(X^z)_{z=1}^Z$ in bijection of $(X^{mu})_{m,u=1}^{m=M,\ u=U_m}$ such that $Z=\sum_{m\in M}U_m$. We then have the following: 
+
+\[
+\lambda^{n+1}(\Omega_d)_{i,j} =\max
+\left\{
+  \begin{aligned}
+            &\min\left\{
+            \begin{aligned}
+            &W_d\big((X_i,X^{z1})\big), W_d\big((X^{zg},X^{z(g+1)})\big), \\
+            &W_d\big((X^{zn},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
+            \end{aligned}
+            \right\} \\
+            &|\ z\in\{1,\ldots,Z\}
+  \end{aligned}
+\right\}
+\]
+
+With \circled{1} and \circled{2}, we have the following:
+
+\[
+\lambda^{n+1}(\Omega_d)_{i,j}=
+\begin{cases}
+0 & \textrm{if } \nexists (X^v)_{v=1}^{n} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
+  & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
+  & (X^{n},X_j)\in E_d\\ 
+\rho_{i,j} & \textrm{if }\exists (X^{zg})_{z,g=1}^{z=Z,\ g=n}\ (\textrm{for some }Z\geq1) \\
+  & \textrm{such that }\forall z,\ \forall g,\ X^{zg}\in\mathcal{X} \textrm{ and } \\
+  & (X^{zg},X^{z(g+1)})\in E_d, (X_i, X^{z1})\in E_d \textrm{ and } \\
+  & (X^{zn},X_j)\in E_d, \textrm{ then: } \\
+  & \rho_{i,j}=\max\Big\{\min\big\{W_d\big((X_i,X^{z1})\big),W_d\big((X^{zg},X^{z(g+1)})\big), \\
+  & W_d\big((X^{zn},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\big\}\ |\ z\in\{1,\ldots,Z\}\Big\}
+\end{cases}
+\]
+Hence, our inductive case is proven.
 \end{proof}
 
 \bibliographystyle{plainnat}
