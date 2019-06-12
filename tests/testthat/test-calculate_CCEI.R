@@ -26,7 +26,7 @@ data(noGarp)
 colnames(noGarp$x) <- c("x1", "x2", "x3")
 colnames(noGarp$p) <- c("p1", "p2", "p3")
 
-noGarp_df<- gather_data(noGarp)
+noGarp_df <- gather_data(noGarp)
 noGarp_df$id <- 3
 
 # noSarp ------------------------------------------------------------------
@@ -50,12 +50,12 @@ all_tests <- rbind(noAxiom_df, noWarp_df, noGarp_df, okSarp_df)
 
 # Create Tests -------------------------------------------------------------------
 
-test_that("output is correct", {
-  x <- calculate_CCEI(noGarp_df, step = .1, x1, x2, x3, p1, p2, p3)
-  # y <- calculate_CCEI(noGarp_df, step = .01, x1, x2, x3, p1, p2, p3)
-  z <- calculate_CCEI(noGarp_df, step = .001, x1, x2, x3, p1, p2, p3)
-  
-  expect_equal(x, .9)
-  # expect_equal(y, .98)
-  expect_equal(z, .987)
+test_that("CCEI output is correct", {
+  expect_equal(calculate_CCEI(noGarp_df, step = .1, x1, x2, x3, p1, p2, p3), .9)
+  expect_equal(calculate_CCEI(noGarp_df, step = .001, x1, x2, x3, p1, p2, p3), .987)
+})
+
+
+test_that("CCEI function version 2 output is correct", {
+  expect_equal(calculate_CCEI_2(noGarp_df, x1, x2, x3, p1, p2, p3), .987)
 })
