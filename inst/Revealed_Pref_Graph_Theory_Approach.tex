@@ -47,10 +47,10 @@
   {} % Theorem head spec (can be left empty, meaning `normal')
 \theoremstyle{style1}
 \newtheorem{theorem}{Theorem} 
-\newtheorem{definition}{Definition} % this lets us create definition blocks as below
+\newtheorem{definition}{Definition}
 \newtheorem{remark}{Remark}
 \newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corr}[theorem]{Corollary}
+\newtheorem{corollary}{Corollary}
 
 \usepackage{thmtools}
 \usepackage{thm-restate}
@@ -59,7 +59,9 @@
 
 \usepackage{cleveref}
 
+\theoremstyle{style1}
 \declaretheorem[name=Theorem]{thm}
+\declaretheorem[name=Corollary, numberwithin=thm]{cor}
 
 \newtheoremstyle{example}{}{}{}{}{\bfseries}{\smallskip}{\newline}{}
 \theoremstyle{example}
@@ -76,6 +78,7 @@ Prior literature on consumer behavior and revealed preferences focus on the nece
 \end{abstract}
 
 \section{Existing Literature and Axioms}
+
 
 Suppose an individual is observed over $k$ (a finite number of) periods. Let $\mathcal{X}=\{X_1,\ldots,X_k\}$ be the set of quantity vectors such that $\forall i\in\{1,\ldots,k\}$, $X_i=(x_{i1},\ldots,x_{in})$, where $x_{ij}$ represents the number of good $j$ bought at time $i$. Further, let $\mathcal{P}=\{P_1,\ldots,P_k\}$ be the set of price vectors constructed in similar fashion as the quantity vectors. We then define a following set of relations between elements of $\mathcal{X}$:
 
@@ -683,13 +686,22 @@ It's clear that $0\in \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}$ (the minimumal 
 $$\mathcal{E}_{(\mathcal{X},\mathcal{P})} = \bigcap_{V\in\mathcal{V}}\mathcal{E}^V_{(\mathcal{X},\mathcal{P})} = \mathcal{E}^{V^*}_{(\mathcal{X},\mathcal{P})}$$
 where $V^*\in\mathcal{V}$ is such that $\mathcal{E}^{V^*}_{(\mathcal{X},\mathcal{P})}\subseteq \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}$ for all $V\in\mathcal{V}$. The above equality indicates that, to calculate the least upperbound of $\mathcal{E}_{(\mathcal{X},\mathcal{P})}$, one simply has to calculate the least upperbound of each $\mathcal{E}^V_{(\mathcal{X},\mathcal{P})}$ and take the minimum across $V\in\mathcal{V}$:
 $$\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})} = \min\left\{\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\ |\ V\in\mathcal{V}\right\}$$
-On the other hand, this is the same as analyzing all violating cycles $V\in\mathcal{V}$, finding the easiest edge to remove in each violating cycle (equivalent to finding least upperbound of each violating cycle), and determining the hardest cycle to remove based on their easiest edges (equivalent to taking the minimum across all violating cycles).
+On the other hand, this is the same as analyzing all violating cycles $V\in\mathcal{V}$, finding the easiest edge to remove in each violating cycle (equivalent to finding least upperbound of each violating cycle), and determining the hardest cycle to remove based on their easiest edges (equivalent to taking the minimum across all violating cycles). 
 
 To connect the above results to our approach with weighted digraphs, consider the following:
-\begin{align*}\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})} &= \left(\frac{1}{\min\left\{\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\ |\ V\in\mathcal{V}\right\}}\right)^{-1} \\ &= \left(\max\left\{\inf
-\left(\frac{1}{\mathcal{E}^V_{(\mathcal{X},\mathcal{P})}}\right)\ |\ V\in\mathcal{V}\right\}\right)^{-1}
-\end{align*}
-Note then that, $\forall V\in\mathcal{V}$, we have $\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})} = \frac{P_iX_j}{P_iX_i}$ for some $i,j\in\{1,\ldots,k\}$ where $i\not=j$ since either $\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}$ is supposed to remove an edge on $G_s$ or, $\forall \epsilon>0$, $\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})} - \epsilon$ is supposed to remove a walk (by removing some edge along it) on $G_d$. Hence, $\forall V\in\mathcal{V}$, $\left(\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\right)^{-1}$ is an element of $\Omega_d$ or $\Omega_s$ since it's of the form $\frac{P_iX_i}{P_iX_j}$. Now we begin to construct the algorithm for Afriat's CCEI.
+\begin{flalign*}\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})} &= \left(\frac{1}{\min\left\{\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\ |\ V\in\mathcal{V}\right\}}\right)^{-1} &\\ 
+&= \left(\max\left\{\inf
+\left(\mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\right)^{-1}\ |\ V\in\mathcal{V}\right\}\right)^{-1}
+\end{flalign*}
+where every set $\left(\mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\right)^{-1} = \left\{\frac{1}{e}\ |\ e\in \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\right\}$. Note then that, $\forall V\in\mathcal{V}$, we have $\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})} = \frac{P_iX_j}{P_iX_i}$ for some $i,j\in\{1,\ldots,k\}$ where $i\not=j$ since either $\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})}$ is supposed to remove an edge on $G_s$ or, $\forall \epsilon>0$, $\sup \mathcal{E}^V_{(\mathcal{X},\mathcal{P})} - \epsilon$ is supposed to remove a walk (by removing some edge along it) on $G_d$. Hence, $\forall V\in\mathcal{V}$, $\inf\left(\left(\mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\right)^{-1}\right)$ is an element of $\Omega_d$ or $\Omega_s$ as it's of the form $\frac{P_iX_i}{P_iX_j}$. We can break down this definition even further. Note that every violating cycle $V\in\mathcal{V}$ two components: a walk between some $X_i$ to some $X_j$ in $G_d$ and $(X_j,X_i)\in E_s$. For all $V\in\mathcal{V}$, denote the walk component of $V$ as $\mathcal{L}_{V}$. As before, we define:
+$$\mathcal{E}^{\mathcal{L}_{V}}_{(\mathcal{X},\mathcal{P})} = \{e\in[0,1]\ |\ \mathcal{L}_V\textrm{ is no longer present in }G_{d(e)}\textrm{ and }G_{s(e)}\}$$
+Further, $\forall V\in\mathcal{V}$, define $e_V$ as \emph{the ratio of the edge }in $E_s$ associated with $V$. More specifically, fix $V$ and let $\mathcal{L}_V$ denote a walk from $X_i$ to $X_j$ on $G_d$, hence $(X_j,X_i)\in E_s$ and thus $e_V=\frac{P_jX_i}{P_jX_j}$ Then consider
+\begin{flalign*}\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})} &= \left(\max\left\{\inf\left(\mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\right)^{-1}\ |\ V\in\mathcal{V}\right\}\right)^{-1} &\\
+& = \left(\max\left\{\min\left\{\inf\left(\mathcal{E}^{\mathcal{L}_V}_{(\mathcal{X},\mathcal{P})}\right)^{-1},e_V^{-1}\right\}\ |\ V\in\mathcal{V}\right\}\right)^{-1}
+\end{flalign*}
+with each $\left(\mathcal{E}^{\mathcal{L}_V}_{(\mathcal{X},\mathcal{P})}\right)^{-1} = \left\{\frac{1}{e}\ |\ e\in \mathcal{E}^{\mathcal{L}_{V}}_{(\mathcal{X},\mathcal{P})} \right\}$. The last equality is apparent in that, fixing $V\in\mathcal{V}$, the greatest lower bound of the set $\left(\mathcal{E}^V_{(\mathcal{X},\mathcal{P})}\right)^{-1}$ would be the smaller value between the greatest lower bound of the walk associated with $V$ and $e_V^{-1}$, with the latter representing the ``edge component'' of the violating cycle $V$.
+
+Now we begin to construct the algorithm for Afriat's CCEI.
 
 First, define function $\lambda:\mathbb{R}^{m\times m} \times \mathbb{R}^{m\times m} \to \mathbb{R}^{m\times m}$ as follows:
 
@@ -747,7 +759,7 @@ Note that $\forall i,j$, $\rho_{i,j}\geq1$ since $W_d$ is the weight function as
   \end{cases}
 \]
 \end{restatable}
-The claim of Theorem \ref{thm:CCEI_main} can be better explained with the following illustration. Let $t=3$ and uppose that for $X_i,X_j\in\mathcal{X}$, the only walks that connect $X_i$ to $X_j$ with 3 edges are as follows:
+The claim of Theorem \ref{thm:CCEI_main} can be better explained with the following illustration. Let $t=3$ and suppose that for $X_i,X_j\in\mathcal{X}$, the only walks that connect $X_i$ to $X_j$ with 3 edges are as follows:
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[scale = 1.5]
@@ -775,7 +787,27 @@ The claim of Theorem \ref{thm:CCEI_main} can be better explained with the follow
 \end{tikzpicture}
 \caption{Illustration of Theorem \ref{thm:CCEI_main}} \label{fig:example1_graph}
 \end{figure}
-One can see there are three distinct walks from $X_i$ to $X_j$, as colored with blue, red, and green (note that the edge from $X_i$ to the vertex just right of it, labelled with 3, belongs to both the blue and red walks). Then, Theorem \ref{thm:CCEI_main} claims that $\lambda^3(\Omega_d) = 1.7$ with $\Omega_d$ as the adjacency matrix for the weighted digraph that contains the illustrated paths. This can be seen as the smallest ratio of the blue preference chain is 1.7; the smallest ratio of the red preference chain is 1; and the smallest ratio of the green preference chain is 1.2, thus the maximum across those values is 1.7. The full proof of Theorem \ref{thm:CCEI_main} is quite complicated and presented in the Appendix.
+One can see there are three distinct walks from $X_i$ to $X_j$, as colored with blue, red, and green (note that the edge from $X_i$ to the vertex just right of it, labelled with 3, belongs to both the blue and red walks). Then, Theorem \ref{thm:CCEI_main} claims that $\lambda^3(\Omega_d) = 1.7$ with $\Omega_d$ as the adjacency matrix for the weighted digraph that contains the illustrated paths. This can be seen as the smallest ratio of the blue preference chain is 1.7; the smallest ratio of the red preference chain is 1; and the smallest ratio of the green preference chain is 1.2, thus the maximum across those values is 1.7. The full proof of Theorem \ref{thm:CCEI_main} is quite lengthy and presented in the Appendix.
+
+Now define a $k\times k$ matrix $\Lambda$ such that $\forall i,j\in\{1,\ldots,k\}$, we have that $\Lambda_{i,j}=\max\{\Omega_{d_{i,j}},\lambda^2(\Omega_d)_{i,j},\lambda^3(\Omega_d)_{i,j},\ldots,\lambda^{k-1}(\Omega_d)_{i,j}\}$. Hence $\Lambda$ is the element-wise maximization of matrices $\Omega_{d_{i,j}},\lambda^2(\Omega_d),\ldots,\lambda^{k-1}(\Omega_d)$. 
+
+\begin{restatable}{cor}{CCEImainCor1}\label{thm:CCEI_mainCor1}
+$\Lambda_{i,j}=\varrho_{i,j}\geq1$, $\forall i,j\{1,\ldots,k\}$ such that $i\not=j$, represents the weight of the strongest edge among the weakest edges of all walks, regardless the number of edges in the walks, from $X_i$ to $X_j$ on $G_d$.
+\end{restatable}
+
+\begin{restatable}{cor}{CCEImainCor2}\label{thm:CCEI_mainCor2}
+If $\Lambda_{i,j}=0$, then $\nexists$ any walk from $X_i$ to $X_j$ on $G_d$.
+\end{restatable}
+
+\begin{restatable}{thm}{CCEIone}
+\label{thm:CCEI_1}
+$\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=0$ if and only if the dataset $(\mathcal{X},\mathcal{P})$ has no GARP violations. 
+\end{restatable}
+
+\begin{restatable}{thm}{CCEItwo}
+\label{thm:CCEI_2}
+Let $\psi = \max\big\{\lambda(\Lambda,\Omega_s)_{i,i}\ |\ i\in\{1,\ldots,k\}\big\}$ and let $e^*=\frac{1}{\psi}$. The $e^*$ is the CCEI score related to the dataset $(\mathcal{X},\mathcal{P})$.
+\end{restatable}
 
 \section{Appendix}
 \WGARP*
