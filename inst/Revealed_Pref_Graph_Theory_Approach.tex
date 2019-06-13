@@ -192,7 +192,7 @@ GARP&$X_i \mathbf{R} X_j$&$\neg(X_j  \mathbf{R_{SD}} X_i)$
 \caption{Summary of Axioms} \label{fig:axioms_summary}
 \end{figure}
 
-The following graph further illustrates the relationships between each axiom:
+The following graph further illustrates the relationships between each axiom by creating a partial order between them:
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
@@ -223,8 +223,9 @@ The following graph further illustrates the relationships between each axiom:
 \node[label={200:{SARP}}, circle, fill, inner sep=2pt, color=black] at (axis cs:3,3) {};
     \end{axis}
 \end{tikzpicture}
-\caption{Axioms as Partial Orders} \label{fig:PartialOrder1}
+\caption{Partial Order of Axioms} \label{fig:PartialOrder1}
 \end{figure}
+Note that SARP has the ``highest'' order in that if data set $(\mathcal{X},\mathcal{P})$ passes SARP, it naturally passes every other axiom. However, there's no relation between WARP and GARP, as a set of choice data may fail WARP but pass GARP (as illustrated earlier). At last, WGARP is the ``weakest'' axiom in that if $(\mathcal{X},\mathcal{P})$ fails WGARP, it will fail every other axiom.
 
 \section{Revealed Preferences as Directed Graphs}\label{sec:rev_pref_as_digraph}
 
@@ -789,15 +790,15 @@ The claim of Theorem \ref{thm:CCEI_main} can be better explained with the follow
 \end{figure}
 One can see there are three distinct walks from $X_i$ to $X_j$, as colored with blue, red, and green (note that the edge from $X_i$ to the vertex just right of it, labelled with 3, belongs to both the blue and red walks). Then, Theorem \ref{thm:CCEI_main} claims that $\lambda^3(\Omega_d) = 1.7$ with $\Omega_d$ as the adjacency matrix for the weighted digraph that contains the illustrated paths. This can be seen as the smallest ratio of the blue preference chain is 1.7; the smallest ratio of the red preference chain is 1; and the smallest ratio of the green preference chain is 1.2, thus the maximum across those values is 1.7. The full proof of Theorem \ref{thm:CCEI_main} is quite lengthy and presented in the Appendix.
 
-Now define a $k\times k$ matrix $\Lambda$ such that $\forall i,j\in\{1,\ldots,k\}$, we have that $\Lambda_{i,j}=\max\{\Omega_{d_{i,j}},\lambda^2(\Omega_d)_{i,j},\lambda^3(\Omega_d)_{i,j},\ldots,\lambda^{k-1}(\Omega_d)_{i,j}\}$. Hence $\Lambda$ is the element-wise maximization of matrices $\Omega_{d_{i,j}},\lambda^2(\Omega_d),\ldots,\lambda^{k-1}(\Omega_d)$. 
+Now define a $k\times k$ matrix $\Lambda$ such that $\forall i,j\in\{1,\ldots,k\}$, we have that $\Lambda_{i,j}=\max\{\Omega_{d_{i,j}},\lambda^2(\Omega_d)_{i,j},\lambda^3(\Omega_d)_{i,j},\ldots,\lambda^{k-1}(\Omega_d)_{i,j}\}$. Hence $\Lambda$ is the element-wise maximization of matrices $\Omega_{d},\lambda^2(\Omega_d),\ldots,\lambda^{k-1}(\Omega_d)$. 
 
-\begin{restatable}{cor}{CCEImainCor1}\label{thm:CCEI_mainCor1}
+\begin{restatable}{cor}{CCEImainCORone}\label{cor:CCEI_mainCor1}
 $\Lambda_{i,j}=\varrho_{i,j}\geq1$, $\forall i,j\{1,\ldots,k\}$ such that $i\not=j$, represents the weight of the strongest edge among the weakest edges of all walks, regardless the number of edges in the walks, from $X_i$ to $X_j$ on $G_d$.
 \end{restatable}
 
 This comes directly from Theorem \ref{thm:CCEI_main}, as each $\lambda^t(\Omega_d)_{i,j}$ represents the weight of the strongest edge among the weakest edge of \textit{walks of} $t$ \textit{edges} from $X_i$ to $X_j$ on $G_d$. Taking the maximum across $t\in\{2,\ldots,k-1\}$ would cover the strongest edge among weakest edge of all walks with two edges or greater (regardless of number of edges) and $\Omega_{d_{i,j}}$ represent exactly the case with walks of only one edge. We iterate up to $k-1$ as there are only $k$ total of vertices and we have $i\not=j$.
 
-\begin{restatable}{cor}{CCEImainCor2}\label{thm:CCEI_mainCor2}
+\begin{restatable}{cor}{CCEImainCORtwo}\label{cor:CCEI_mainCor2}
 If $\Lambda_{i,j}=0$, then $\nexists$ any walk from $X_i$ to $X_j$ on $G_d$.
 \end{restatable}
 
@@ -810,10 +811,25 @@ $$\Omega_{d_{i,j}}=\lambda^2(\Omega_d)_{i,j}=\lambda^3(\Omega_d)_{i,j}=\ldots=\l
 $\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=0$ if and only if the dataset $(\mathcal{X},\mathcal{P})$ has no GARP violations. 
 \end{restatable}
 
+This is similar to the result of Theorem \ref{thm:GARP}, as it tests for walks in $G_d$ and edges in $E_s$. The formal proof is provided in the appendix. 
+
 \begin{restatable}{thm}{CCEItwo}
 \label{thm:CCEI_2}
-Suppose data set $(\mathcal{X},\mathcal{P})$ is such that $\exists i\in\{1,\ldots,k\}$ where $\lambda(\Lambda,\Omega_s)_{i,i}\not=0\ (\textrm{i.e. }\geq1)$. Let $\psi = \max\big\{\lambda(\Lambda,\Omega_s)_{i,i}\ |\ i\in\{1,\ldots,k\}\big\}$ and let $e^*=\frac{1}{\psi}$. Then $e^*$ is the CCEI score related to the dataset $(\mathcal{X},\mathcal{P})$.
+Suppose data set $(\mathcal{X},\mathcal{P})$ is such that $\exists i\in\{1,\ldots,k\}$ where $\lambda(\Lambda,\Omega_s)_{i,i}\not=0\ (\textrm{i.e. }\geq1)$. Let $\psi = \max\big\{\lambda(\Lambda,\Omega_s)_{i,i}\ |\ i\in\{1,\ldots,k\}\big\}$ and let $e^*=\frac{1}{\psi}$. Then $e^*$ is Afriat's CCEI of the dataset $(\mathcal{X},\mathcal{P})$.
 \end{restatable}
+
+The above theorem can be seen from a previous reframing of Afriat's CCEI, as follows:
+$$\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})}  = \left(\max\left\{\min\left\{\inf\left(\mathcal{E}^{\mathcal{L}_V}_{(\mathcal{X},\mathcal{P})}\right)^{-1},e_V^{-1}\right\}\ |\ V\in\mathcal{V}\right\}\right)^{-1}$$
+where $\sup \mathcal{E}_{(\mathcal{X},\mathcal{P})}$ is Afriat's CCEI. Broadly speaking, one can see that $\Lambda$ ``takes care of'' the walk component of each violation $V\in\mathcal{V}$ while $\Omega_s$ addresses the edge component. The formal proof is presented in the appendix.
+
+Theorems \ref{thm:CCEI_main}-\ref{thm:CCEI_2} provides the following algorithm to calculate Afriat's CCEI of $(\mathcal{X},\mathcal{P})$ without any guess-and-check:
+\begin{itemize}
+  \item Test GARP for $(\mathcal{X},\mathcal{P})$. If the data set passes GARP, then Afriat's CCEI equals 1
+  \item If $(\mathcal{X},\mathcal{P})$ fails GARP, then set up weighted adjacency matrices $\Omega_d$ and $\Omega_s$ from the data set
+  \item Let $|\mathcal{X}|=|\mathcal{P}|=k$, then calculate $\lambda^2(\Omega_d),\ldots,\lambda^{k-1}(\Omega_d)$
+  \item Let $\Lambda$ be the element-wise maximization across the set of $k\times k$ matrices $\{\Omega_d,\lambda^2(\Omega_d),\ldots,\lambda^{k-1}(\Omega_d)\}$ and calculate $\lambda(\Lambda,\Omega_s)$
+  \item Let $\psi = \max\big\{\lambda(\Lambda,\Omega_s)_{i,i}\ |\ i\in\{1,\ldots,k\}\big\}$ (i.e. the maximum value across the main diagonal of $\lambda(\Lambda,\Omega_s)$), then $e^*=\frac{1}{\psi}$ is Afriat's CCEI
+\end{itemize}
 
 
 
@@ -925,7 +941,7 @@ Let $(\mathcal{X},\mathcal{P})$ be a data set and define $\mathcal{E}_{(\mathcal
 
 \CCEImain*
 
-Before we begin the proof of Theorem \ref{thm:CCEI_main}, consider the following lemma.
+Note that for the proof of this and following theorems, we will at times refer to the $(i,j)^{\textrm{th}}$ element of $\Omega_d$ as $\Omega^d_{i,j}$, and similarly for $\Omega_s$ with $\Omega^s_{i,j}$. Before we begin the proof of Theorem \ref{thm:CCEI_main}, consider the following lemma:
 
 \begin{lemma}\label{lemma:minmax_dist}
 For all $\alpha^j_i\in\mathbb{R}$ and $\beta\in\mathbb{R}$, the following equality holds:
@@ -1290,6 +1306,23 @@ With \circled{1} and \circled{2}, we have the following:
 \end{cases}
 \]
 Hence, our inductive case is proven.
+\end{proof}
+
+\CCEIone*
+
+\begin{proof}
+For all $i\in\{1,\ldots,k\}$, by the definition of the $\lambda$ function, we have that $\lambda(\Lambda,\Omega_s)_{i,i}=0 \iff \max\big\{\min\{\Lambda_{i,1},\Omega^s_{1,i}\},\ldots, \min\{\Lambda_{i,k},\Omega^s_{k,i}\}\big\}=0$. For notation, we say $\max\big\{\min\{\Lambda_{i,m},\Omega^s_{m,1}\}\ |\ m\in\{1,\ldots,k\}\big\}=0$. Using the definition of $\Lambda$, we write that $\max\big\{\min\{\Lambda_{i,m},\Omega^s_{m,i}\}\ |\ m\in\{1,\ldots,k\}\big\}=0 \iff \max\Big\{\min\big\{\max\{\Omega_{d_{i,m}},\lambda^2(\Omega_d)_{i,m},\lambda^3(\Omega_d)_{i,m},\ldots,\lambda^{k-1}(\Omega_d)_{i,m}\}
+,\Omega^s_{m,i}\big\}\ |\ m\in\\ \{1,\ldots,k\} \Big\} = 0$. Note that all terms in this set are $\in\mathbb{R}_{\geq1}\cup\{0\}$ since they are all drawn from $\Omega_d$ and $\Omega_s$. We then say that: $\max\Big\{\min\big\{\max\{\Omega_{d_{i,m}},\lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots,k-1\}\}
+,\Omega^s_{m,i}\big\}\ |\ m\in \{1,\ldots,k\} \Big\} = 0 \iff \Big[\forall m\in\{1,\ldots,k\},\ \max\{\Omega_{d_{i,m}}, \\ \lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots,k-1\}\}\geq1 \implies \Omega^s_{m,i}=0\Big]$. Putting these together, we have the following for all $i\in\{1,\ldots,k\}$
+\begin{flalign*}
+\lambda(\Lambda,\Omega_s)_{i,i}=0 & \iff \max\big\{\min\{\Lambda_{i,m},\Omega^s_{m,1}\}\ |\ m\in\{1,\ldots,k\}\big\}=0 &\\
+& \iff \max\Big\{\min\big\{\max\{\Omega_{d_{i,m}},\lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots,k-1\}\}
+, &\\
+& \ \ \ \ \ \ \ \ \ \Omega^s_{m,i}\big\}\ |\ m\in \{1,\ldots,k\} \Big\} = 0 &\\
+& \iff \Big[\forall m\in\{1,\ldots,k\},\ \max\{\Omega_{d_{i,m}}, \lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots, &\\
+& \ \ \ \ \ \ \ \ \ k-1\}\}\geq1 \implies \Omega^s_{m,i}=0\Big]
+\end{flalign*}
+Hence, we have $\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=0 \iff \Big[\forall m\in\{1,\ldots,k\},\max\{\Omega_{d_{i,m}},\\ \lambda^t(\Omega_d)_{i,m}\ |\ t\in\{2,\ldots,k-1\}\}\geq1 \implies \Omega^s_{m,i}=0\Big]$. Note then that the second condition states that $\forall m\in\{1,\ldots,k\}$, if there's a walk (of any number of edges) from $X_i$ to $X_m$ on $G_d$, then $(X_j,X_i)\not\in E_s$. This is precisely the definiton of GARP and thus our claim is proven.
 \end{proof}
 
 \bibliographystyle{plainnat}
