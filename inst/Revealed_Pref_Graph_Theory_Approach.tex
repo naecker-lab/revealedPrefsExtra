@@ -736,14 +736,14 @@ We abbreviate $\lambda_t(\Omega_d,\ldots,\Omega_d)=\lambda^t(\Omega_d)$. Then, w
   0 & \textrm{if } \nexists (X^v)_{v=1}^{t-1} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
   & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
   & (X^{t-1},X_j)\in E_d\\ 
-  \rho_{i,j} & \textrm{if }\exists (X^{uv})_{u,v=1}^{u=U,\ v=t-1}\ (\textrm{for some }U\geq1) \\
-  & \textrm{such that }\forall u,\ \forall v,\ X^{uv}\in\mathcal{X} \textrm{ and } \\
-  & (X^{uv},X^{u(v+1)})\in E_d\ (\textrm{if }t>2), (X_i, X^{u1})\in E_d \textrm{ and } \\
-  & (X^{u(t-1)},X_j)\in E_d, \textrm{ then: } \\
-  & \rho_{i,j}=\max\Big\{\min\big\{W_d\big((X_i,X^{u1})\big),W_d\big((X^{uv},X^{u(v+1)})\big), \\
-  & W_d\big((X^{u(t-1)},X_j)\big)\ |\ v\in\{1,\ldots,t-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\} \\
+  \rho_{i,j} & \textrm{if }\exists (X^{u,v})_{u,v=1}^{u=U,\ v=t-1}\ (\textrm{for some }U\geq1) \\
+  & \textrm{such that }\forall u,\ \forall v,\ X^{u,v}\in\mathcal{X} \textrm{ and } \\
+  & (X^{u,v},X^{u,v+1})\in E_d\ (\textrm{if }t>2), (X_i, X^{u,1})\in E_d \textrm{ and } \\
+  & (X^{u,t-1},X_j)\in E_d, \textrm{ then: } \\
+  & \rho_{i,j}=\max\Big\{\min\big\{W_d\big((X_i,X^{u,1})\big),W_d\big((X^{u,v},X^{u,v+1})\big), \\
+  & W_d\big((X^{u,t-1},X_j)\big)\ |\ v\in\{1,\ldots,t-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\} \\
   &\textrm{if } t>2,\ \textrm{and }\\
-  &\rho_{i,j}=\max\Big\{\min\big\{W_d\big((X_i,X^{u1})\big), W\big((X^{u1},X_j)\big)\big\}\ |\ u\in\\
+  &\rho_{i,j}=\max\Big\{\min\big\{W_d\big((X_i,X^{u,1})\big), W\big((X^{u,1},X_j)\big)\big\}\ |\ u\in\\
   &\{1,\ldots,U\}\Big\} \textrm{ if } t=2\\
   \end{cases}
 \]
@@ -795,9 +795,15 @@ Now define a $k\times k$ matrix $\Lambda$ such that $\forall i,j\in\{1,\ldots,k\
 $\Lambda_{i,j}=\varrho_{i,j}\geq1$, $\forall i,j\{1,\ldots,k\}$ such that $i\not=j$, represents the weight of the strongest edge among the weakest edges of all walks, regardless the number of edges in the walks, from $X_i$ to $X_j$ on $G_d$.
 \end{restatable}
 
+This comes directly from Theorem \ref{thm:CCEI_main}, as each $\lambda^t(\Omega_d)_{i,j}$ represents the weight of the strongest edge among the weakest edge of \textit{walks of} $t$ \textit{edges} from $X_i$ to $X_j$ on $G_d$. Taking the maximum across $t\in\{2,\ldots,k-1\}$ would cover the strongest edge among weakest edge of all walks with two edges or greater (regardless of number of edges) and $\Omega_{d_{i,j}}$ represent exactly the case with walks of only one edge. We iterate up to $k-1$ as there are only $k$ total of vertices and we have $i\not=j$.
+
 \begin{restatable}{cor}{CCEImainCor2}\label{thm:CCEI_mainCor2}
 If $\Lambda_{i,j}=0$, then $\nexists$ any walk from $X_i$ to $X_j$ on $G_d$.
 \end{restatable}
+
+This also comes directly from Theorem \ref{thm:CCEI_main}. Since $\Lambda_{i,j}=0$, thus we have $$\max\{\Omega_{d_{i,j}},\lambda^2(\Omega_d)_{i,j},\lambda^3(\Omega_d)_{i,j},\ldots,\lambda^{k-1}(\Omega_d)_{i,j}\}=0$$ 
+and hence 
+$$\Omega_{d_{i,j}}=\lambda^2(\Omega_d)_{i,j}=\lambda^3(\Omega_d)_{i,j}=\ldots=\lambda^{k-1}(\Omega_d)_{i,j}=0$$
 
 \begin{restatable}{thm}{CCEIone}
 \label{thm:CCEI_1}
@@ -806,8 +812,10 @@ $\forall i\in\{1,\ldots,k\}$, $\lambda(\Lambda,\Omega_s)_{i,i}=0$ if and only if
 
 \begin{restatable}{thm}{CCEItwo}
 \label{thm:CCEI_2}
-Let $\psi = \max\big\{\lambda(\Lambda,\Omega_s)_{i,i}\ |\ i\in\{1,\ldots,k\}\big\}$ and let $e^*=\frac{1}{\psi}$. The $e^*$ is the CCEI score related to the dataset $(\mathcal{X},\mathcal{P})$.
+Suppose data set $(\mathcal{X},\mathcal{P})$ is such that $\exists i\in\{1,\ldots,k\}$ where $\lambda(\Lambda,\Omega_s)_{i,i}\not=0\ (\textrm{i.e. }\geq1)$. Let $\psi = \max\big\{\lambda(\Lambda,\Omega_s)_{i,i}\ |\ i\in\{1,\ldots,k\}\big\}$ and let $e^*=\frac{1}{\psi}$. Then $e^*$ is the CCEI score related to the dataset $(\mathcal{X},\mathcal{P})$.
 \end{restatable}
+
+
 
 \section{Appendix}
 \WGARP*
@@ -1026,14 +1034,14 @@ Considering \circled{1} and \circled{2}, we have precisely the definition in our
 
 For \circled{1}, if $\nexists f$ such that $\Omega^d_{i,f}\geq1$ and $\Omega^d_{f,j}\geq1$, then we know $(X_i,X_f)\not\in E_d$ or $(X_f, X_j)\not\in E_d$ for all $f\in\{1,\ldots,k\}$. Hence, $\nexists (X^v)_{v=1}^1=X^v$ such that $X^v\in \mathcal{X}$ and $(X_i,X^v)\in E_d$ and $(X^v,X_j)\in E_d$, which is precisely our condition in the first case of the formalized version of our claim.
 
-For \circled{2}, we have that $\lambda(\Omega_d,\Omega_d)_{i,j}=\max\big\{\min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$, where $\varnothing\not=F\subseteq\{1,\ldots,k\}$ such that $\forall f\in F$, $\Omega^d_{i,f}\geq1$ and $\Omega^d_{f,j}\geq1$. We then know that, $\forall f\in F$, $(X_i,X_f)\in E_d$ and $(X_f,X_j)\in E_d$. Then, we know that $\exists(X^{uv})_{u,v=1}^{u=U,\ v=1}=(X^{u1})_{u=1}^{U}$ (for $U=|F|$) such that $\forall u$, $X^{u1}\in\mathcal{X}$ and $(X_i,X^{u1})\in E_d$ and $(X^{u1},X_j)\in E_d$. We then have:
+For \circled{2}, we have that $\lambda(\Omega_d,\Omega_d)_{i,j}=\max\big\{\min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\}$, where $\varnothing\not=F\subseteq\{1,\ldots,k\}$ such that $\forall f\in F$, $\Omega^d_{i,f}\geq1$ and $\Omega^d_{f,j}\geq1$. We then know that, $\forall f\in F$, $(X_i,X_f)\in E_d$ and $(X_f,X_j)\in E_d$. Then, we know that $\exists(X^{u,v})_{u,v=1}^{u=U,\ v=1}=(X^{u,1})_{u=1}^{U}$ (for $U=|F|$) such that $\forall u$, $X^{u,1}\in\mathcal{X}$ and $(X_i,X^{u,1})\in E_d$ and $(X^{u,1},X_j)\in E_d$. We then have:
 \begin{flalign*}
 \lambda(\Omega_d,\Omega_d)_{i,j} &= \max\big\{\min\{\Omega^d_{i,f},\Omega^d_{f,j}\}\ |\ f\in F\big\} &\\
 & = \max\big\{\min\{W_d\big((X_i, X_f)\big), W_d\big((X_f,X_j)\big)\}\ |\ f\in F\big\} &\\
-& = \max\big\{\min\{W_d\big((X_i, X^{u1})\big), W_d\big((X^{u1},X_j)\big)\}\ |\ u\in\{1,\ldots,U\}\big\} &\\
-& \textrm{ by construction of } F \textrm{ and }(X^{u1})_{u=1}^{U}
+& = \max\big\{\min\{W_d\big((X_i, X^{u,1})\big), W_d\big((X^{u,1},X_j)\big)\}\ |\ u\in\{1,\ldots,U\}\big\} &\\
+& \textrm{ by construction of } F \textrm{ and }(X^{u,1})_{u=1}^{U}
 \end{flalign*}
-Which is precisely our value in the second case of the formalized version of our claim. Combining those, our base case is complete.
+Which is precisely the value in the second case of the formalized version of Theorem \ref{thm:CCEI_main}. Combining those, our base case is complete.
 
 \textbf{Inductive Case:} Let $t=n>2$, we then have: 
 \[
@@ -1048,12 +1056,12 @@ For the ease of notation, we will denote the matrix $\lambda_n(\Omega_d,\ldots,\
 0 & \textrm{if } \nexists (X^v)_{v=1}^{n-1} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
   & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
   & (X^{n-1},X_j)\in E_d\\ 
-\rho_{i,j} & \textrm{if }\exists (X^{uv})_{u,v=1}^{u=U,\ v=n-1}\ (\textrm{for some }U\geq1) \\
-  & \textrm{such that }\forall u,\ \forall v,\ X^{uv}\in\mathcal{X} \textrm{ and } \\
-  & (X^{uv},X^{u(v+1)})\in E_d, (X_i, X^{u1})\in E_d \textrm{ and } \\
-  & (X^{u(n-1)},X_j)\in E_d, \textrm{ then: } \\
-  & \rho_{i,j}=\max\Big\{\min\big\{W_d\big((X_i,X^{u1})\big),W_d\big((X^{uv},X^{u(v+1)})\big), \\
-  & W_d\big((X^{u(n-1)},X_j)\big)\ |\ v\in\{1,\ldots,n-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\}
+\rho_{i,j} & \textrm{if }\exists (X^{u,v})_{u,v=1}^{u=U,\ v=n-1}\ (\textrm{for some }U\geq1) \\
+  & \textrm{such that }\forall u,\ \forall v,\ X^{u,v}\in\mathcal{X} \textrm{ and } \\
+  & (X^{u,v},X^{u,v+1})\in E_d, (X_i, X^{u,1})\in E_d \textrm{ and } \\
+  & (X^{u,n-1},X_j)\in E_d, \textrm{ then: } \\
+  & \rho_{i,j}=\max\Big\{\min\big\{W_d\big((X_i,X^{u,1})\big),W_d\big((X^{u,v},X^{u,v+1})\big), \\
+  & W_d\big((X^{u,n-1},X_j)\big)\ |\ v\in\{1,\ldots,n-2\}\big\}\ |\ u\in\{1,\ldots,U\}\Big\}
 \end{cases}
 \]
 Now let $t=n+1$, we then have:
@@ -1087,7 +1095,7 @@ For \circled{2}, we have that $\lambda^{n+1}(\Omega_d)_{i,j}=\max\big\{\min\{\la
 \lambda^{n+1}(\Omega_d)_{i,j} & =\max\big\{\min\{\lambda^n(\Omega_d)_{i,l},\Omega^d_{l,j}\}\ |\ l\in L\big\} &\\
 & = \max\big\{\min\{\rho_{i,l},\Omega^d_{l,j}\}\ |\ l\in L\big\}
 \end{flalign*}
-We then let $l_m\in L$ denote the $m^{th}$ element of $L$ such that $L=\{l_1,\ldots,l_{|L|}\}$. Then, $\forall l_m\in L$, by definition, $\exists (X_{l_m}^{uv})_{u,v=1}^{v=n-1,\ u=U_m}$ such that $\forall u,\ \forall v$, $X_{l_m}^{uv}\in\mathcal{X}$ and $(X_{l_m}^{uv},X_{l_i}^{u(v+1)})\in E_d$, and $(X_i,X_{l_m}^{u1})\in E_d$ and $(X_{l_m}^{u(n-1)},X_{l_m})\in E_d$. Then applying the definitions of $\rho_{i,l}$ and $\Omega_{i,j}^d$, we have:
+Note then that, by inductive assumption, for each $l\in L$, $\exists (X^{u,v})_{u,v=1}^{u=U,v=n-1}$. We denote the sequence as $(X^{u,v}_l)_{u,v=1}^{u=U_l,v=n-1}$ specific for each $l\in L$. Thus, applying the definitions of $\rho_{i,l}$ and $\Omega_{i,j}^d$, we have:
 
 \[
 \lambda^{n+1}(\Omega_d)_{i,j} =\max
@@ -1101,41 +1109,24 @@ We then let $l_m\in L$ denote the $m^{th}$ element of $L$ such that $L=\{l_1,\ld
           \begin{aligned}
             &\min\left\{
             \begin{aligned}
-            &W_d\big((X_i,X_{l_1}^{u1})\big), W_d\big((X_{l_1}^{uv},X_{l_1}^{u(v+1)})\big), \\
-            &W_d\big((X_{l_1}^{u(n-1)},X_{l_1})\big)\ |\ v\in\{1,\ldots,n-2\}
+            &W_d\big((X_i,X_{l}^{u,1})\big), \\
+            & W_d\big((X_{l}^{u,v},X_{l}^{u,v+1})\big), \\
+            &W_d\big((X_{l}^{u,n-1},X_{l})\big)\ \\
+            & |\ v\in\{1,\ldots,n-2\}
             \end{aligned}
             \right\} \\
-            &|\ u\in\{1,\ldots,U_1\}
+            &|\ u\in\{1,\ldots,U_l\}
           \end{aligned}
           \right\} \\
-          &, W_d\big((X_{l_1},X_j)\big)
+          &, W_d\big((X_{l},X_j)\big)
       \end{aligned}
-      \right\} \\
-      &\vdots \\
-      &\vdots \\
-    &min
-      \left\{
-      \begin{aligned}
-        &\max
-          \left\{
-          \begin{aligned}
-            &\min\left\{
-            \begin{aligned}
-            &W_d\big((X_i,X_{l_{|L|}}^{u1})\big), W_d\big((X_{l_{|L|}}^{uv},X_{l_{|L|}}^{u(v+1)})\big), \\
-            &W_d\big((X_{l_{|L|}}^{u(n-1)},X_{l_{|L|}})\big)\ |\ v\in\{1,\ldots,n-2\}
-            \end{aligned}
-            \right\} \\
-            &|\ u\in\{1,\ldots,U_{|L|}\}
-          \end{aligned}
-          \right\} \\
-          &, W_d\big((X_{l_{|L|}},X_j)\big)
-      \end{aligned}
-      \right\} \\
+      \right\}\\
+  &       | l\in L
   \end{aligned}
 \right\}
 \]
 
-We then construct a sequence $(X^m)_{m=1}^M$ that's in bijection of the set $\{X_l\ |\ l\in L\}=\big\{X_{l_m}\ |\ m\in\{1,\ldots,|L|\}\big\}$. We then would have $M=|L|$, by construction. Using this notation, we have:
+We then construct a sequence $(X^m)_{m=1}^M$ from the set $\{X_l\ |\ l\in L\}$. We then would have $M=|L|$, by construction. Thus for each $m\in \{1,\ldots,M\}$, we have a sequence $(X^{m,u,v})_{u,v=1}^{u=U_l,v=n-1}$. Using this notation, we have:
 \[
 \lambda^{n+1}(\Omega_d)_{i,j} =\max
 \left\{
@@ -1148,41 +1139,24 @@ We then construct a sequence $(X^m)_{m=1}^M$ that's in bijection of the set $\{X
           \begin{aligned}
             &\min\left\{
             \begin{aligned}
-            &W_d\big((X_i,X^{1(u)1})\big), W_d\big((X^{1uv},X^{1u(v+1)})\big), \\
-            &W_d\big((X^{1u(n-1)},X^1)\big)\ |\ v\in\{1,\ldots,n-2\}
+            &W_d\big((X_i,X^{m,u,1})\big), \\
+            & W_d\big((X^{m,u,v},X^{m,u,v+1})\big), \\
+            &W_d\big((X^{m,u,n-1},X^m)\big)\ \\
+            & |\ v\in\{1,\ldots,n-2\}
             \end{aligned}
             \right\} \\
-            &|\ u\in\{1,\ldots,U_1\}
+            &|\ u\in\{1,\ldots,U_m\}
           \end{aligned}
           \right\} \\
-          &, W_d\big((X^1,X_j)\big)
+          &, W_d\big((X^m,X_j)\big)
       \end{aligned}
       \right\} \\
-      &\vdots \\
-      &\vdots \\
-    &min
-      \left\{
-      \begin{aligned}
-        &\max
-          \left\{
-          \begin{aligned}
-            &\min\left\{
-            \begin{aligned}
-            &W_d\big((X_i,X^{Mu1})\big), W_d\big((X^{Muv},X^{Mu(v+1)})\big), \\
-            &W_d\big((X^{Mu(n-1)},X^M)\big)\ |\ v\in\{1,\ldots,n-2\}
-            \end{aligned}
-            \right\} \\
-            &|\ u\in\{1,\ldots,U_M\}
-          \end{aligned}
-          \right\} \\
-          &, W_d\big((X^M,X_j)\big)
-      \end{aligned}
-      \right\} \\
+  & m\in\{1,\ldots,M\}
   \end{aligned}
 \right\}
 \]
 
-Note that the superscripts are indexed as $X^{muv}$. Now, we fix a particular $m$ and apply Lemma \ref{lemma:minmax_dist}, as follows:
+Now, we fix a particular $m$ and apply Lemma \ref{lemma:minmax_dist}, as follows:
 
 \[
 \begin{aligned}
@@ -1194,8 +1168,8 @@ Note that the superscripts are indexed as $X^{muv}$. Now, we fix a particular $m
           \begin{aligned}
             &\min\left\{
             \begin{aligned}
-            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{muv},X^{mu(v+1)})\big), \\
-            &W_d\big((X^{mu(n-1)},X^m)\big)\ |\ v\in\{1,\ldots,n-2\}
+            &W_d\big((X_i,X^{m,u,1})\big), W_d\big((X^{m,u,v},X^{m,u,v+1})\big), \\
+            &W_d\big((X^{m,u,n-1},X^m)\big)\ |\ v\in\{1,\ldots,n-2\}
             \end{aligned}
             \right\} \\
             &|\ u\in\{1,\ldots,U_m\}
@@ -1210,8 +1184,8 @@ Note that the superscripts are indexed as $X^{muv}$. Now, we fix a particular $m
           \begin{aligned}
             &\min\left\{
             \begin{aligned}
-            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{muv},X^{mu(v+1)})\big), \\
-            &W_d\big((X^{mu(n-1)},X^m)\big), W_d\big((X^m,X_j)\big)\ \\
+            &W_d\big((X_i,X^{m,u,1})\big), W_d\big((X^{m,u,v},X^{m,u,v+1})\big), \\
+            &W_d\big((X^{m,u,n-1},X^m)\big), W_d\big((X^m,X_j)\big)\ \\
             &|\ v\in\{1,\ldots,n-2\}
             \end{aligned}
             \right\} \\
@@ -1221,7 +1195,7 @@ Note that the superscripts are indexed as $X^{muv}$. Now, we fix a particular $m
 \end{aligned}
 \]
 
-Fixing a particular $u\in\{1,\ldots,U_m\}$ (with the already fixed $m$), we construct a sequence $(X^{mug})_{g=1}^{g=n}$ such that $(X^{mug})_{g=1}^n=((X^{muv})_{v=1}^{n-1}),X^m)$. Hence, we have that $X^{mun}=X^m$ We then can write, for a fixed $m$, the following:
+Fixing a particular $u^*\in\{1,\ldots,U_m\}$ (with some already fixed $m^*$), we construct a sequence $(X^{m^*,u^*,g})_{g=1}^{g=n}$ such that $(X^{m^*,u^*,g})_{g=1}^n=((X^{m^*,u^*,v})_{v=1}^{n-1}),X^{m^*})$ (i.e. tagging on an additional $X^{m^*}$ to the previous sequence of $(X^{m^*,u^*,v})$). Hence, we have that $X^{m^*,u^*,n}=X^{m^*}$, the $n^{\textrm{th}}$ term of the sequence $(X^{m^*,u^*,g})$. We then can write, for a fixed $m$, the following:
 
 \[
 \begin{aligned}
@@ -1230,8 +1204,8 @@ Fixing a particular $u\in\{1,\ldots,U_m\}$ (with the already fixed $m$), we cons
           \begin{aligned}
             &\min\left\{
             \begin{aligned}
-            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{mug},X^{mu(g+1)})\big), \\
-            &W_d\big((X^{mun},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
+            &W_d\big((X_i,X^{m,u,1})\big), W_d\big((X^{m,u,g},X^{m,u,g+1)})\big), \\
+            &W_d\big((X^{m,u,n},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
             \end{aligned}
             \right\} \\
             &|\ u\in\{1,\ldots,U_m\}
@@ -1252,8 +1226,10 @@ Using this equality, we then have:
           \begin{aligned}
             &\min\left\{
             \begin{aligned}
-            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{mug},X^{mu(g+1)})\big), \\
-            &W_d\big((X^{mun},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
+            &W_d\big((X_i,X^{m,u,1})\big), \\
+            & W_d\big((X^{m,u,g},X^{m,u,g+1})\big), \\
+            &W_d\big((X^{m,u,n},X_j)\big)\ \\
+            &|\ g\in\{1,\ldots,n-1\}\\
             \end{aligned}
             \right\} \\
             &|\ u\in\{1,\ldots,U_m\}
@@ -1271,8 +1247,8 @@ Grouping the two maximums, we have:
   \begin{aligned}
             &\min\left\{
             \begin{aligned}
-            &W_d\big((X_i,X^{mu1})\big), W_d\big((X^{mug},X^{mu(g+1)})\big), \\
-            &W_d\big((X^{mun},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
+            &W_d\big((X_i,X^{m,u,1})\big), W_d\big((X^{m,u,g},X^{m,u,g+1})\big), \\
+            &W_d\big((X^{m,u,n},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
             \end{aligned}
             \right\} \\
             &|\ u\in\{1,\ldots,U_m\},\ m\in\{i,\ldots,M\}
@@ -1280,7 +1256,7 @@ Grouping the two maximums, we have:
 \right\}
 \]
 
-Now, consider the sequence $(X^{mug})_{m,u,g=1}^{m=M,\ u=U_m,\ g=n}$. Fixing a particular $g$, we have $(X^{mu})_{m,u=1}^{m=M,\ u=U_m}$. Then construct a sequence $(X^z)_{z=1}^Z$ in bijection of $(X^{mu})_{m,u=1}^{m=M,\ u=U_m}$ such that $Z=\sum_{m\in M}U_m$. We then have the following: 
+Now, consider the sequence $(X^{mug})_{m,u,g=1}^{m=M,\ u=U_m,\ g=n}$. Fixing a particular $g^*$, we have $(X^{m,u,g^*})_{m,u=1}^{m=M,\ u=U_m}$. Then construct a sequence $(X^{z,g^*})_{z=1}^Z$ in bijection of $(X^{m,u,g^*})_{m,u=1}^{m=M,\ u=U_m}$ so that $Z=\sum_{m\in M}U_m$. We then have the following: 
 
 \[
 \lambda^{n+1}(\Omega_d)_{i,j} =\max
@@ -1288,8 +1264,8 @@ Now, consider the sequence $(X^{mug})_{m,u,g=1}^{m=M,\ u=U_m,\ g=n}$. Fixing a p
   \begin{aligned}
             &\min\left\{
             \begin{aligned}
-            &W_d\big((X_i,X^{z1})\big), W_d\big((X^{zg},X^{z(g+1)})\big), \\
-            &W_d\big((X^{zn},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
+            &W_d\big((X_i,X^{z,1})\big), W_d\big((X^{z,g},X^{z,g+1})\big), \\
+            &W_d\big((X^{z,n},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\\
             \end{aligned}
             \right\} \\
             &|\ z\in\{1,\ldots,Z\}
@@ -1305,12 +1281,12 @@ With \circled{1} and \circled{2}, we have the following:
 0 & \textrm{if } \nexists (X^v)_{v=1}^{n} \textrm{ such that } \forall v,\ X^v\in\mathcal{X}\textrm{ and } \\
   & (X^v,X^{v+1})\in E_d, (X_i,X^1)\in E_d \textrm{ and } \\
   & (X^{n},X_j)\in E_d\\ 
-\rho_{i,j} & \textrm{if }\exists (X^{zg})_{z,g=1}^{z=Z,\ g=n}\ (\textrm{for some }Z\geq1) \\
-  & \textrm{such that }\forall z,\ \forall g,\ X^{zg}\in\mathcal{X} \textrm{ and } \\
-  & (X^{zg},X^{z(g+1)})\in E_d, (X_i, X^{z1})\in E_d \textrm{ and } \\
-  & (X^{zn},X_j)\in E_d, \textrm{ then: } \\
-  & \rho_{i,j}=\max\Big\{\min\big\{W_d\big((X_i,X^{z1})\big),W_d\big((X^{zg},X^{z(g+1)})\big), \\
-  & W_d\big((X^{zn},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\big\}\ |\ z\in\{1,\ldots,Z\}\Big\}
+\rho_{i,j} & \textrm{if }\exists (X^{z,g})_{z,g=1}^{z=Z,\ g=n}\ (\textrm{for some }Z\geq1) \\
+  & \textrm{such that }\forall z,\ \forall g,\ X^{z,g}\in\mathcal{X} \textrm{ and } \\
+  & (X^{z,g},X^{z,g+1)})\in E_d, (X_i, X^{z,1})\in E_d \textrm{ and } \\
+  & (X^{z,n},X_j)\in E_d, \textrm{ then: } \\
+  & \rho_{i,j}=\max\Big\{\min\big\{W_d\big((X_i,X^{z,1})\big),W_d\big((X^{z,g},X^{z,g+1})\big), \\
+  & W_d\big((X^{z,n},X_j)\big)\ |\ g\in\{1,\ldots,n-1\}\big\}\ |\ z\in\{1,\ldots,Z\}\Big\}
 \end{cases}
 \]
 Hence, our inductive case is proven.
